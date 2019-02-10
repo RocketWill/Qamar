@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+ 
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Login</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ buildStaticUrl('/vendor/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ buildStaticUrl('/vendor/fonts/circular-std/style.css') }}">
+    <link rel="stylesheet" href="{{ buildStaticUrl('/vendor/fonts/fontawesome/css/fontawesome-all.css') }}">
+    <link rel="stylesheet" href="{{ buildStaticUrl('/libs/css/style.css') }}">
+    <style>
+    html,
+    body {
+        height: 100%;
+    }
+
+    body {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-align: center;
+        align-items: center;
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+    </style>
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- login page  -->
+    <!-- ============================================================== -->
+    <div class="splash-container">
+        <div class="card ">
+            <div class="card-header text-center"><a href=".../../index.html"><img class="logo-img" src="../../static/images/qamar_logo.svg" alt="logo" style="
+                width: 200px;
+                margin-bottom: 10px;
+                margin-top: 15px;
+            "></a><span class="splash-description" style="font-size: 0.8rem;">請輸入您的管理員信息</span></div>
+            <div class="card-body">
+                <form>
+                    <div class="form-group">
+                        <input class="form-control form-control-lg" id="username" type="text" placeholder="Username" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control form-control-lg" id="password" type="password" placeholder="Password">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">登錄</button>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+  
+    <!-- ============================================================== -->
+    <!-- end login page  -->
+    <!-- ============================================================== -->
+    <!-- Optional JavaScript -->
+
+    <script src="{{ buildStaticUrl('/vendor/jquery/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ buildStaticUrl('/vendor/bootstrap/js/bootstrap.bundle.js') }}"></script>
+
+</body>
+ 
+</html>
