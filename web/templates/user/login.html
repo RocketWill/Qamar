@@ -25,6 +25,9 @@
         padding-top: 40px;
         padding-bottom: 40px;
     }
+        .layui-layer-btn{
+            color: #ffffff;
+        }
     </style>
 </head>
 
@@ -33,23 +36,23 @@
     <!-- login page  -->
     <!-- ============================================================== -->
     <div class="splash-container">
-        <div class="card ">
-            <div class="card-header text-center"><a href=".../../index.html"><img class="logo-img" src="../../static/images/qamar_logo.svg" alt="logo" style="
+        <div class="card">
+            <div class="card-header text-center"><img class="logo-img" src="../../static/images/qamar_logo.svg" alt="logo" style="
                 width: 200px;
                 margin-bottom: 10px;
                 margin-top: 15px;
             "></a><span class="splash-description" style="font-size: 0.8rem;">請輸入您的管理員信息</span></div>
             <div class="card-body">
-                <form>
+                <div class="login_wrap" role="form">
                     <div class="form-group">
-                        <input class="form-control form-control-lg" id="username" type="text" placeholder="Username" autocomplete="off">
+                        <input class="form-control form-control-lg" name="login_name" id="username" type="text" placeholder="Username" autocomplete="on">
                     </div>
                     <div class="form-group">
-                        <input class="form-control form-control-lg" id="password" type="password" placeholder="Password">
+                        <input class="form-control form-control-lg" name='login_pwd' id="password" type="password" placeholder="Password">
                     </div>
                     
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">登錄</button>
-                </form>
+                    <button type="button" class="btn btn-primary btn-lg btn-block do-login">登錄</button>
+                </div>
             </div>
             
         </div>
@@ -62,6 +65,10 @@
 
     <script src="{{ buildStaticUrl('/vendor/jquery/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ buildStaticUrl('/vendor/bootstrap/js/bootstrap.bundle.js') }}"></script>
+    <script src="{{ buildStaticUrl('/libs/js/common.js') }}"></script>
+    <script src="{{ buildStaticUrl('/libs/js/user/login.js') }}"></script>
+    <script src="{{ buildStaticUrl('/libs/plugins/jquery-2.1.1.js') }}"></script>
+    <script src="{{ buildStaticUrl('/libs/plugins/layer/layer.js') }}"></script>
 
 </body>
  

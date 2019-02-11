@@ -29,7 +29,7 @@
         <!-- ============================================================== -->
         <div class="dashboard-header">
             <nav class="navbar navbar-expand-lg bg-white fixed-top">
-                <a class="navbar-brand" href="index.html"><img src="../../static/images/qamar_logo.svg" alt="Smiley face" height="42"> &nbsp &nbsp卡碼管理後台</a>
+                <a class="navbar-brand" href="/"><img src="../../static/images/qamar_logo.svg" alt="Smiley face" height="42"> &nbsp &nbsp卡碼管理後台</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -123,12 +123,14 @@
                             <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="../../static/images/avatar-1.jpg" alt="" class="user-avatar-md rounded-circle"></a>
                             <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
                                 <div class="nav-user-info">
-                                    <h5 class="mb-0 text-white nav-user-name">John Abraham </h5>
-                                    <span class="status"></span><span class="ml-2">Available</span>
+                                    <h5 class="mb-0 text-white nav-user-name">管理員：{{ current_user.nickname }} </h5>
+                                    <span class="status"></span><span class="ml-2">手機：{{ current_user.mobile }}</span>
+                                    <br>
+                                    <span class="status"></span><span class="ml-2">狀態：{% if current_user.status == 1 %}available{% else %}unavailable{% endif %}</span>
                                 </div>
-                                <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-power-off mr-2"></i>Logout</a>
+                                <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>帳戶詳情</a>
+                                <a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>設置</a>
+                                <a class="dropdown-item" href="/user/logout"><i class="fas fa-power-off mr-2"></i>登出</a>
                             </div>
                         </li>
                     </ul>
@@ -203,6 +205,7 @@
     <script src="../../static/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
     <script src="../../static/vendor/charts/c3charts/C3chartjs.js"></script>
     <script src="../../static/libs/js/dashboard-ecommerce.js"></script>
+    <script src="{{ buildStaticUrl('/libs/js/common.js') }}"></script>
     {%block js %}{% endblock %}
 </body>
  

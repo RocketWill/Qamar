@@ -7,7 +7,7 @@ route_account = Blueprint('account_page', __name__)
 def index():
     return render_template('account/index.html')
 
-@route_account.route('/edit')
+@route_account.route('/info')
 def info():
     return render_template('account/info.html')
 
