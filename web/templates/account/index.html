@@ -41,7 +41,7 @@
 
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <input type="text" name="mix_kw" placeholder="请输入姓名或者手机号码" class="form-control" value="" style="
+                                        <input type="text" name="mix_kw" placeholder="请输入姓名或手机号码" class="form-control" value="" style="
                                         margin-left: 10px;">
                                         <input type="hidden" name="p" value="">
                                         <span class="input-group-btn">
@@ -79,30 +79,37 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            {% if list %}
+                                            {% for item in list %}
                                             <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
+                                                <td>{{ item.uid }}</td>
+                                                <td>{{ item.nickname }}</td>
+                                                <td>{{ item.mobile }}</td>
+                                                <td>{{ item.email }}</td>
                                                 <td>
                                                     <a href="{{ buildUrl('/account/info') }}?id={{ item.uid }}">
-                                                        <i class="fa fa-eye fa-lg"></i>
+                                                        <i class="fa fa-eye"></i>
                                                     </a>
                                                     <a class="m-l" href="{{ buildUrl('/account/set') }}?id={{ item.uid }}">
-                                                        <i class="fa fa-edit fa-lg"></i>
+                                                        <i class="fa fa-edit"></i>
                                                     </a>
 
                                                     <a class="m-l remove" href="javascript:void(0);" data="{{ item.uid }}">
-                                                        <i class="fa fa-trash fa-lg"></i>
+                                                        <i class="fa fa-trash"></i>
                                                     </a>
 
                                                     <a class="m-l recover" href="javascript:void(0);" data="{{ item.uid }}">
-                                                        <i class="fa fa-rotate-left fa-lg"></i>
+                                                        <i class="fa fa-undo"></i>
                                                     </a>
 
                                                 </td>
 
                                             </tr>
+                                            {% endfor %}
+                                            {% else %}
+                                            <tr><td colspan="5">暫無數據</td></tr>
+
+                                            {% endif %}
 
                                         </tbody>
                                     </table>
@@ -112,6 +119,12 @@
                         <!-- ============================================================== -->
                         <!-- end striped table -->
                         <!-- ============================================================== -->
+
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                    {% include "common/pagenation.html" %}
+                            </div>
+                        </div>
                     </div>
 
             </div>

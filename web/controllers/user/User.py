@@ -9,12 +9,13 @@ from application import app, db
 
 route_user = Blueprint('user_page', __name__)
 
-@route_user.route('/login', methods=['GET','POST'])
+
+@route_user.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
         return render_template('user/login.html')
 
-    resp = {'code':200, 'msg':'登錄成功', 'data':{}}
+    resp = {'code': 200, 'msg': '登錄成功', 'data': {}}
     req = request.values
     login_name = req['login_name'] if 'login_name' in req else ''
     login_pwd = req['login_pwd'] if 'login_pwd' in req else ''
@@ -29,7 +30,7 @@ def login():
         resp['msg'] = '請輸入正確登入密碼'
         return jsonify(resp)
 
-    user_info = User.query.filter_by(login_name = login_name).first()
+    user_info = User.query.filter_by(login_name=login_name).first()
     if not user_info:
         resp['code'] = -1
         resp['msg'] = '請輸入正確登入用戶名或密碼'
@@ -41,15 +42,14 @@ def login():
         return jsonify(resp)
 
     response = make_response(jsonify(resp))
-    response.set_cookie(app.config['AUTH_COOKIE_NAME'],"%s#%s"%(UserService.geneAuthCode(user_info), user_info.uid))
+    response.set_cookie(app.config['AUTH_COOKIE_NAME'], "%s#%s" % (UserService.geneAuthCode(user_info), user_info.uid),
+                        60 * 60 * 24 * 120)
     app.logger.info(response)
-
 
     return response
 
 
-
-@route_user.route('/edit', methods=["GET","POST"])
+@route_user.route('/edit', methods=["GET", "POST"])
 def edit():
     if request.method == 'GET':
         return ops_render('user/edit.html')
@@ -58,7 +58,7 @@ def edit():
     nickname = req['nickname'] if 'nickname' in req else ''
     email = req['email'] if 'email' in req else ''
 
-    resp = {'code':200, 'msg':"操作成功", 'data':{}}
+    resp = {'code': 200, 'msg': "操作成功", 'data': {}}
 
     if nickname is None or len(nickname) < 1:
         resp['code'] = -1
@@ -85,10 +85,43 @@ def edit():
         return jsonify(resp)
 
 
-
-@route_user.route('/reset-pwd')
+@route_user.route('/reset-pwd', methods=["GET", "POST"])
 def resetPwd():
-    return ops_render('user/login.html')
+    if request.method == "GET":
+        return ops_render('user/reset-pwd.html')
+
+    req = request.values
+    old_pwd = req['old-pwd'] if 'old-pwd' in req else ''
+    new_pwd = req['new-pwd'] if 'new-pwd' in req else ''
+
+    resp = {'code': 200, 'msg': "操作成功", 'data': {}}
+    if old_pwd is None or len(old_pwd) < 6:
+        resp['code'] = -1
+        resp['msg'] = '請輸入符合規範的原密碼'
+        return jsonify(resp)
+
+    if new_pwd is None or len(new_pwd) < 6:
+        resp['code'] = -1
+        resp['msg'] = '請輸入符合規範的新密碼'
+        return jsonify(resp)
+
+    if old_pwd == new_pwd:
+        resp['code'] = -1
+        resp['msg'] = '新密碼和原密碼須不同'
+        return jsonify(resp)
+
+    user_info = g.current_user
+    user_info.login_pwd = UserService.genePwd(new_pwd, user_info.login_salt)
+
+    db.session.add(user_info)
+    db.session.commit()
+
+    response = make_response(jsonify(resp))
+    response.set_cookie(app.config['AUTH_COOKIE_NAME'], "%s#%s" % (UserService.geneAuthCode(user_info), user_info.uid),
+                        60 * 60 * 24 * 120) #保存120天
+
+    return response
+
 
 @route_user.route('/logout')
 def logout():

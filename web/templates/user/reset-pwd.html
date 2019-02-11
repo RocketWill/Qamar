@@ -10,7 +10,7 @@
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header" id="top">
-                            <h2 class="pageheader-title">帳號信息編輯</h2>
+                            <h2 class="pageheader-title">重置管理員密碼</h2>
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
@@ -34,26 +34,39 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 
                         <div class="card">
-                            <h5 class="card-header">編輯管理員信息</h5>
+                            <h5 class="card-header">重置密碼</h5>
                             <div class="card-body">
-                                <div class="user_edit_wrap" role="form">
-                                    <div class="form-group">
-                                        <label for="mobile" class="col-form-label">手機號</label>
-                                        <input id="mobile" type="text" class="form-control" readonly value="{{current_user.mobile}}">
-                                    </div>
-
+                                <div class="user_reset_pwd_wrap" role="form">
                                     <div class="form-group">
                                         <label for="nickname" class="col-form-label">使用者名稱</label>
-                                        <input id="nickname" type="text" class="form-control" value="{{ current_user.nickname }}">
+                                        <input id="nickname" type="text" class="form-control" readonly value="{{current_user.nickname}}">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="email">電子郵件</label>
-                                        <input id="email" type="email" value="{{current_user.email}}"
-                                               class="form-control">
-                                        <p style="font-size: 0.7rem; padding-top: 10px;">Qamar 不會將您的電子郵件分享給其他機構或人員</p>
+                                        <label for="mobile" class="col-form-label">手機號</label>
+                                        <input id="mobile" type="text" class="form-control" readonly value="{{ current_user.mobile }}">
                                     </div>
-                                    <a class="btn btn-primary save" style="color: #ffffff;">更新設置</a>
+
+                                    <div class="form-group">
+                                        <label for="original_pwd">原密碼</label>
+                                        <input id="original_pwd" type="email" value=""
+                                               class="form-control">
+                                    </div>
+
+                                    <hr style="margin: 2rem 0rem;">
+
+                                    <div class="form-group">
+                                        <label for="new_pwd">新密碼</label>
+                                        <input id="new_pwd" type="email" value=""
+                                               class="form-control">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="new_pwd_auth">請再輸入一次新密碼</label>
+                                        <input id="new_pwd_auth" type="email" value=""
+                                               class="form-control">
+                                    </div>
+                                    <a class="btn btn-primary save" style="color: #ffffff;">重置密碼</a>
                                 </div>
                             </div>
                         </div>
@@ -93,5 +106,5 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{{ buildStaticUrl('/libs/js/user/edit.js') }}"></script>
+    <script src="{{ buildStaticUrl('/libs/js/user/reset_pwd.js') }}"></script>
 {% endblock %}
