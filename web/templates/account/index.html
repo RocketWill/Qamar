@@ -28,30 +28,33 @@
                 <!-- ============================================================== -->
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                            <div class="row" style="padding: 0px 15px;">
-                                <div class="form-group">
-                                    <select name="status" class="form-control inline">
-                                        <option value="-1">请选择状态</option>
-                                        {% for tmp_key in status_mapping %}
-                                            <option value="{{ tmp_key }}" {% if tmp_key == search_con['status'] %} selected {% endif %}>{{ status_mapping[tmp_key] }}</option>
-                                        {%  endfor %}
+                            <form class="form-inline wrap_search">
+                                <div class="row" style="padding: 0px 15px;">
+                                    <div class="form-group">
+                                        <select name="status" class="form-control inline">
+                                            <option value="-1">请选择状态</option>
+                                            {% for tmp_key in status_mapping %}
+                                            <option value="{{ tmp_key }}" {% if tmp_key== search_con['status'] %} selected {% endif %}>{{ status_mapping[tmp_key] }}</option>
+                                            {% endfor %}
 
-                                    </select>
-                                </div>
+                                        </select>
+                                    </div>
 
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <input type="text" name="mix_kw" placeholder="请输入姓名或手机号码" class="form-control" value="" style="
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input type="text" name="mix_kw" placeholder="请输入姓名或手机号码"
+                                                   class="form-control" value="{{search_con.mix_kw}}" style="
                                         margin-left: 10px;">
-                                        <input type="hidden" name="p" value="">
-                                        <span class="input-group-btn">
+                                            <input type="hidden" name="p" value="{{search_con.p}}">
+                                            <span class="input-group-btn">
                                             <button type="button" class="btn btn-primary search">
                                                 <i class="fa fa-search"></i> 搜索
                                             </button>
                                         </span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
 
                         </div>
 
@@ -59,7 +62,7 @@
 
                     <div class="row">
                             <div class="card-body">
-                                <a href="#" class="btn btn-primary"><span class="fas fa-plus"></span> 新增管理員</a>
+                                <a href="/account/set" class="btn btn-primary"><span class="fas fa-plus"></span> 新增管理員</a>
                             </div>
                         <!-- ============================================================== -->
                         <!-- striped table -->
@@ -86,21 +89,29 @@
                                                 <td>{{ item.nickname }}</td>
                                                 <td>{{ item.mobile }}</td>
                                                 <td>{{ item.email }}</td>
+
                                                 <td>
+
                                                     <a href="{{ buildUrl('/account/info') }}?id={{ item.uid }}">
                                                         <i class="fa fa-eye"></i>
                                                     </a>
+
+                                                    {% if item.status == 1 %}
                                                     <a class="m-l" href="{{ buildUrl('/account/set') }}?id={{ item.uid }}">
                                                         <i class="fa fa-edit"></i>
                                                     </a>
 
-                                                    <a class="m-l remove" href="javascript:void(0);" data="{{ item.uid }}">
+
+                                                    <a class="m-l remove" href="javascript:void(0);" uid="{{ item.uid }}">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
 
-                                                    <a class="m-l recover" href="javascript:void(0);" data="{{ item.uid }}">
+                                                    {% else %}
+
+                                                    <a class="m-l recover" href="javascript:void(0);" uid="{{ item.uid }}">
                                                         <i class="fa fa-undo"></i>
                                                     </a>
+                                                    {% endif %}
 
                                                 </td>
 
@@ -151,6 +162,9 @@
             <!-- end footer -->
             <!-- ============================================================== -->
         </div></div>
+{% endblock %}
+{% block js %}
+    <script src="{{ buildStaticUrl('/libs/js/account/index.js') }}"></script>
 {% endblock %}
 
 

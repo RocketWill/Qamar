@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 from flask import g, render_template
+import datetime
 
 def iPagination( params ):
     import math
@@ -56,3 +57,11 @@ def ops_render(template, context={}):
         context['current_user'] = g.current_user
 
     return render_template(template, **context)
+
+
+'''
+獲取當前時間
+'''
+
+def getCurrentDate(format = "%Y-%m-%d %H:%M:%S"):
+    return datetime.datetime.now().strftime(format)

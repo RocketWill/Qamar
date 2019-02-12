@@ -36,6 +36,11 @@ def login():
         resp['msg'] = '請輸入正確登入用戶名或密碼'
         return jsonify(resp)
 
+    if user_info.status != 1:
+        resp['code'] = -1
+        resp['msg'] = '此帳號已被禁用，請聯繫管理員'
+        return jsonify(resp)
+
     if user_info.login_pwd != UserService.genePwd(login_pwd, user_info.login_salt):
         resp['code'] = -1
         resp['msg'] = '請輸入正確登入用戶名或密碼'
