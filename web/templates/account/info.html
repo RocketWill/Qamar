@@ -63,10 +63,12 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            {% for log in access_log %}
                                             <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
+                                                <td>{{log.created_time}}</td>
+                                                <td>{{log.target_url}}</td>
                                             </tr>
+                                            {% endfor %}
 
                                         </tbody>
                                     </table>

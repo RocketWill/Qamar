@@ -4,6 +4,7 @@ from flask import request, redirect, g
 from common.models.User import User
 from common.libs.user.UserService import UserService
 from common.libs.UrlManager import UrlManager
+from common.libs.LogService import LogService
 import re
 
 @app.before_request
@@ -16,14 +17,21 @@ def befoer_request():
     if pattern.match(path):
         return
 
+
     pattern = re.compile('%s' % "|".join(ignore_urls))
     if pattern.match(path):
         return
 
     user_info = check_login()
     g.current_user = None
+
+
     if user_info:
         g.current_user = user_info
+
+    # 加入日誌
+    LogService.addAccessLog()
+    LogService.addErrorLog()
 
     if not user_info:
         return redirect(UrlManager.buildUrl('/user/login'))

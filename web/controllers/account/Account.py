@@ -2,6 +2,7 @@
 from flask import Blueprint, render_template, g, request, redirect, jsonify
 from common.libs.Helper import ops_render, iPagination, getCurrentDate
 from common.libs.user.UserService import UserService
+from common.models.log.AppAccessLog import AppAccessLog
 from common.libs.UrlManager import UrlManager
 from common.models.User import User
 from sqlalchemy import or_
@@ -58,6 +59,14 @@ def info():
     info = User.query.filter_by(uid = uid).first()
     if not info:
         return redirect(UrlManager.buildUrl('/account/index'))
+
+
+    access_log = AppAccessLog.query.filter_by(uid = uid)
+    access_log = access_log.order_by(AppAccessLog.created_time.desc()).all()[0:10]
+
+    resp_data['info'] = info
+    resp_data['access_log'] = access_log
+
 
     resp_data['info'] = info
     resp_data['current'] = 'user'
