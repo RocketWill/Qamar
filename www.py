@@ -4,6 +4,7 @@
 '''
 
 from web.interceptors.AuthInterceptor import *
+from web.interceptors.ErrorInterceptor import *
 
 
 '''

@@ -18,6 +18,8 @@ IGNORES_CHECK_LOGIN_URLS = [
     '^/favicon.ico'
 ]
 
+SUPER_ADMIN = 'qamar'
+
 
 PAGE_SIZE = 50
 PAGE_DISPLAY = 10

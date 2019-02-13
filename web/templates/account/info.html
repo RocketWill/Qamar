@@ -37,7 +37,7 @@
                                         <p class="m-t">姓名：{{ info.nickname }}</p>
                                         <p>手机：{{ info.mobile }}</p>
                                         <p>邮箱：{{ info.email }}</p>
-                                        <a href="/account/set?{{info.uid}}" class="btn btn-primary">編輯</a>
+                                        <a href="/account/set?id={{info.uid}}" class="btn btn-primary">編輯</a>
                                 </div>
                             </div>
                         </div>
@@ -63,12 +63,23 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            {% if access_log %}
                                             {% for log in access_log %}
                                             <tr>
                                                 <td>{{log.created_time}}</td>
                                                 <td>{{log.target_url}}</td>
                                             </tr>
+
+                                            {% else %}
+
+                                            <tr>
+                                                <td colspan="2">暫無紀錄</td>
+                                            </tr>
+
+
+
                                             {% endfor %}
+                                            {% endif %}
 
                                         </tbody>
                                     </table>

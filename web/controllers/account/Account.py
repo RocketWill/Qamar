@@ -44,6 +44,7 @@ def index():
     resp_data['pages'] = pages
     resp_data['search_con'] = req
     resp_data['status_mapping'] = app.config['STATUS_MAPPING']
+    resp_data['super_admin'] = app.config['SUPER_ADMIN']
     resp_data['current'] = 'user'
     return ops_render('account/index.html', resp_data)
 
@@ -62,10 +63,11 @@ def info():
 
 
     access_log = AppAccessLog.query.filter_by(uid = uid)
-    access_log = access_log.order_by(AppAccessLog.created_time.desc()).all()[0:10]
+    access_log = access_log.order_by(AppAccessLog.created_time.desc()).all()[0:20]
 
     resp_data['info'] = info
     resp_data['access_log'] = access_log
+    resp_data['access_log_len'] = len(access_log)
 
 
     resp_data['info'] = info
@@ -83,6 +85,9 @@ def set():
         user_info = None
         if uid:
             user_info = User.query.filter_by(uid = uid).first()
+
+        if user_info.nickname == app.config['SUPER_ADMIN']:
+            return redirect(UrlManager.buildUrl('/account/index'))
 
         resp_data['user_info'] = user_info
         resp_data['current'] = 'user'
@@ -178,6 +183,11 @@ def ops():
     if not user_info:
         resp['code'] = -1
         resp['msg'] = '指定帳號不存在'
+        return jsonify(resp)
+
+    if user_info.nickname == app.config['SUPER_ADMIN']:
+        resp['code'] = -1
+        resp['msg'] = '禁止刪除超級管理員'
         return jsonify(resp)
 
     if act == "remove":

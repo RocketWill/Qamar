@@ -31,7 +31,6 @@ def befoer_request():
 
     # 加入日誌
     LogService.addAccessLog()
-    LogService.addErrorLog()
 
     if not user_info:
         return redirect(UrlManager.buildUrl('/user/login'))
