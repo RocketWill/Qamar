@@ -4,19 +4,37 @@
     <image class="remind-img" src="/images/more/loading.gif"></image>
   </view>
   <block wx:else>
-    <image class="title" src="/images/more/title8.png"></image>
     <view class="content">
-      <view class="hd" style="transform:rotateZ({{angle}}deg);">
-        <image class="logo" src="/images/more/logo.png"></image>
-        <image class="wave" src="/images/more/wave.png" mode="aspectFill"></image>
-        <image class="wave wave-bg" src="/images/more/wave.png" mode="aspectFill"></image>
-      </view>
-      <view class="bd">
-         <image class="smalltitle" src="/images/more/confirm-word1.png"></image>
-        <view class="confirm-btn" bindtap='goToIndex'>
-          <text >走吧，订餐去</text>
+      
+      <view class=''>
+
+        <view class='center'>
+           <view>
+          <image class="logo" src="/images/more/logo.png"></image>
+          
         </view>
-        <text class="copyright">@编程浪子 54php.cn</text>
+
+        <view class='spacer'></view>
+        <view class='subtitle'>
+        
+        <text>北京大學軟件與微電子學院\r\n校園問題反饋平台</text>
+        
+        </view>
+        <view class='spacer'></view>
+
+        <!-- <view class="confirm-btn" bindtap='goToIndex' wx:if="{{regFlag==true}}">
+          <text >開始發問</text>
+        </view>
+        -->
+
+        <button class="confirm-btn" bindtap='goToIndex' wx:if="{{regFlag==true}}"> 走吧去發問 </button>
+
+        <button class="confirm-btn" open-type="getUserInfo" bindgetuserinfo="login" wx:if="{{regFlag==false}}"> 授权登录 </button>
+
+
+        </view>
+       
+        <text class="copyright">@Qamar 卡碼</text>
       </view>
     </view>
   </block>

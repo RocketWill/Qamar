@@ -5,8 +5,8 @@ App({
     globalData: {
         userInfo: null,
         version: "1.0",
-        shopName: "Python3 + Flask 订餐全栈系统",
-        domain:"http://192.168.0.119:8999/api"
+        appName: "SSPKU 校園問題反饋平台",
+        domain:"http://127.0.0.1:8999/api"
     },
     tip:function( params ){
         var that = this;
@@ -49,12 +49,41 @@ App({
             }
         })
     },
-    console:function( msg ){
-        console.log( msg);
+    console: function (msg) {
+        console.log(msg);
     },
-    getRequestHeader:function(){
+    getRequestHeader: function () {
         return {
             'content-type': 'application/x-www-form-urlencoded'
         }
+    },
+    buildUrl: function (path, params) {
+        var url = this.globalData.domain + path;
+        var _paramUrl = "";
+        if (params) {
+            _paramUrl = Object.keys(params).map(function (k) {
+                return [encodeURIComponent(k), encodeURIComponent(params[k])].join("=");
+            }).join("&");
+
+            _paramUrl = "?" + _paramUrl;
+        }
+        return url + _paramUrl;
+    },
+    
+    getCache: function (k) {
+        var value = undefined;
+        try{
+            value = wx.getStorageSync(k);
+        }catch (e) {
+            
+        }
+        return value;
+        
+    },
+    setCache: function (k, v) {
+        wx.setStorage({
+            key: k,
+            data: v
+        });
     }
 });

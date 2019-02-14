@@ -10,7 +10,8 @@ AUTH_COOKIE_NAME = 'qamar_user'
 '''
 
 IGNORE_URLS = [
-    "^/user/login"
+    "^/user/login",
+    "^/api"
 ]
 
 IGNORES_CHECK_LOGIN_URLS = [
@@ -27,4 +28,10 @@ PAGE_DISPLAY = 10
 STATUS_MAPPING = {
     "1":"正常",
     "0":"已刪除"
+}
+
+
+MINA_APP = {
+    'AppID' : 'wxa8abb1ea36933968',
+    'AppSecret':"adfaf55dbb823980e196e7f8db96ef7c"
 }
