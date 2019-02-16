@@ -97,18 +97,18 @@
                                                     </a>
 
                                                     {% if item.status == 1 %}
-                                                    <a class="m-l {% if item.nickname == super_admin %}display-none{% endif %}" href="{{ buildUrl('/member/set') }}?id={{ item.id }}">
+                                                    <a class="m-l" href="{{ buildUrl('/member/set') }}?id={{ item.id }}">
                                                         <i class="fa fa-edit"></i>
                                                     </a>
 
 
-                                                    <a class="m-l remove {% if item.nickname == super_admin %}display-none{% endif %}" href="javascript:void(0);" id="{{ item.id }}">
+                                                    <a class="m-l remove" href="javascript:void(0);" uid="{{ item.id }}">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
 
                                                     {% else %}
 
-                                                    <a class="m-l recover {% if item.nickname == super_admin %}display-none{% endif %}" href="javascript:void(0);" id="{{ item.id }}">
+                                                    <a class="m-l recover" href="javascript:void(0);" uid="{{ item.id }}">
                                                         <i class="fa fa-undo"></i>
                                                     </a>
                                                     {% endif %}

@@ -80,6 +80,9 @@ def set():
         if not user_info:
             return redirect(UrlManager.buildUrl('/member/index'))
 
+        if user_info.status != 1:
+            return redirect(UrlManager.buildUrl('/member/index'))
+
         resp_data['user_info'] = user_info
         return ops_render('member/set.html', resp_data)
 
@@ -102,12 +105,48 @@ def set():
 
     user_info.nickname = nickname
 
-    user_info.email_validation = email_check
+    if email_check > -1:
+        user_info.email_validation = email_check
 
     db.session.add(user_info)
     db.session.commit()
     return jsonify(resp)
 
+
+@route_member.route("/ops", methods=['POST'])
+def ops():
+    resp = {'code': 200, 'msg': "操作成功", "data": {}}
+    req = request.values
+
+    id = req['id'] if 'id' in req else ""
+    act = req['act'] if 'act' in req else ""
+
+    if not id:
+        resp['code'] = -1
+        resp['msg'] = "請選擇要操作的帳號"
+        return jsonify(resp)
+
+    if act not in ["remove", "recover"]:
+        resp['code'] = -1
+        resp['msg'] = '操作有誤，請重試'
+        return jsonify(resp)
+
+    member_info = Member.query.filter_by(id=id).first()
+
+    if not member_info:
+        resp['code'] = -1
+        resp['msg'] = '查無此會員，請重試'
+        return jsonify(resp)
+
+    if act == "remove":
+        member_info.status = 0
+    elif act == "recover":
+        member_info.status = 1
+
+    db.session.add(member_info)
+    db.session.commit()
+
+    return jsonify(resp)
 
 
 

@@ -5,7 +5,7 @@ var member_set_ops = {
     },
     eventBind: function () {
 
-        var email_check = 0
+        var email_check=-1;
 
         $("#email_valid").on("click", function () {
             var item = $("#email_valid")

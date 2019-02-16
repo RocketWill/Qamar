@@ -22,7 +22,7 @@ var member_index_ops = {
         var callback = {
             'ok': function () {
                 $.ajax({
-                    url: common_ops.buildUrl("/account/ops"),
+                    url: common_ops.buildUrl("/member/ops"),
                     dataType: 'json',
                     type: "POST",
                     data: {

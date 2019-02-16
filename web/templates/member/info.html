@@ -34,10 +34,15 @@
                                     <img src="{{ info.avatar }}" class="rounded-circle mr-3" alt="頭像">
                                 </div>
                                 <div class="card-body">
-                                        <p class="m-t">姓名：{{ info.nickname }}</p>
-                                        <p>性別：{{ info.sex_desc }}</p>
-                                    <p>邮箱驗證：{% if info.email_validation == 0 %}<span class="badge-dot badge-brand mr-1"></span><span> 未驗證</span>{% else %}<span class="badge-dot badge-success mr-1"></span><span> 已驗證</span>{% endif %}</p>
-                                        <a href="/member/set?id={{info.id}}" class="btn btn-primary">編輯</a>
+                                    <p class="m-t">姓名：{{ info.nickname }}</p>
+                                    <p>性別：{{ info.sex_desc }}</p>
+                                    <p>邮箱驗證：{% if info.email_validation == 0 %}<span
+                                            class="badge-dot badge-brand mr-1"></span><span> 未驗證</span>{% else %}<span
+                                            class="badge-dot badge-success mr-1"></span><span> 已驗證</span>{% endif %}</p>
+
+                                    {% if info.status == 1 %}
+                                    <a href="/member/set?id={{info.id}}" class="btn btn-primary">編輯</a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
