@@ -1,0 +1,120 @@
+{% extends 'common/layout_main.html' %}
+{% block content %}
+<div class="dashboard-wrapper">
+            <div class="container-fluid  dashboard-content">
+                <!-- ============================================================== -->
+                <!-- pageheader -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="page-header">
+                            <h2 class="pageheader-title">使用者帳戶資訊 </h2>
+                            <p class="pageheader-text">Proin placerat ante duiullam scelerisque a velit ac porta, fusce sit amet vestibulum mi. Morbi lobortis pulvinar quam.</p>
+                            <div class="page-breadcrumb">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
+                                        <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Tables</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">General Tables</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================================== -->
+                <!-- end pageheader -->
+                <!-- ============================================================== -->
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-8 col-md-10 col-sm-10 col-10">
+                            <div class="card">
+                                <h5 class="card-header">基本資料</h5>
+                                <div class="card-body">
+                                    <img src="{{ info.avatar }}" class="rounded-circle mr-3" alt="頭像">
+                                </div>
+                                <div class="card-body">
+                                        <p class="m-t">姓名：{{ info.nickname }}</p>
+                                        <p>性別：{{ info.sex_desc }}</p>
+                                    <p>邮箱驗證：{% if info.email_validation == 0 %}<span class="badge-dot badge-brand mr-1"></span><span> 未驗證</span>{% else %}<span class="badge-dot badge-success mr-1"></span><span> 已驗證</span>{% endif %}</p>
+                                        <a href="/member/set?id={{info.id}}" class="btn btn-primary">編輯</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+
+                        <!-- ============================================================== -->
+                        <!-- striped table -->
+                        <!-- ============================================================== -->
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">訪問紀錄</h5>
+                                <div class="card-body">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">訪問時間</th>
+                                                <th scope="col">訪問 Url</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if access_log %}
+                                            {% for log in access_log %}
+                                            <tr>
+                                                <td>{{log.created_time}}</td>
+                                                <td>{{log.target_url}}</td>
+                                            </tr>
+
+                                            {% else %}
+
+                                            <tr>
+                                                <td colspan="2">暫無紀錄</td>
+                                            </tr>
+
+
+
+                                            {% endfor %}
+                                            {% endif %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ============================================================== -->
+                        <!-- end striped table -->
+                        <!-- ============================================================== -->
+                    </div>
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <div class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                            Copyright © 2018 Concept. All rights reserved. Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>.
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                            <div class="text-md-right footer-links d-none d-sm-block">
+                                <a href="javascript: void(0);">About</a>
+                                <a href="javascript: void(0);">Support</a>
+                                <a href="javascript: void(0);">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end footer -->
+            <!-- ============================================================== -->
+        </div></div>
+{% endblock %}
+
+
