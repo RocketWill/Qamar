@@ -18,6 +18,8 @@ from web.controllers.account.Account import route_account
 from web.controllers.member.Member import route_member
 from web.controllers.static import route_static
 from web.controllers.api import route_api
+from web.controllers.mail import route_mail
+
 
 
 app.register_blueprint(route_index, url_prefix='/')
@@ -26,3 +28,4 @@ app.register_blueprint(route_static, url_prefix='/static')
 app.register_blueprint(route_account, url_prefix='/account')
 app.register_blueprint(route_member, url_prefix='/member')
 app.register_blueprint(route_api, url_prefix='/api')
+app.register_blueprint(route_mail, url_prefix='/mail')

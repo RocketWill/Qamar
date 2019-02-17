@@ -4,3 +4,4 @@ mysqlclient
 flask-script
 flask-sqlacodege
 requests
+flask-mail

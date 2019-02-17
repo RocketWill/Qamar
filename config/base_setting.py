@@ -11,7 +11,8 @@ AUTH_COOKIE_NAME = 'qamar_user'
 
 IGNORE_URLS = [
     "^/user/login",
-    "^/api"
+    "^/api",
+    "^/mail"
 ]
 
 IGNORES_CHECK_LOGIN_URLS = [
@@ -35,3 +36,5 @@ MINA_APP = {
     'AppID' : 'wxa8abb1ea36933968',
     'AppSecret':"adfaf55dbb823980e196e7f8db96ef7c"
 }
+
+EMAIL_POSTFIX = '@pku.edu.cn'

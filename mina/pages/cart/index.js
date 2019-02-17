@@ -118,6 +118,11 @@ Page({
             url: "/pages/order/index"
         });
     },
+  toEmail: function () {
+    wx.navigateTo({
+      url: "/pages/email/index"
+    });
+  },
     //如果没有显示去光光按钮事件
     toIndexPage: function () {
         wx.switchTab({

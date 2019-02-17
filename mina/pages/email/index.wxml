@@ -1,0 +1,22 @@
+<view class="container">
+     
+     
+     <view class="peisong-way">
+        <view class="row-box">
+            <view class="row-label">請輸入您的北大學號</view>
+        </view>
+        <view class="row-box">
+            
+            <view class="right-text">
+                <input id="email" name="remark" type="text" class="liuyan" bindblur="emailInputEvent" placeholder="180121XXXX"/>
+            </view>
+        </view>
+     </view>
+
+     
+
+     <view class="jiesuan-box">
+        <button class="to-index" bindtap="goToIndex">稍後驗證</button>
+        <button class="to-email-validation" bindtap="emailValidation">前往驗證</button>
+    </view>
+</view>

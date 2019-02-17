@@ -1,0 +1,82 @@
+{% extends 'common/layout_main.html' %}
+{% block content %}
+<div class="dashboard-wrapper">
+    <div class="container-fluid  dashboard-content">
+        <!-- ============================================================== -->
+        <!-- pageheader -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="page-header">
+                    <h2 class="pageheader-title">管理員列表 </h2>
+                    <p class="pageheader-text">Proin placerat ante duiullam scelerisque a velit ac porta, fusce sit amet
+                        vestibulum mi. Morbi lobortis pulvinar quam.</p>
+                    <div class="page-breadcrumb">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Tables</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">General Tables</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- end pageheader -->
+        <!-- ============================================================== -->
+
+        <div class="card-body">
+            <div class="mail_wrap" role="form">
+
+                <div class="form-group">
+                    <label for="email" class="col-form-label">電子郵箱</label>
+                    <input id="email" type="text" class="form-control">
+                </div>
+
+                <a class="btn btn-primary save" style="color: #ffffff;">儲存並更新</a>
+                <h5 id='result'></h5>
+                <h5 id='result2'></h5>
+
+
+            </div>
+        </div>
+
+
+        <!-- ============================================================== -->
+        <!-- footer -->
+        <!-- ============================================================== -->
+        <div class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                        Copyright © 2018 Concept. All rights reserved. Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>.
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                        <div class="text-md-right footer-links d-none d-sm-block">
+                            <a href="javascript: void(0);">About</a>
+                            <a href="javascript: void(0);">Support</a>
+                            <a href="javascript: void(0);">Contact Us</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- end footer -->
+        <!-- ============================================================== -->
+    </div>
+</div>
+{% endblock %}
+
+{%block css %}
+<link rel="stylesheet" href="{{ buildStaticUrl('/libs/css/account/style.css') }}">
+{% endblock %}
+
+{% block js %}
+<script src="{{ buildStaticUrl('/libs/js/mail/validation.js') }}"></script>
+{% endblock %}
+
+
