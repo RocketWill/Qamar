@@ -35,7 +35,7 @@ Page({
                 },
                 {
                     "id": 3,
-                    "pic_url": "/images/food.jpg"
+                    "pic_url": "/images/more/logo.png"
                 }
             ],
             categories: [
@@ -105,7 +105,9 @@ Page({
 	},
     tapBanner: function (e) {
         if (e.currentTarget.dataset.id != 0) {
+            console.log("/pages/food/info?id=" + e.currentTarget.dataset.id);
             wx.navigateTo({
+              
                 url: "/pages/food/info?id=" + e.currentTarget.dataset.id
             });
         }

@@ -88,8 +88,15 @@ Page({
                     });
                     //return;
                 }
+                if (res.data.code == -1) {
+                    app.alert({
+                        'content': res.data.msg
+                    });
+                    //return;
+                }
+
                 //app.setCache("token", res.data.data.token);
-                
+
             }
         });
     }

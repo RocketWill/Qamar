@@ -19,6 +19,7 @@ class Application(Flask):
 db = SQLAlchemy()
 app = Application(__name__, template_folder=os.getcwd() + '/web/templates/', root_path=os.getcwd())
 manager = Manager(app)
+app.config['SECRET_KEY'] = '123456'
 
 '''
 函數模板

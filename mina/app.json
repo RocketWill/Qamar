@@ -11,7 +11,8 @@
     "pages/my/addressSet",
     "pages/my/commentList",
     "pages/my/index",
-    "pages/email/index"
+    "pages/email/index",
+    "pages/first/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -27,7 +28,7 @@
     "box-shadow": "0 0 6px 0",
     "list": [
       {
-        "pagePath": "pages/food/index",
+        "pagePath": "pages/first/index",
         "iconPath": "images/nav/home.png",
         "selectedIconPath": "images/nav/home-hover.png",
         "text": "首页"

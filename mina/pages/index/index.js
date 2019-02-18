@@ -13,6 +13,12 @@ Page({
             url: '/pages/food/index',
         });
     },
+  goToIndex2: function () {
+    console.log("works");
+    wx.switchTab({
+      url: "/pages/first/index"
+    });
+  },
     onLoad: function () {
         wx.setNavigationBarTitle({
             title: app.globalData.appName

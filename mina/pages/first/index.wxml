@@ -1,0 +1,58 @@
+<!--index.wxml-->
+<view class="search-view">
+    <view class="search-content">
+      <image src="/images/search-pic.png" class="search-icon" />
+      <input placeholder="请输入搜索内容" class="search-input" maxlength="30" confirm-type="搜索" bindinput='listenerSearchInput'>
+      </input>
+      <button class='search-btn' bindtap="toSearch">搜索</button>
+    </view>
+  </view>
+
+<view class='ask-view'>
+  <view class='ask-content'>
+    <button class='ask-btn' bindtap="toAsk"><image src="/images/edit.png" class="edit-icon" />提問</button>
+  </view>
+</view>
+
+<view class="wrap">
+
+    <!--滚动视图开始-->
+    <swiper id="hk" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+        <block wx:for="{{imgUrls}}">
+            <swiper-item>
+                <image src="{{item.url}}" class="slide-image" />
+                <view class="title">{{item.txt1}}</view>
+                <view class="introduce">{{item.txt2}}</view>
+            </swiper-item>
+        </block>
+    </swiper>
+    <!--滚动视图结束-->
+    
+    <view id="date">{{date}}</view>
+    
+    <view class="type-container">
+    <scroll-view class="type-navbar" scroll-x="true">
+      <view class="type-box" wx:for-items="{{categories}}" wx:key="id">
+        <view id="{{item.id}}" class="type-navbar-item {{activeCategoryId == item.id ? 'type-item-on' : ''}}" >
+          {{item.name}}
+        </view>
+      </view>
+    </scroll-view>
+    </view>
+    
+<scroll-view scroll-y="true">
+    <!--内容开始-->
+        <block class="block" wx:for="{{qu}}">
+        <view class="list">
+            <view class="left-content">
+                <view id="title">{{item.title}}</view>
+                <view id="content">{{item.content}}</view>
+            </view>
+            <view class="right-img">
+                <image class="img" src="{{item.attachment}}"></image>
+            </view>
+       </view>
+            </block>
+    <!--内容结束-->
+</scroll-view>
+</view>

@@ -18,6 +18,7 @@ def index():
     page = int(req['p']) if ('p' in req and req['p']) else 1
     query = Member.query
 
+
     if 'mix_kw' in req:
         rule = or_(Member.nickname.ilike("%{0}%".format(req['mix_kw'])), Member.mobile.ilike("%{0}%".format(req['mix_kw'])))
         query = query.filter(rule)

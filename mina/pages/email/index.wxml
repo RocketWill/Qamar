@@ -1,5 +1,11 @@
-<view class="container">
+<view class="container center">
+    <view>
+      <image class="email-icon" src="/images/more/email-icon.png"></image> 
+    </view>
      
+     <view class='describtion'>
+        <text>為了提供北大學生更好的使用者體驗，我們將發送一封電子郵件作為身份驗證使用。完成認證的同學們就可以在「Qamar 卡碼」上享受所有的完整功能啦！未驗證的同學也可以看到問題答覆，但無法發問以及給予問題評價唷。</text>
+     </view>
      
      <view class="peisong-way">
         <view class="row-box">
@@ -8,7 +14,8 @@
         <view class="row-box">
             
             <view class="right-text">
-                <input id="email" name="remark" type="text" class="liuyan" bindblur="emailInputEvent" placeholder="180121XXXX"/>
+                <input id="email" name="remark" type="text" class="email-input" bindblur="emailInputEvent" placeholder="180121XXXX"/>
+                <label class="email-input email-postfix">@pku.edu.cn</label>
             </view>
         </view>
      </view>

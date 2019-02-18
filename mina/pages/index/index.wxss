@@ -55,8 +55,8 @@ page{
 }
 
 .logo{
-  width: 180px;
-  height: 61px;
+  width:400rpx;
+  height:137rpx;
   margin: auto;
   display: block;
 }
@@ -68,11 +68,11 @@ page{
 }
 
 .spacer{
-  margin: 20px;
+  margin: 30rpx;
 }
 
 .confirm-btn {
-  font-size: 13pt;
+  font-size:35rpx;
   line-height: 85rpx;
   height: 85rpx;
   width: 70%;
@@ -96,4 +96,8 @@ page{
   right: 0;
   padding: 30rpx;
   text-align: center;
+}
+
+text{
+  line-height:45rpx;
 }
