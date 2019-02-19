@@ -1,1 +1,3 @@
-{"navigationBarTitleText": "問題列表"}
+{"navigationBarTitleText": "問題列表",
+"enablePullDownRefresh": true
+}

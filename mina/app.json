@@ -12,7 +12,9 @@
     "pages/my/commentList",
     "pages/my/index",
     "pages/email/index",
-    "pages/first/index"
+    "pages/first/index",
+    "pages/question/index",
+    "pages/question-ask/question-ask"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -46,5 +48,6 @@
         "text": "我的"
       }
     ]
-  }
+  },
+  "enablePullDownRefresh": true
 }

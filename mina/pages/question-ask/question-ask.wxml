@@ -1,0 +1,47 @@
+<view class='container'>
+  <view class="question-form">
+
+
+
+    <view class="peisong-way">
+      <view class="row-box">
+        <input id="email" name="remark" type="text" class="question-title" bindblur="emailInputEvent" maxlength="40" bindinput="handleTitleInput" placeholder="請輸入您的問題" />
+        <view class="title-input-counter">{{titleCount}}/40</view>
+      </view>
+      <view class="row-box">
+
+        <view class="right-text">
+          <textarea id="email" name="remark" type="text" class="question-content" bindinput="handleContentInput" maxlength="500" placeholder="請輸入問題詳細說明"></textarea>
+          <view class="weui-textarea-counter">{{contentCount}}/500</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="question-images-area">
+
+      <!-- 添加图片按钮  -->
+      <view class="question-images-tool">
+        <button class='add-img-btn' type="default" size="mini" bindtap="chooseImage" wx:if="{{images.length < 3}}">添加图片</button>
+      </view>
+
+      <!-- 图片缩略图  -->
+      <view class="question-images">
+        <block wx:for="{{images}}" wx:key="*this">
+          <view class="q-image-wrap">
+            <image class="q-image" src="{{item}}" mode="aspectFill" data-idx="{{index}}" bindtap="handleImagePreview"></image>
+            <view class="q-image-remover" data-idx="{{index}}" bindtap="removeImage">删除</view>
+          </view>
+        </block>
+      </view>
+
+    </view>
+
+    <!-- 提交表单按钮  -->
+
+    <view class="jiesuan-box">
+        <button class="to-index" bindtap="goToIndex">取消</button>
+        <button class="to-email-validation" bindtap="submitForm">確認發問</button>
+    </view>
+
+  </view>
+</view>

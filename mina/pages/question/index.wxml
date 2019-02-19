@@ -1,0 +1,24 @@
+<view class="container center">
+     
+     
+     <view class="peisong-way">
+        <view class="row-box">
+            <input id="email" name="remark" type="text" class="email-input" bindblur="emailInputEvent" placeholder="請輸入您的問題"/>
+        </view>
+        <view class="row-box">
+            
+            <view class="right-text">
+                <textarea id="email" name="remark" type="text" class="email-input" bindblur="emailInputEvent" placeholder="請輸入問題詳細說明"></textarea>
+            </view>
+        </view>
+     </view>
+
+     <button class="confirm-btn" bindtap='uploadPhoto'> 上傳附件 </button>
+
+     
+
+     <view class="jiesuan-box">
+        <button class="to-index" bindtap="goToIndex">取消</button>
+        <button class="to-email-validation" bindtap="emailValidation">確認發問</button>
+    </view>
+</view>

@@ -9,12 +9,11 @@ Page({
         regFlag: true
     },
     goToIndex: function () {
-        wx.switchTab({
+        wx.navigateTo({
             url: '/pages/food/index',
         });
     },
   goToIndex2: function () {
-    console.log("works");
     wx.switchTab({
       url: "/pages/first/index"
     });
