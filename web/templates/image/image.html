@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+ 
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Concept - Bootstrap 4 Admin Dashboard Template</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ buildStaticUrl('/vendor/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ buildStaticUrl('/vendor/fonts/circular-std/style.css') }}">
+    <link rel="stylesheet" href="{{ buildStaticUrl('/vendor/fonts/fontawesome/css/fontawesome-all.css') }}">
+    <link rel="stylesheet" href="{{ buildStaticUrl('/libs/css/style.css') }}">
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- main wrapper -->
+    <!-- ============================================================== -->
+    <div class="dashboard-main-wrapper p-0">
+        <!-- ============================================================== -->
+        <!-- navbar -->
+        <!-- ============================================================== -->
+        <nav class="navbar navbar-expand dashboard-top-header bg-white">
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- brand logo -->
+                <!-- ============================================================== -->
+
+                <!-- ============================================================== -->
+                <!-- end brand logo -->
+                <!-- ============================================================== -->
+            </div>
+        </nav>
+        <!-- ============================================================== -->
+        <!-- end navbar -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- wrapper  -->
+        <!-- ============================================================== -->
+        <div class="bg-light text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="offset-xl-2 col-xl-8 offset-lg-2 col-lg-8 col-md-12 col-sm-12 col-12">
+                        <div class="error-section">
+
+                            {% if ds %}
+        {% for d in ds%}
+                            <p> {{ d.qid }}---<img class="rounded" width="100px" src="/{{d.path}}"/></p>
+        {% endfor %}
+    {% endif %}
+                            <div class="error-section-content">
+                                <h1 class="display-3">Query圖片</h1>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <div class="bg-white p-3">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-dark text-center">
+                            Copyright © 2018 Concept. All rights reserved. Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end footer -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- end wrapper -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- end footer -->
+            <!-- ============================================================== -->
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- end main wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- end main wrapper -->
+    <!-- ============================================================== -->
+    <!-- Optional JavaScript -->
+    <script src="{{ buildStaticUrl('/vendor/jquery/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ buildStaticUrl('/vendor/bootstrap/js/bootstrap.bundle.js') }}"></script>
+    <script src="{{ buildStaticUrl('/libs/js/common.js') }}"></script>
+    <script src="{{ buildStaticUrl('/libs/js/user/login.js') }}"></script>
+    <script src="{{ buildStaticUrl('/libs/plugins/jquery-2.1.1.js') }}"></script>
+    <script src="{{ buildStaticUrl('/libs/plugins/layer/layer.js') }}"></script>
+</body>
+ 
+</html>

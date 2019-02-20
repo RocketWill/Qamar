@@ -19,6 +19,7 @@ from web.controllers.member.Member import route_member
 from web.controllers.static import route_static
 from web.controllers.api import route_api
 from web.controllers.mail import route_mail
+from web.controllers.show_image.image import route_image
 
 
 
@@ -29,3 +30,4 @@ app.register_blueprint(route_account, url_prefix='/account')
 app.register_blueprint(route_member, url_prefix='/member')
 app.register_blueprint(route_api, url_prefix='/api')
 app.register_blueprint(route_mail, url_prefix='/mail')
+app.register_blueprint(route_image, url_prefix='/image')

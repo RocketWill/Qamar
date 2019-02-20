@@ -12,6 +12,7 @@ from common.models.member.Member import Member
 from common.models.question.Question import Question
 from common.models.question.Files import File
 from common.libs.Helper import ops_render, iPagination, getCurrentDate
+from common.libs.user.UserService import UserService
 from common.libs.member.MemberService import MemberService
 
 
@@ -19,13 +20,32 @@ from common.libs.member.MemberService import MemberService
 def getQuestion():
     resp = {'code':200, 'msg':'操作成功', 'data':{}}
 
-    f = request.files['shit'] if 'shit' in request.files else ''
+    f = request.files['post-question'] if 'post-question' in request.files else ''
     app.logger.info(f)
     req = request.values
 
+    app.logger.info(req)
+
     title = req['title'] if 'title' in req else ''
     content = req['content'] if 'content' in req else ''
+    anony = req['anony'] if 'anony' in req else ''
+    random_str = req['random_str'] if 'random_str' in req else ''
     token = req['token'] if 'token' in req else ''
+
+    if title==None or len(title)<10 or content == None or len(content)<20:
+        resp['code'] = -1
+        resp['msg'] = "請確認內容符合字數規範，稍後重試"
+        return jsonify(resp)
+
+    if token==None or len(token)<1:
+        resp['code'] = -1
+        resp['msg'] = "無法獲取用戶信息，稍後重試"
+        return jsonify(resp)
+
+    if anony == 'true':
+        anony = 0
+    else:
+        anony = 1
 
     uid = token.split("#")[1]
 
@@ -41,27 +61,57 @@ def getQuestion():
         resp['msg'] = 'error'
         return jsonify(resp)
 
-    question = Question()
-    question.member_id = uid
-    question.title = title
-    question.content = content
-    question.created_time = question.updated_time = getCurrentDate()
+    hasIn = File.query.filter_by(salt=random_str).first()
+    if hasIn:
+        question = Question.query.filter_by(id=hasIn.qid).first()
+        if not question:
+            app.logger.error("no find")
+        else:
+            app.logger.error("find!!!!!!!!!!!!!!")
+            app.logger.error("--------"+str(question.id))
 
-    db.session.add(question)
-    db.session.commit()
+
+    if not hasIn:
+        question = Question()
+        question.member_id = uid
+        question.title = title
+        question.content = content
+        question.public = anony
+        question.created_time = question.updated_time = getCurrentDate()
+
+        db.session.add(question)
+        db.session.commit()
+
+
+
 
     if f:
         # user_input = request.form.get("name")
         basepath = os.path.dirname(__file__)  # 当前文件所在路径
+        basepath2 = os.path
+        app.logger.info(basepath2)
 
-        src_imgname = str(question.id) + ".jpg"
-        upload_path = os.path.join(basepath, 'static/srcImg/')
+
+        #src_imgname = str(question.id) + ".jpg"
+        src_imgname = UserService.geneSalt(10) + ".jpg"
+        upload_path = os.path.join('web/static/upload/')
 
         app.logger.info(basepath)
 
         if os.path.exists(upload_path) == False:
             os.makedirs(upload_path)
         f.save(upload_path + src_imgname)
+
+        file_info = File()
+        file_info.qid = question.id
+        file_info.created_time = getCurrentDate()
+        file_info.image = f.read()
+        file_info.salt = random_str
+        file_info.path = "static/upload/" + src_imgname
+
+        db.session.add(file_info)
+        db.session.commit()
+
 
 
 

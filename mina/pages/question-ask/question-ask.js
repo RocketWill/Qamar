@@ -18,11 +18,34 @@ Page({
     contentCount: 0,
     title: '',
     content: '',
-    images: []
+    images: [],
+    anony: false,
+    randomStr: app.randomString(false,12)
   },
 
   onLoad(options) {
     $init(this)
+  },
+
+  onShow(){
+    this.setData({
+      randomStr: app.randomString(false, 12)
+    });
+  },
+
+  anonymChange: function(e) {
+   // console.log(`Switch样式点击后是否选中：`, e.detail.value)
+    if (e.detail.value == false){
+      this.setData({
+        anony: false,
+      });
+      console.log(this.data.anony);
+    }else{
+      this.setData({
+        anony: true,
+      });
+      console.log(this.data.anony);
+    }
   },
 
   createQuestion: function(data) {
@@ -44,6 +67,13 @@ Page({
     this.data.content = value
     this.data.contentCount = value.length
     $digest(this)
+  },
+
+  clearContent: function() {
+    this.setData({
+      title: '',
+      titleCount: 0,
+    });
   },
 
   chooseImage(e) {
@@ -68,7 +98,7 @@ Page({
     $digest(this)
   },
 
-  goToIndex: function () {
+  goToIndex: function() {
     wx.switchTab({
       url: "/pages/first/index"
     });
@@ -84,12 +114,33 @@ Page({
     })
   },
 
-  submitForm(e) {
+  cancelEdit: function() {
     var that = this;
     const title = this.data.title
     const content = this.data.content
+    if (title.length<1 && content.length<1) {
+      this.goToIndex();
+    } else {
+      wx.showModal({
+        title: '提示',
+        content: '確定放棄編輯？',
+        success(res) {
+          if (res.confirm) {
+            that.goToIndex();
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+    }
 
-    if(title == undefined || title == null || title.length< 10){
+  },
+
+  sureAsk: function() {
+    var that = this;
+    const title = this.data.title
+    const content = this.data.content
+    if (title == undefined || title == null || title.length < 10) {
       app.alert({
         'content': "問題標題字數不能少於10字"
       });
@@ -102,6 +153,25 @@ Page({
       });
       return;
     }
+    wx.showModal({
+      title: '提示',
+      content: '確定發問？',
+      success(res) {
+        if (res.confirm) {
+          that.submitForm();
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  },
+
+  submitForm(e) {
+    var that = this;
+    const title = this.data.title
+    const content = this.data.content
+    var anony = this.data.anony
+    const randomStr = this.data.randomStr
 
     if (title && content) {
       var that = this;
@@ -113,12 +183,13 @@ Page({
         arr.push(wxUploadFile({
           url: app.buildUrl("/get-question"),
           filePath: path,
-          name: 'shit',
+          name: 'post-question',
           formData: {
-            'title':title,
-            'content':content,
-            'token':app.getCache('token'),
-            'action':'create'
+            'title': title,
+            'content': content,
+            'random_str': randomStr,
+            'token': app.getCache('token'),
+            'action': 'create'
           }
         }))
       }
@@ -130,29 +201,31 @@ Page({
         mask: true
       })
 
-      if (arr.length < 1){
+      if (arr.length < 1) {
         wx.request({
           url: app.buildUrl("/get-question"),
           method: "POST",
           data: {
             'title': title,
             'content': content,
+            'anony':anony,
+            'random_str': randomStr,
             'token': app.getCache('token'),
-             },
+          },
           header: app.getRequestHeader(),
-          success: function (res) {
-            
+          success: function(res) {
+
             //console.log(res);
             if (res.data.code == 200) {
               wx.hideLoading();
               app.alert({
-                'content':'提交成功',
-                'cb_confirm': function () {
+                'content': '提交成功',
+                'cb_confirm': function() {
                   that.goToIndex();
                 }
               });
             }
-            
+
           }
         });
         return;
@@ -160,9 +233,20 @@ Page({
 
       // 开始并行上传图片
       Promise.all(arr).then(res => {
+        var result = JSON.parse(res[0]['data']);
+        console.log(result); 
         // 上传成功，获取这些图片在服务器上的地址，组成一个数组
-        console.log(res.map(item => JSON.parse(item.data).url));
-        return res.map(item => JSON.parse(item.data).url)
+        if (result.code == 200) {
+          //wx.hideLoading();
+           
+          app.alert({
+            'content': '提交成功',
+            'cb_confirm': function () {
+              that.goToIndex();
+            }
+          });
+        }
+        console.log(res);
       }).catch(err => {
         console.log(">>>> upload images error:", err)
       }).then(urls => {
