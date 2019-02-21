@@ -56,6 +56,11 @@ def getQuestion():
 
     member_info = Member.query.filter_by(id=uid).first()
 
+    if member_info.email_validation != 1:
+        resp['code'] = 300
+        resp['msg'] = "需先進行郵箱認證才能使用發問功能。若無法驗證成功，請聯繫管理員進行人工驗證。"
+        return jsonify(resp)
+
     if not member_info:
         resp['code'] = -1
         resp['msg'] = 'error'
@@ -77,6 +82,10 @@ def getQuestion():
         question.title = title
         question.content = content
         question.public = anony
+        if anony == 1:
+            question.nickname = member_info.nickname
+        else:
+            question.nickname = "匿名"
         question.created_time = question.updated_time = getCurrentDate()
 
         db.session.add(question)

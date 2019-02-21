@@ -1,0 +1,125 @@
+{% extends 'common/layout_main.html' %}
+{% block content %}
+<div class="dashboard-wrapper">
+            <div class="container-fluid dashboard-content">
+                <div class="row">
+                    <div class="col-xl-10">
+                        <!-- ============================================================== -->
+                        <!-- pageheader  -->
+                        <!-- ============================================================== -->
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="page-header" id="top">
+                                    <h2 class="pageheader-title">添加問題回覆</h2>
+                                    <p class="pageheader-text">Proin placerat ante duiullam scelerisque a velit ac porta, fusce sit amet vestibulum mi. Morbi lobortis pulvinar quam.</p>
+                                    <div class="page-breadcrumb">
+                                        <nav aria-label="breadcrumb">
+                                            <ol class="breadcrumb">
+                                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
+                                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Forms</a></li>
+                                                <li class="breadcrumb-item active" aria-current="page">Form Elements</li>
+                                            </ol>
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ============================================================== -->
+                        <!-- end pageheader  -->
+                        <!-- ============================================================== -->
+                        <div class="page-section" id="overview">
+
+                        </div>
+                        <!-- ============================================================== -->
+                        <!-- basic form  -->
+                        <!-- ============================================================== -->
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <!--<div class="section-block" id="basicform">-->
+                                    <!--<h3 class="section-title">Basic Form Elements</h3>-->
+                                    <!--<p>Use custom button styles for actions in forms, dialogs, and more with support for multiple sizes, states, and more.</p>-->
+                                <!--</div>-->
+
+                                <div class="card">
+                                    <h4 class="card-header">{{ info.title }}</h4>
+                                    <!--<h5 class="card-header">{{info.content}}</h5>-->
+                                    <div class="card-body">
+                                        <p class="card-text">{{info.content}}</p>
+                                        {% if file %}
+                                        <p class="card-text" style="font-size: 12px;">提問者上傳之附件（點擊查看完整檔案）</p>
+                                        {% for item in file %}
+                                        <a href="/{{item.path}}" target="_blank"><img class="img-fluid rounded square-pic" width="33%" src="/{{item.path}}" alt="User uploaded images">
+</a>
+
+
+
+                                        {% endfor %}
+                                        {% endif %}
+
+
+                                    </div>
+                                    <div class="card-body border-top replay-wrap">
+                                        <h3>回覆區</h3>
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="title" class="col-form-label">回覆標題（選填）</label>
+                                                <input id="title" type="text" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="content">回覆內容</label>
+                                                <textarea class="form-control" id="content" rows="3"></textarea>
+                                            </div>
+                                            <div class="custom-file mb-3">
+                                                <input type="file" id="upload-file">
+                                                <label class="custom-file-label" for="upload-file">上傳附件</label>
+                                            </div>
+                                            <input type="hidden" id="qid" value="{{qid}}">
+                                            <input type="hidden" id="uid" value="{{uid}}">
+                                            <a href="#" class="btn btn-primary btn-lg save">送出</a>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ============================================================== -->
+                        <!-- end basic form  -->
+                        <!-- ============================================================== -->
+
+                    </div>
+
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <div class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                            Copyright © 2018 Concept. All rights reserved. Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>.
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                            <div class="text-md-right footer-links d-none d-sm-block">
+                                <a href="javascript: void(0);">About</a>
+                                <a href="javascript: void(0);">Support</a>
+                                <a href="javascript: void(0);">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end footer -->
+            <!-- ============================================================== -->
+        </div>
+{% endblock %}
+
+{%block css %}
+<link rel="stylesheet" href="{{ buildStaticUrl('/libs/css/question/style.css') }}">
+{% endblock %}
+
+{% block js %}
+    <script src="{{ buildStaticUrl('/libs/js/question/reply.js') }}"></script>
+{% endblock %}
+
+

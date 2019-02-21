@@ -136,6 +136,12 @@ Page({
 
   },
 
+  goToEmailVerify:function(){
+    wx.navigateTo({
+      url: "/pages/email/index"
+    });
+  },
+
   sureAsk: function() {
     var that = this;
     const title = this.data.title
@@ -226,6 +232,29 @@ Page({
               });
             }
 
+            if (res.data.code == 300){
+              wx.hideLoading();
+              wx.showModal({
+                title: 'OOPS！請先驗證郵箱',
+                content: res.data.msg,
+                success(res) {
+                  if (res.confirm) {
+                    that.goToEmailVerify();
+                  } else if (res.cancel) {
+                    that.cancelEdit()
+                  }
+                }
+              })
+            }
+
+            if (res.data.code==-1){
+              wx.hideLoading();
+              app.alert({
+                'content': res.data.msg
+              });
+              return;
+            }
+
           }
         });
         return;
@@ -246,9 +275,29 @@ Page({
             }
           });
         }
+        if (result.code == 300) {
+          //wx.hideLoading();
+          wx.showModal({
+            title: 'OOPS！請先驗證郵箱',
+            content: result.msg,
+            success(res) {
+              if (res.confirm) {
+                that.goToEmailVerify();
+              } else if (res.cancel) {
+                that.cancelEdit()
+              }
+            }
+          })
+        }
         console.log(res);
       }).catch(err => {
         console.log(">>>> upload images error:", err)
+        app.alert({
+          'content': "Oh no！似乎有什麼出錯了，請稍後再試",
+          'cb_confirm': function () {
+            that.goToIndex();
+          }
+        });
       }).then(urls => {
         // 调用保存问题的后端接口
         // return that.createQuestion({
