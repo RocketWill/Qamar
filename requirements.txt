@@ -2,6 +2,6 @@ flask
 flask-sqlalchemy
 mysqlclient
 flask-script
-flask-sqlacodege
+flask-sqlacodegen
 requests
 flask-mail

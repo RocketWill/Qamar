@@ -22,4 +22,13 @@
     padding: 3px;
 }
 
+.reply-title{
+    background-color: #5969ff;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    margin-right: 5px;
+    font-size: 1.1rem;
+}
+
 

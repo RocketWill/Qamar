@@ -114,7 +114,7 @@ def reply():
     reply_info.title = title
     reply_info.content = content
     reply_info.nickname = admin.nickname
-    reply_info.uid = uid
+    reply_info.aid = uid
     reply_info.qid = qid
     reply_info.cat_id = question.cat_id
     reply_info.updated_time = reply_info.created_time = getCurrentDate()
@@ -122,4 +122,129 @@ def reply():
     db.session.add(reply_info)
     db.session.commit()
 
+    question.comment_count = str(int(question.comment_count)+1)
+    db.session.add(question)
+    db.session.commit()
+
     return jsonify(resp)
+
+
+@route_question.route("/all-reply")
+def all_reply():
+    req = request.values
+    page = int(req['p']) if ('p' in req and req['p']) else 1
+    qid = int(req['id']) if ('id' in req and req['id']) else 0
+    resp_data = {}
+    resp_data['current'] = 'question'
+
+    query = Reply.query
+    question = Question.query.filter_by(id=qid).first()
+
+    if (('mix_kw' in req) and (req['mix_kw'] != '')):
+        app.logger.error("---------------"+ req['mix_kw'] +"==================")
+        rule = or_(Reply.nickname.ilike("%{0}%".format(req['mix_kw'])), Reply.title.ilike("%{0}%".format(req['mix_kw'])), Reply.content.ilike("%{0}%".format(req['mix_kw'])))
+        query = query.filter(rule)
+
+    if 'status' in req and int(req['status']) > -1:
+        query = query.filter(Member.status == int(req['status']))
+
+    page_params = {
+        'total': query.count(),
+        'page_size': app.config['PAGE_SIZE'],
+        'page': page,
+        'display': app.config['PAGE_DISPLAY'],
+        'url': request.full_path.replace("&p={}".format(page), "")
+    }
+
+    pages = iPagination(page_params)
+    offset = (page - 1) * app.config['PAGE_SIZE']
+    query = query.filter(Reply.qid == qid)
+    list = query.order_by(Reply.id.desc()).offset(offset).limit(app.config['PAGE_SIZE']).all()
+
+
+    resp_data['list'] = list
+    resp_data['pages'] = pages
+    resp_data['search_con'] = req
+    resp_data['question'] = question
+    resp_data['qid'] = qid
+
+
+    return ops_render("/question/all-reply.html",resp_data)
+
+@route_question.route("/edit", methods=["GET","POST"])
+def edit():
+    if request.method == "GET":
+        resp_data = {}
+        resp_data['current'] = 'question'
+
+        req = request.args
+        rid = int(req.get('id', 0))
+
+        if rid < 1:
+            return redirect(UrlManager.buildUrl('/question/index'))
+
+        reply = Reply.query.filter_by(id = rid).first()
+
+        if not reply:
+            return redirect(UrlManager.buildUrl('/question/index'))
+
+
+        resp_data['info'] = reply
+        resp_data['qid'] = reply.qid
+        resp_data['aid'] = reply.aid
+
+        return ops_render('/question/edit.html',resp_data)
+
+    req = request.values
+    resp = {'code':200,'msg':'更新成功','data':{}}
+    content = req['content'] if 'content' in req else ''
+    if not content or len(content) < 10:
+        resp['code'] = -1
+        resp['msg'] = "請輸入至少10字的回覆"
+        return jsonify(resp)
+
+    qid = req['qid'] if 'qid' in req else 0
+    aid = req['aid'] if 'aid' in req else 0
+    rid = req['rid'] if 'rid' in req else 0
+
+    if int(qid) < int(1) or int(aid) < int(1) or int(rid) < 1:
+        resp['code'] = -1
+        resp['msg'] = "無法取得問題、回覆或管理員資訊"
+        return jsonify(resp)
+
+    admin = User.query.filter_by(uid=aid).first()
+    if not admin:
+        resp['code'] = -1
+        resp['msg'] = "無法取得管理員資訊"
+        return jsonify(resp)
+
+    question = Question.query.filter_by(id=qid).first()
+    if not question:
+        resp['code'] = -1
+        resp['msg'] = "無法取得問題資訊"
+        return jsonify(resp)
+
+    reply = Reply.query.filter_by(id=rid).first()
+
+    if not reply:
+        resp['code'] = -1
+        resp['msg'] = "無法取得先前回覆資訊"
+        return jsonify(resp)
+
+    if reply.content == content:
+        resp['code'] = -1
+        resp['msg'] = "內容沒有更動喔"
+        return jsonify(resp)
+
+    reply.content = content
+    reply.updated_time = getCurrentDate()
+    db.session.add(reply)
+    db.session.commit()
+
+    return jsonify(resp)
+
+
+
+
+
+

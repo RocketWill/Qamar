@@ -43,38 +43,25 @@
                                 <div class="card">
                                     <h4 class="card-header">{{ info.title }}</h4>
                                     <!--<h5 class="card-header">{{info.content}}</h5>-->
-                                    <div class="card-body">
-                                        <p class="card-text">{{info.content}}</p>
-                                        {% if file %}
-                                        <p class="card-text" style="font-size: 12px;">提問者上傳之附件（點擊查看完整檔案）</p>
-                                        {% for item in file %}
-                                        <a href="/{{item.path}}" target="_blank"><img class="img-fluid rounded square-pic" width="33%" src="/{{item.path}}" alt="User uploaded images">
-</a>
 
-
-
-                                        {% endfor %}
-                                        {% endif %}
-
-
-                                    </div>
-                                    <div class="card-body border-top replay-wrap">
-                                        <h3>回覆區</h3>
+                                    <div class="card-body border-top edit-wrap">
+                                        <h3>編輯回覆</h3>
                                         <form>
                                             <div class="form-group">
-                                                <label for="title" class="col-form-label">回覆標題</label>
-                                                <input id="title" type="text" class="form-control" readonly {% if info %}value="回覆：{{ info.title }}"{% endif %}>
+                                                <label for="title" class="col-form-label">回覆標題（選填）</label>
+                                                <input id="title" type="text" class="form-control" readonly value="{{info.title}}">
                                             </div>
                                             <div class="form-group">
                                                 <label for="content">回覆內容</label>
-                                                <textarea class="form-control" id="content" rows="3"></textarea>
+                                                <textarea class="form-control" id="content" rows="3">{{info.content}}</textarea>
                                             </div>
                                             <div class="custom-file mb-3">
                                                 <input type="file" id="upload-file">
                                                 <label class="custom-file-label" for="upload-file">上傳附件</label>
                                             </div>
                                             <input type="hidden" id="qid" value="{{qid}}">
-                                            <input type="hidden" id="uid" value="{{uid}}">
+                                            <input type="hidden" id="rid" value="{{info.id}}">
+                                            <input type="hidden" id="aid" value="{{aid}}">
                                             <a href="#" class="btn btn-primary btn-lg save">送出</a>
                                         </form>
                                     </div>
@@ -119,7 +106,7 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{{ buildStaticUrl('/libs/js/question/reply.js') }}"></script>
+    <script src="{{ buildStaticUrl('/libs/js/question/edit.js') }}"></script>
 {% endblock %}
 
 
