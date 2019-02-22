@@ -91,14 +91,15 @@ def reply():
         return jsonify(resp)
 
     qid = req['qid'] if 'qid' in req else 0
+    aid = req['aid'] if 'aid' in req else 0
     uid = req['uid'] if 'uid' in req else 0
 
-    if int(qid) < int(1) or int(uid) < int(1):
+    if int(qid) < int(1) or int(aid) < int(1):
         resp['code'] = -1
         resp['msg'] = "無法取得問題或管理員資訊"
         return jsonify(resp)
 
-    admin = User.query.filter_by(uid = uid).first()
+    admin = User.query.filter_by(uid = aid).first()
     if not admin:
         resp['code'] = -1
         resp['msg'] = "無法取得管理員資訊"
@@ -114,7 +115,8 @@ def reply():
     reply_info.title = title
     reply_info.content = content
     reply_info.nickname = admin.nickname
-    reply_info.aid = uid
+    reply_info.aid = aid
+    reply_info.uid = uid
     reply_info.qid = qid
     reply_info.cat_id = question.cat_id
     reply_info.updated_time = reply_info.created_time = getCurrentDate()

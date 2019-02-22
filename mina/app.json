@@ -13,6 +13,7 @@
     "pages/my/index",
     "pages/email/index",
     "pages/first/index",
+    "pages/first/reply",
     "pages/question/index",
     "pages/question-ask/question-ask"
   ],
@@ -48,6 +49,5 @@
         "text": "我的"
       }
     ]
-  },
-  "enablePullDownRefresh": true
+  }
 }

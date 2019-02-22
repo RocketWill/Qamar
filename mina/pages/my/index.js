@@ -9,7 +9,7 @@ Page({
         let that = this;
         that.setData({
             user_info: {
-                nickname: "编程浪子",
+                nickname: "卡數洞",
                 avatar_url: "/images/more/logo.png"
             },
         })

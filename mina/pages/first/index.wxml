@@ -43,7 +43,7 @@
 <scroll-view scroll-y="true">
     <!--内容开始-->
         <block class="block" wx:for="{{qu}}">
-        <view class="list">
+        <view class="list" bindtap='toReply' data-qid="{{item.id}}">
             <view class="left-content">
                 <view id="title">{{item.title}}</view>
                 <view id="content">{{item.content}}</view>

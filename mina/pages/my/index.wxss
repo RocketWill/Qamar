@@ -8,7 +8,7 @@
 	flex-direction: column;
 	padding: 50rpx 0;
 	align-items: center;
-	background: #e85654;
+	background: #2f80ed;
   width: 750rpx;
 }
 

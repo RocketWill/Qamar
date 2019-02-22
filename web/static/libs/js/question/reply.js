@@ -29,8 +29,9 @@ var reply_ops = {
             var data = {
                 'title':title,
                 'content':content,
-                'uid':$("#uid").val(),
+                'aid':$("#aid").val(),
                 'qid':$("#qid").val(),
+                'uid':$("#uid").val(),
             }
 
             $.ajax({

@@ -9,6 +9,7 @@ Page({
       'content': "請確認網絡情況後重試"
     }],
     date: "10月26日 周三",
+    qid:"",
     items: [{
       message: 'foo',
     }, {
@@ -67,6 +68,14 @@ Page({
       url: '../logs/logs'
     })
   },
+  toReply:function(e){
+    var qid = ""+e.currentTarget.dataset.qid;
+    console.log(qid);
+    wx.navigateTo({
+      url: "/pages/first/reply?qid="+qid
+    });
+    //console.log(this.data.qid);
+  },
   onPullDownRefresh() {
     this.getQuestionList();
   },
@@ -88,9 +97,11 @@ Page({
       header: app.getRequestHeader(),
       success: function (res) {
         if (res.data.code == 200) {
+          console.log(res);
           that.setData({
             qu: res.data.data[0],
-            date: res.data.date
+            date: res.data.date,
+            qid: ""+res.data.data[0]['id']
           });
         } else {
           that.setData({

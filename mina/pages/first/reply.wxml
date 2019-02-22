@@ -1,0 +1,41 @@
+<view class='container'>
+  <view class="question-form">
+
+
+
+    <view class="peisong-way" wx:for="{{reply}}">
+      <view class="row-box">
+        <input id="email" name="remark" type="text" class="question-title" bindblur="emailInputEvent" maxlength="40" bindinput="handleTitleInput" placeholder="請輸入您的問題" value="{{item.title}}" />
+        <view class='clear-btn' bindtap='clearContent'>
+          <image src="/images/more/close-circle.png"></image>
+        </view>
+        <view class="title-input-counter">{{titleCount}}/40</view>
+      </view>
+      <view class="row-box">
+
+        <view class="right-text">
+          <textarea id="email" name="remark" type="text" class="question-content" bindinput="handleContentInput" maxlength="500">{{item.content}}</textarea>
+          <view class="weui-textarea-counter">{{contentCount}}/500</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="question-images-area">
+
+      <!-- 添加图片按钮  -->
+      
+      <!-- 图片缩略图  -->
+     
+
+    </view>
+
+    <!-- 提交表单按钮  -->
+
+    <view class="jiesuan-box">
+      <button class="to-index" bindtap="cancelEdit">取消</button>
+      <button class="to-email-validation" bindtap="sureAsk">確認發問</button>
+    </view>
+
+
+  </view>
+</view>

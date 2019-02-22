@@ -10,6 +10,7 @@ class Reply(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     qid = db.Column(db.Integer, nullable=False, server_default=db.FetchedValue())
+    uid = db.Column(db.Integer, nullable=False, server_default=db.FetchedValue())
     aid = db.Column(db.Integer, nullable=False, server_default=db.FetchedValue())
     nickname = db.Column(db.String(100), nullable=False, server_default=db.FetchedValue())
     cat_id = db.Column(db.Integer, nullable=False, server_default=db.FetchedValue())
