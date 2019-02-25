@@ -9,6 +9,7 @@ from common.models.question.QuestionCat import QuestionCat
 from common.models.question.Files import File
 from common.models.User import User
 from common.models.reply.Reply import Reply
+from common.models.question.QuestionCat import QuestionCat
 from sqlalchemy import or_
 
 from application import app, db
@@ -111,6 +112,8 @@ def reply():
         resp['msg'] = "無法取得問題資訊"
         return jsonify(resp)
 
+
+
     reply_info = Reply()
     reply_info.title = title
     reply_info.content = content
@@ -125,6 +128,7 @@ def reply():
     db.session.commit()
 
     question.comment_count = str(int(question.comment_count)+1)
+    question.admin_id = aid
     db.session.add(question)
     db.session.commit()
 
@@ -244,6 +248,108 @@ def edit():
     db.session.commit()
 
     return jsonify(resp)
+
+
+@route_question.route("/cat")
+def cat():
+    resp_data = {}
+    req = request.values
+    query = QuestionCat.query
+
+    if 'status' in req and int(req['status'])> -1:
+        query = query.filter(QuestionCat.status == int(req['status']))
+
+    cat_info = query.order_by(QuestionCat.weight.desc(), QuestionCat.id.desc())
+
+    resp_data['cat_info'] = cat_info
+    resp_data['search_con'] = req
+    resp_data['pages'] = ''
+    resp_data['current'] = 'question'
+    resp_data['status_mapping'] = app.config['STATUS_MAPPING']
+    return ops_render("/question/cat.html", resp_data)
+
+
+@route_question.route("/cat-set", methods=['GET',"POST"])
+def cat_set():
+    if request.method == "GET":
+        resp_data = {}
+        req = request.args
+        cat_id = int(req.get("cat_id",0))
+        cat_info = None
+        if cat_id:
+            cat_info = QuestionCat.query.filter_by(id = cat_id).first()
+        resp_data['cat_info'] = cat_info
+        resp_data['current'] = 'question'
+
+        return ops_render("/question/cat-set.html", resp_data)
+
+    req = request.values
+    resp = {'code': 200, 'msg': '更新成功', 'data': {}}
+
+    cat_id = req['cat_id'] if 'cat_id' in req else 0
+    cat_name = req['cat_name'] if 'cat_name' in req else 0
+    cat_weight = int(req['cat_weight']) if ('cat_weight' in req and int(req['cat_weight'])>0) else 1
+
+    if cat_name == None or len(cat_name) < 2:
+        resp['code'] = -1
+        resp['msg'] = "請輸入符合規的分類名稱"
+        return jsonify(resp)
+
+    question_cat_info = QuestionCat.query.filter_by(id=cat_id).first()
+
+    if question_cat_info:
+        model_question_cat = question_cat_info
+    else:
+        model_question_cat = QuestionCat()
+        model_question_cat.created_time = getCurrentDate()
+
+    model_question_cat.name = cat_name
+    model_question_cat.weight = cat_weight
+    model_question_cat.updated_time = getCurrentDate()
+
+    db.session.add(model_question_cat)
+    db.session.commit()
+    return jsonify(resp)
+
+
+
+@route_question.route("/cat-ops", methods=["POST"])
+def catOps():
+    resp = {'code':200,"msg":"操作成功","data":{}}
+    req = request.values
+    cat_id = req['cat_id'] if 'cat_id' in req else 0
+    act = req['act'] if 'act' in req else ''
+
+    if not cat_id:
+        resp['code'] = -1
+        resp['msg'] = "查詢不到此問題分類"
+        return jsonify(resp)
+
+    question_cat_info = QuestionCat.query.filter_by(id = cat_id).first()
+    if not question_cat_info:
+        resp['code'] = -1
+        resp['msg'] = "查詢不到此問題分類"
+        return jsonify(resp)
+
+    if act not in ["remove","recover"]:
+        resp['code'] = -1
+        resp['msg'] = "無法執行此操作"
+        return jsonify(resp)
+
+    if act == "remove":
+        question_cat_info.status = 0
+
+    if act == "recover":
+        question_cat_info.status = 1
+
+    db.session.add(question_cat_info)
+    db.session.commit()
+    return jsonify(resp)
+
+
+
+
+
 
 
 

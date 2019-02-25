@@ -211,3 +211,13 @@ textarea {
 .niming switch {
   padding: 10rpx;
 }
+
+.card {
+  background: #fff;
+  border-radius: 2px;
+  display: inline-block;
+  height: 300px;
+  margin: 1rem;
+  position: relative;
+  width: 300px;
+}

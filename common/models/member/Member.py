@@ -36,3 +36,5 @@ class Member(db.Model):
         return sex_mapping[str(self.sex)]
 
 
+
+

@@ -37,15 +37,18 @@ def getReply():
 
     resp['qid'] = qid
 
-    reply_info = Reply.query.filter_by(qid=qid).all()
+    reply_info = Reply.query.filter_by(qid=qid).order_by(Reply.updated_time.desc()).all()
     if not reply_info:
         resp['code'] = -1
         resp['msg'] = "無法取得回覆信息"
         return jsonify(resp)
 
+
     reply_schema = ReplySchema(many=True)
-    ouput = reply_schema.dump(reply_info)
-    resp['data'] = ouput
+    output = reply_schema.dump(reply_info)
+    app.logger.error(output)
+    #app.logger.error(json.loads(output))
+    resp['data'] = output
 
     return jsonify(resp)
 

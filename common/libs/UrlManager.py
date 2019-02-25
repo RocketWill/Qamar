@@ -2,6 +2,7 @@
 import time
 
 
+
 class UrlManager(object):
     def __init__(self):
         pass
@@ -22,3 +23,9 @@ class UrlManager(object):
         elif show_ver =="No":
             path = "/static" + path
         return UrlManager.buildUrl( path )
+
+    @staticmethod
+    def buildImageUrl(path):
+        from application import app
+        url = app.config['APP']['domain'] + app.config['UPLOAD']['prefix_url'] + path
+        return url

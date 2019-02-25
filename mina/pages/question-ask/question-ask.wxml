@@ -3,7 +3,7 @@
 
 
 
-    <view class="peisong-way">
+    <view class="peisong-way card">
       <view class="row-box">
         <input id="email" name="remark" type="text" class="question-title" bindblur="emailInputEvent" maxlength="40" bindinput="handleTitleInput" placeholder="請輸入您的問題" value="{{title}}" />
         <view class='clear-btn' bindtap='clearContent'>

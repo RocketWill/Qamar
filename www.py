@@ -20,6 +20,7 @@ from web.controllers.static import route_static
 from web.controllers.api import route_api
 from web.controllers.mail import route_mail
 from web.controllers.question.Question import route_question
+from web.controllers.upload.Upload import route_upload
 from web.controllers.show_image.image import route_image
 
 
@@ -33,3 +34,4 @@ app.register_blueprint(route_question, url_prefix='/question')
 app.register_blueprint(route_api, url_prefix='/api')
 app.register_blueprint(route_mail, url_prefix='/mail')
 app.register_blueprint(route_image, url_prefix='/image')
+app.register_blueprint(route_upload, url_prefix='/upload')

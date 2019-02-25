@@ -1,0 +1,172 @@
+{% extends 'common/layout_main.html' %}
+{% block content %}
+<div class="dashboard-wrapper">
+            <div class="container-fluid  dashboard-content">
+                <!-- ============================================================== -->
+                <!-- pageheader -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="page-header">
+                            <h2 class="pageheader-title">問題分類列表</h2>
+                            <p class="pageheader-text">Proin placerat ante duiullam scelerisque a velit ac porta, fusce sit amet vestibulum mi. Morbi lobortis pulvinar quam.</p>
+                            <div class="page-breadcrumb">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
+                                        <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Tables</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">General Tables</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================================== -->
+                <!-- end pageheader -->
+                <!-- ============================================================== -->
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <form class="form-inline wrap_search">
+                                <div class="row" style="padding: 0px 15px;">
+                                    <div class="form-group">
+                                        <select name="status" class="form-control inline">
+                                            <option value="-1">请选择状态</option>
+                                            {% for tmp_key in status_mapping %}
+                                            <option value="{{ tmp_key }}" {% if tmp_key== search_con['status'] %} selected {% endif %}>{{ status_mapping[tmp_key] }}</option>
+                                            {% endfor %}
+
+                                        </select>
+                                    </div>
+
+                                    <!--<div class="form-group">-->
+                                        <!--<div class="input-group">-->
+                                            <!--<input type="text" name="mix_kw" placeholder="分類名稱"-->
+                                                   <!--class="form-control" value="{{search_con.mix_kw}}" style="-->
+                                        <!--margin-left: 10px;">-->
+                                            <!--<input type="hidden" name="p" value="{{search_con.p}}">-->
+                                            <!--<span class="input-group-btn">-->
+                                            <!--<button type="button" class="btn btn-primary search">-->
+                                                <!--<i class="fa fa-search"></i> 搜索-->
+                                            <!--</button>-->
+                                        <!--</span>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                </div>
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                            <div class="card-body">
+                                <a href="/question/cat-set" class="btn btn-primary"><span class="fas fa-plus"></span> 新增問題分類</a>
+                            </div>
+                        <!-- ============================================================== -->
+                        <!-- striped table -->
+                        <!-- ============================================================== -->
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">問題分類列表</h5>
+                                <div class="card-body">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">序號</th>
+                                                <th scope="col">分類名稱</th>
+                                                <th scope="col">狀態</th>
+                                                <th scope="col">權重</th>
+                                                <th scope="col">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if cat_info %}
+                                            {% for item in cat_info %}
+                                            <tr>
+                                                <td>{{ item.id }}</td>
+                                                <td>{{ item.name }}</td>
+                                                <td>{{ item.status_desc }}</td>
+                                                <td>{{ item.weight }}</td>
+
+                                                <td class="action">
+
+
+                                                    {% if item.status == 1 %}
+                                                    <a class="m-l" href="{{ buildUrl('/question/cat-set') }}?cat_id={{ item.id }}">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+
+
+                                                    <a class="m-l remove" href="javascript:void(0);" cat_id="{{ item.id }}">
+                                                        <i class="fa fa-trash"></i>
+                                                    </a>
+
+                                                    {% else %}
+
+                                                    <a class="m-l recover" href="javascript:void(0);" cat_id="{{ item.id }}">
+                                                        <i class="fa fa-undo"></i>
+                                                    </a>
+                                                    {% endif %}
+
+                                                </td>
+
+                                            </tr>
+                                            {% endfor %}
+                                            {% else %}
+                                            <tr><td colspan="5">暫無數據</td></tr>
+
+                                            {% endif %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ============================================================== -->
+                        <!-- end striped table -->
+                        <!-- ============================================================== -->
+
+                        <!--<div class="row">-->
+                            <!--<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">-->
+                                    <!--{% include "common/pagenation.html" %}-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    </div>
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <div class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                            Copyright © 2018 Concept. All rights reserved. Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>.
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                            <div class="text-md-right footer-links d-none d-sm-block">
+                                <a href="javascript: void(0);">About</a>
+                                <a href="javascript: void(0);">Support</a>
+                                <a href="javascript: void(0);">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end footer -->
+            <!-- ============================================================== -->
+        </div></div>
+{% endblock %}
+
+{%block css %}
+<link rel="stylesheet" href="{{ buildStaticUrl('/libs/css/account/style.css') }}">
+{% endblock %}
+
+{% block js %}
+    <script src="{{ buildStaticUrl('/libs/js/question/cat.js') }}"></script>
+{% endblock %}
+
+

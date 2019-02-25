@@ -37,28 +37,25 @@ Page({
     duration: 500,
     categories: [{
         id: 0,
-        name: "最熱門"
+        name: "官方回覆"
       },
       {
         id: 1,
-        name: "最實用"
+        name: "本週熱門"
       },
       {
         id: 2,
-        name: "今日火熱"
+        name: "尚未解答"
       },
       {
         id: 3,
-        name: "最熱門"
+        name: "歷史火熱"
       },
       {
         id: 4,
-        name: "最實用"
+        name: "所有問題"
       },
-      {
-        id: 5,
-        name: "今日火熱"
-      },
+      
     ],
     activeCategoryId: 3,
   },
@@ -70,10 +67,20 @@ Page({
   },
   toReply:function(e){
     var qid = ""+e.currentTarget.dataset.qid;
-    console.log(qid);
-    wx.navigateTo({
-      url: "/pages/first/reply?qid="+qid
-    });
+    var count = e.currentTarget.dataset.count;
+    console.log(count);
+    if (count == 0){
+      app.tip({
+        'content':"此問題尚未有回覆"
+      });
+    }
+    else{
+      //console.log(qid);
+      wx.navigateTo({
+        url: "/pages/first/reply?qid=" + qid
+      });
+    }
+    
     //console.log(this.data.qid);
   },
   onPullDownRefresh() {
@@ -84,6 +91,15 @@ Page({
       url: '/pages/question-ask/question-ask',
     });
   },
+
+  setActiveId: function(e){
+    var id = e.currentTarget.dataset.id;
+    //console.log(id);
+    this.setData({
+      activeCategoryId: id,
+    });
+  },
+
 
   getQuestionList: function(){
     var that = this;

@@ -3,19 +3,17 @@
 
 
 
-    <view class="peisong-way" wx:for="{{reply}}">
+    <view class="peisong-way" wx:for="{{reply}}" wx:key="{{item.id}}">
       <view class="row-box">
         <input id="email" name="remark" type="text" class="question-title" bindblur="emailInputEvent" maxlength="40" bindinput="handleTitleInput" placeholder="請輸入您的問題" value="{{item.title}}" />
-        <view class='clear-btn' bindtap='clearContent'>
-          <image src="/images/more/close-circle.png"></image>
-        </view>
-        <view class="title-input-counter">{{titleCount}}/40</view>
+        
+        <view class="title-input-counter">回復人：{{item.nickname}}</view>
       </view>
       <view class="row-box">
 
         <view class="right-text">
           <textarea id="email" name="remark" type="text" class="question-content" bindinput="handleContentInput" maxlength="500">{{item.content}}</textarea>
-          <view class="weui-textarea-counter">{{contentCount}}/500</view>
+          <view class="weui-textarea-counter">更新時間：{{item.updated_time}}</view>
         </view>
       </view>
     </view>
