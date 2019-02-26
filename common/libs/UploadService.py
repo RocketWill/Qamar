@@ -25,7 +25,7 @@ class UploadService():
             os.mkdir(save_dir)
             os.chmod(save_dir, stat.S_IRWXU | stat.S_IRGRP | stat.S_IRWXO)
 
-        file_name = str(uuid.uuid4()).replace("-", "") + "." + ext
+        filename = str(uuid.uuid4()).replace("-", "") + "." + ext
         file.save("{0}/{1}".format(save_dir, filename))
 
         model_image = Image()

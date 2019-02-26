@@ -78,6 +78,8 @@ var reply_ops = {
                 return false;
             }
 
+            console.log($(".del_file").attr("data"));
+
 
             btn_target.addClass("disable");
 
@@ -86,7 +88,7 @@ var reply_ops = {
                 'content': content,
                 'tags':tags,
                 'cat_id':cat_id,
-                'file':$(".upload_file_wrap .file-each .del-file").attr("data"),
+                'file':$(".del_file").attr("data"),
                 'aid': $("#aid").val(),
                 'qid': $("#qid").val(),
                 'uid': $("#uid").val(),

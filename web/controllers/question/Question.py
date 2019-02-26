@@ -11,6 +11,7 @@ from common.models.User import User
 from common.models.reply.Reply import Reply
 from common.models.question.QuestionCat import QuestionCat
 from sqlalchemy import or_
+from common.models.Image import Image
 
 from application import app, db
 
@@ -94,6 +95,7 @@ def reply():
     content = req['content'] if 'content' in req else ''
     tags = req['tags'] if 'tags' in req else ''
     cat_id = int(req['cat_id']) if 'cat_id' in req else 0
+    file_key = req['file'] if 'file' in req else ''
 
     app.logger.error(cat_id)
     if not content or len(content)<10:
@@ -147,6 +149,14 @@ def reply():
     question.cat_id = reply_info.cat_id
     db.session.add(question)
     db.session.commit()
+
+    if file_key:
+        model_image = Image()
+        model_image.file_key =file_key
+        model_image.rid = reply_info.id
+        model_image.created_time = getCurrentDate()
+        db.session.add(model_image)
+        db.session.commit()
 
     return jsonify(resp)
 
@@ -210,10 +220,12 @@ def edit():
         if not reply:
             return redirect(UrlManager.buildUrl('/question/index'))
 
+        file_info = Image.query.filter_by(rid = reply.id).first()
 
         resp_data['info'] = reply
         resp_data['qid'] = reply.qid
         resp_data['aid'] = reply.aid
+        resp_data['file'] = file_info
 
         return ops_render('/question/edit.html',resp_data)
 

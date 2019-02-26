@@ -72,6 +72,17 @@
                                                         <label class="custom-file-label" for="upload-file">上傳附件</label>
                                                     </div>
                                                 </form>
+
+                                                {% if file and file.file_key %}
+                                                <span class="file-each">
+                                                    <img style="width: 150px; margin-bottom: 100px;" src="{{buildImageUrl(file.file_key)}}"/>
+                                                    <span class="fa fa-times-circle del del_file"
+                                                      data="{{file.file_key}}"></span>
+                                                </span>
+
+
+                                                {% endif %}
+
                                             </div>
                                             <input type="hidden" id="qid" value="{{qid}}">
                                             <input type="hidden" id="rid" value="{{info.id}}">
