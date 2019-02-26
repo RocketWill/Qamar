@@ -46,24 +46,38 @@
 
                                     <div class="card-body border-top edit-wrap">
                                         <h3>編輯回覆</h3>
-                                        <form>
+                                        <div>
                                             <div class="form-group">
-                                                <label for="title" class="col-form-label">回覆標題（選填）</label>
+                                                <label for="title" class="col-form-label">回覆標題</label>
                                                 <input id="title" type="text" class="form-control" readonly value="{{info.title}}">
                                             </div>
+                                            <label>回覆內容</label>
+                                            <div class="form-group" id="content">
+
+                                            </div>
+                                            <input class="form-control" type="hidden" id="content-invis"
+                                                   value="{{info.content}}">
                                             <div class="form-group">
-                                                <label for="content">回覆內容</label>
-                                                <textarea class="form-control" id="content" rows="3">{{info.content}}</textarea>
+                                                <label for="tags" class="col-form-label">標籤</label>
+                                                <input id="tags" type="text" class="form-control" name="tags" {%if info.tags %}value="{{info.tags}}"{% endif %}>
                                             </div>
                                             <div class="custom-file mb-3">
-                                                <input type="file" id="upload-file">
-                                                <label class="custom-file-label" for="upload-file">上傳附件</label>
+                                                <form class="upload_file_wrap" target="upload-file-target"
+                                                      enctype="multipart/form-data"
+                                                      action="{{buildUrl('/upload/file')}}"
+                                                      method="POST">
+                                                    <div>
+                                                        <input type="file" id="upload-file" name="file"
+                                                               accept="image/jpeg, image/png, image/gif, image/jpg">
+                                                        <label class="custom-file-label" for="upload-file">上傳附件</label>
+                                                    </div>
+                                                </form>
                                             </div>
                                             <input type="hidden" id="qid" value="{{qid}}">
                                             <input type="hidden" id="rid" value="{{info.id}}">
                                             <input type="hidden" id="aid" value="{{aid}}">
                                             <a href="#" class="btn btn-primary btn-lg save">送出</a>
-                                        </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -99,14 +113,28 @@
             <!-- end footer -->
             <!-- ============================================================== -->
         </div>
+<iframe name="upload-file-target" class="hide"></iframe>
 {% endblock %}
 
 {%block css %}
 <link rel="stylesheet" href="{{ buildStaticUrl('/libs/css/question/style.css') }}">
+<link rel="stylesheet" href="{{ buildStaticUrl('/libs/plugins/select2/select2.min.css') }}">
+<link rel="stylesheet" href="{{ buildStaticUrl('/libs/plugins/tagsinput/jquery.tagsinput.min.css') }}">
 {% endblock %}
 
 {% block js %}
-    <script src="{{ buildStaticUrl('/libs/js/question/edit.js') }}"></script>
+<script src="{{ buildStaticUrl('/libs/js/question/edit.js') }}"></script>
+<script src="{{ buildStaticUrl('/libs/plugins/ueditor/ueditor.config.js') }}"></script>
+<script src="{{ buildStaticUrl('/libs/plugins/ueditor/ueditor.all.js') }}"></script>
+<script src="{{ buildStaticUrl('/libs/plugins/ueditor/lang/zh-cn/zh-cn.js') }}"></script>
+
+
+<script src="{{ buildStaticUrl('/libs/plugins/select2/select2.pinyin.js') }}"></script>
+<script src="{{ buildStaticUrl('/libs/plugins/select2/zh-CN.js') }}"></script>
+<script src="{{ buildStaticUrl('/libs/plugins/select2/pinyin.core.js') }}"></script>
+
+
+<script src="{{ buildStaticUrl('/libs/plugins/tagsinput/jquery.tagsinput.min.js') }}"></script>
 {% endblock %}
 
 

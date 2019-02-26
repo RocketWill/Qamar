@@ -150,7 +150,11 @@ var common_ops = {
             _paramUrl = "?"+_paramUrl;
         }
         return url+_paramUrl;
-    }
+    },
+    buildFileUrl:function (file_key) {
+        return "http://127.0.0.1:8999/static/upload/"+file_key
+    },
+
 };
 
 $(document).ready( function() {

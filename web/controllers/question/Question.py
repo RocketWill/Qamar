@@ -23,6 +23,8 @@ def index():
     resp_data = {}
     resp_data['current'] = 'question'
 
+    cat_list = QuestionCat.query.all()
+
     query = Question.query
 
     if 'mix_kw' in req:
@@ -48,6 +50,7 @@ def index():
     resp_data['list'] = list
     resp_data['pages'] = pages
     resp_data['search_con'] = req
+    resp_data['cat_list'] = cat_list
 
 
     return ops_render('question/index.html',resp_data)
@@ -75,10 +78,13 @@ def reply():
         if not admin:
             return redirect(UrlManager.buildUrl('/question/index'))
 
+        cat_list = QuestionCat.query.all()
+
         resp_data['info'] = info
         resp_data['file'] = file
         resp_data['qid'] = id
         resp_data['uid'] = admin.uid
+        resp_data['cat_list'] = cat_list
 
         return ops_render('question/reply.html', resp_data)
 
@@ -86,6 +92,10 @@ def reply():
     req = request.values
     title = req['title'] if 'title' in req else ''
     content = req['content'] if 'content' in req else ''
+    tags = req['tags'] if 'tags' in req else ''
+    cat_id = int(req['cat_id']) if 'cat_id' in req else 0
+
+    app.logger.error(cat_id)
     if not content or len(content)<10:
         resp['code'] = -1
         resp['msg'] = "請輸入至少10字的回覆"
@@ -113,22 +123,28 @@ def reply():
         return jsonify(resp)
 
 
-
     reply_info = Reply()
     reply_info.title = title
     reply_info.content = content
+    reply_info.cat_id = cat_id
+    reply_info.tags = tags
     reply_info.nickname = admin.nickname
     reply_info.aid = aid
     reply_info.uid = uid
     reply_info.qid = qid
-    reply_info.cat_id = question.cat_id
+    # reply_info.cat_id = question.cat_id
     reply_info.updated_time = reply_info.created_time = getCurrentDate()
+
+    if question.cat_id > 0:
+        question_cat = QuestionCat.query.filter_by(id = cat_id).first()
+        resp['msg'] = "已將問題分類更改成{}".format(question_cat.name)
 
     db.session.add(reply_info)
     db.session.commit()
 
     question.comment_count = str(int(question.comment_count)+1)
     question.admin_id = aid
+    question.cat_id = reply_info.cat_id
     db.session.add(question)
     db.session.commit()
 
@@ -204,6 +220,7 @@ def edit():
     req = request.values
     resp = {'code':200,'msg':'更新成功','data':{}}
     content = req['content'] if 'content' in req else ''
+    tags = req['tags'] if 'tags' in req else ''
     if not content or len(content) < 10:
         resp['code'] = -1
         resp['msg'] = "請輸入至少10字的回覆"
@@ -243,6 +260,7 @@ def edit():
         return jsonify(resp)
 
     reply.content = content
+    reply.tags = tags
     reply.updated_time = getCurrentDate()
     db.session.add(reply)
     db.session.commit()

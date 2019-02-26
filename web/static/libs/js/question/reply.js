@@ -1,11 +1,50 @@
 ;
+var upload = {
+    error: function (msg) {
+        common_ops.alert(msg);
+    },
+    success: function (file_key) {
+        if (!file_key) {
+            return;
+        }
+        var html = '<img style="width: 150px; margin-bottom: 100px;" src="' + common_ops.buildFileUrl(file_key) + '"/>'
+            + '<span class="fa fa-times-circle del del_file" data="' + file_key + '"></span>';
+
+        if ($(".upload_file_wrap .file-each").size() > 0) {
+            $(".upload_file_wrap .file-each").html(html);
+        } else {
+            $(".upload_file_wrap").append('<span "width: 150px; margin-bottom: 100px;"  class="file-each">' + html + '</span>');
+        }
+        reply_ops.delete_file();
+    }
+};
 var reply_ops = {
     init: function () {
         this.eventBind();
         this.initEditor();
+        this.delete_file();
     },
     eventBind: function () {
         var that = this;
+
+        $('.replay-wrap select[name=cat_id]').select2({
+            language:'zh-CN',
+            width:'100%'
+        });
+
+        $('.replay-wrap input[name=tags]').tagsInput({
+            width:'auto',
+            height:40,
+        });
+
+        $('#upload-file').change(function () {
+            console.log("work");
+            $('.upload_file_wrap').submit();
+            console.log("work2");
+        });
+
+
+
         $(".replay-wrap .save").click(function () {
             var btn_target = $(this);
             if (btn_target.hasClass("disable")) {
@@ -16,11 +55,26 @@ var reply_ops = {
             var title_target = $('#title');
             var title = title_target.val();
 
-            var content_target = $('#content');
-            var content = content_target.val();
+            // var content_target = $('#content');
+            // var content = content_target.val();
+
+            var cat_id_target = $('select[name=cat_id]');
+            var cat_id = cat_id_target.val();
+
+            //alert(cat_id);
+
+            var content = $.trim(that.ue.getContent());
+
+            var tags_target = $("input[name=tags]");
+            var tags = $.trim(tags_target.val())
+
+            if (parseInt(cat_id) < 1){
+                common_ops.tip("請選擇問題分類",cat_id_target);
+                return false;
+            }
 
             if (!content || content.length < 10) {
-                common_ops.tip("請輸入至少10字的回覆", content_target);
+                common_ops.alert("請輸入至少10字的回覆");
                 return false;
             }
 
@@ -30,6 +84,9 @@ var reply_ops = {
             var data = {
                 'title': title,
                 'content': content,
+                'tags':tags,
+                'cat_id':cat_id,
+                'file':$(".upload_file_wrap .file-each .del-file").attr("data"),
                 'aid': $("#aid").val(),
                 'qid': $("#qid").val(),
                 'uid': $("#uid").val(),
@@ -95,6 +152,11 @@ var reply_ops = {
             zIndex: 4,
             serverUrl: '/upload/ueditor'
         });
+    },
+    delete_file:function () {
+       $(".del_file").unbind().click(function () {
+           $(this).parent().remove();
+       });
     }
 };
 

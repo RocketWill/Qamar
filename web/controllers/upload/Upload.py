@@ -34,6 +34,19 @@ def ueditor():
 
     return "upload"
 
+@route_upload.route("/file", methods=["GET","POST"])
+def uploadFile():
+    file_target = request.files
+    upfile = file_target['file'] if 'file' in file_target else None
+    callback_target = 'window.parent.upload'
+    if upfile is None:
+        return "<script type='text/javascript'>{0}.error('{1}')</script>".format(callback_target, "上傳失敗")
+
+    ret = UploadService.uploadByFile(upfile)
+    if ret['code'] != 200:
+        return "<script type='text/javascript'>{0}.error('{1}')</script>".format(callback_target, "上傳失敗"+ret['msg'])
+    return "<script type='text/javascript'>{0}.success('{1}')</script>".format(callback_target, ret['data']['file_key'])
+
 
 def uploadImage():
     resp = {'state':'SUCCESS','url':'',"title":'','original':""}
