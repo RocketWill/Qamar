@@ -50,6 +50,8 @@ def getReply():
     #app.logger.error(json.loads(output))
     resp['data'] = output
 
+
+
     return jsonify(resp)
 
 

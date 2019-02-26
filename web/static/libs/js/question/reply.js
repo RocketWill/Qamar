@@ -7,13 +7,13 @@ var upload = {
         if (!file_key) {
             return;
         }
-        var html = '<img style="width: 150px; margin-bottom: 100px;" src="' + common_ops.buildFileUrl(file_key) + '"/>'
+        var html = '<img style="width: 150px; margin-bottom: 20px;" src="' + common_ops.buildFileUrl(file_key) + '"/>'
             + '<span class="fa fa-times-circle del del_file" data="' + file_key + '"></span>';
 
-        if ($(".upload_file_wrap .file-each").size() > 0) {
-            $(".upload_file_wrap .file-each").html(html);
+        if ($(".show-upload-file-wrap .file-each").size() > 0) {
+            $(".show-upload-file-wrap .file-each").html(html);
         } else {
-            $(".upload_file_wrap").append('<span "width: 150px; margin-bottom: 100px;"  class="file-each">' + html + '</span>');
+            $(".show-upload-file-wrap").append('<span "width: 150px; margin-bottom: 100px;"  class="file-each">' + html + '</span>');
         }
         reply_ops.delete_file();
     }
@@ -146,7 +146,7 @@ var reply_ops = {
 
     initEditor: function () {
         var that = this;
-        that.ue = UE.getEditor('content-test', {
+        that.ue = UE.getEditor('content', {
             toolbars: [['undo', 'redo', '|', 'bold', 'italic', 'underline', 'strikethrough', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', '|', 'rowspacingtop', 'rowspacingbottom', 'lineheight'], ['customstyle', 'paragraph', 'fontfamily', 'fontsize', '|', 'directionalityltr', 'directionalityrtl', 'indent', '|', 'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|', 'link', 'unlink'], ['imagenone', 'imageleft', 'imageright', 'imagecenter', '|', 'insertimage', 'insertvideo', '|', 'horizontal', 'spechars', '|', 'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols']],
             enableAutoSave: true,
             saveInterval: 60000,

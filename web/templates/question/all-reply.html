@@ -87,7 +87,7 @@
                                             <td>{{ item.nickname }}</td>
                                             <td>{{ item.updated_time }}</td>
                                             <td>{{ item.title }}</td>
-                                            <td>{{ item.content }}</td>
+                                            <td>{{ item.content | safe}}</td>
                                             <td class="action">
                                                 <a class="m-l" href="{{ buildUrl('/question/edit') }}?id={{ item.id }}">
                                                     <i class="fa fa-edit"></i> 編輯

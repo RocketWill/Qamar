@@ -7,7 +7,8 @@ import {
 } from '../../utils/common.util'
 //import { createQuestion } from '../../services/question.service'
 //import config from '../../config'
-
+var WxParse = require('../../wxParse/wxParse.js');
+var utils = require('../../utils/util.js');
 var app = getApp();
 const wxUploadFile = promisify(wx.uploadFile)
 
@@ -20,9 +21,13 @@ Page({
     content: '',
     images: [],
     anony: false,
-    qid:"",
-    randomStr: app.randomString(false,12),
-    reply:[{'title':"default",'content':'default'}]
+    qid: "",
+    randomStr: app.randomString(false, 12),
+    reply: [{
+      'title': "default",
+      'content': 'default'
+    }],
+    listArr:""
   },
 
   onLoad(options) {
@@ -33,7 +38,7 @@ Page({
     this.getReply();
   },
 
-  onShow(){
+  onShow() {
     this.setData({
       randomStr: app.randomString(false, 12)
     });
@@ -103,7 +108,7 @@ Page({
     var that = this;
     const title = this.data.title
     const content = this.data.content
-    if (title.length<1 && content.length<1) {
+    if (title.length < 1 && content.length < 1) {
       this.goToIndex();
     } else {
       wx.showModal({
@@ -121,7 +126,7 @@ Page({
 
   },
 
-  goToEmailVerify:function(){
+  goToEmailVerify: function() {
     wx.navigateTo({
       url: "/pages/email/index"
     });
@@ -199,7 +204,7 @@ Page({
           data: {
             'title': title,
             'content': content,
-            'anony':anony,
+            'anony': anony,
             'random_str': randomStr,
             'token': app.getCache('token'),
           },
@@ -217,7 +222,7 @@ Page({
               });
             }
 
-            if (res.data.code == 300){
+            if (res.data.code == 300) {
               wx.hideLoading();
               wx.showModal({
                 title: 'OOPS！請先驗證郵箱',
@@ -232,7 +237,7 @@ Page({
               })
             }
 
-            if (res.data.code==-1){
+            if (res.data.code == -1) {
               wx.hideLoading();
               app.alert({
                 'content': res.data.msg
@@ -248,14 +253,14 @@ Page({
       // 开始并行上传图片
       Promise.all(arr).then(res => {
         var result = JSON.parse(res[0]['data']);
-        console.log(result); 
+        console.log(result);
         // 上传成功，获取这些图片在服务器上的地址，组成一个数组
         if (result.code == 200) {
           //wx.hideLoading();
-           
+
           app.alert({
             'content': '提交成功',
-            'cb_confirm': function () {
+            'cb_confirm': function() {
               that.goToIndex();
             }
           });
@@ -279,7 +284,7 @@ Page({
         console.log(">>>> upload images error:", err)
         app.alert({
           'content': "Oh no！似乎有什麼出錯了，請稍後再試",
-          'cb_confirm': function () {
+          'cb_confirm': function() {
             that.goToIndex();
           }
         });
@@ -319,7 +324,7 @@ Page({
     });
   },
 
-  getReply: function(){
+  getReply: function() {
     var that = this;
     wx.request({
       url: app.buildUrl("/get-reply"),
@@ -328,17 +333,55 @@ Page({
         qid: this.data.qid
       },
       header: app.getRequestHeader(),
-      success: function (res) {
+      success: function(res) {
         //console.log(res);
         if (res.data.code != 200) {
-          
+
         }
         that.setData({
-          reply:res.data.data[0]
+          reply: res.data.data[0]
         });
+
+        //解析html
+        let listRes = res.data.data[0]; //要解析的数据
+        for (let i = 0; i < listRes.length; i++) {
+          console.log(listRes[i].content);
+          WxParse.wxParse('topic' + i, 'html', listRes[i].content, that);
+          if (i === listRes.length - 1) {
+            WxParse.wxParseTemArray("listArr", 'topic', listRes.length, that)
+          }
+        }
+
+        let list = that.data.listArr;
+        for (let i = 0; i < listRes.length; i++) {
+          list[i]['title'] = listRes[i]['title'];
+        }
+        list.map((item, index, arr) => {
+          arr[index][0].id = listRes[index]['id'];
+          arr[index][0].title = listRes[index]['title'];
+          arr[index][0].aid = listRes[index]['aid'];
+          arr[index][0].cat_id = listRes[index]['cat_id'];
+          arr[index][0].created_time = listRes[index]['created_time'];
+
+          arr[index][0].nickname = listRes[index]['nickname'];
+          arr[index][0].qid = listRes[index]['qid'];
+          arr[index][0].tags = listRes[index]['tags'];
+          arr[index][0].uid = listRes[index]['uid'];
+          arr[index][0].updated_time = listRes[index]['updated_time'];
+        });
+
+        console.log(list);
+        that.setData({
+          list: list
+        })
+        
+
         console.log(res);
         //that.goToIndex();
+
+
       }
+
     });
   }
 

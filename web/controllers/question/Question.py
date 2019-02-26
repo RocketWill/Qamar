@@ -233,6 +233,7 @@ def edit():
     resp = {'code':200,'msg':'更新成功','data':{}}
     content = req['content'] if 'content' in req else ''
     tags = req['tags'] if 'tags' in req else ''
+    file_key = req['file'] if 'file' in req else ''
     if not content or len(content) < 10:
         resp['code'] = -1
         resp['msg'] = "請輸入至少10字的回覆"
@@ -275,6 +276,15 @@ def edit():
     reply.tags = tags
     reply.updated_time = getCurrentDate()
     db.session.add(reply)
+    db.session.commit()
+
+    model_image = Image.query.filter_by(rid = reply.id).first()
+    if not model_image:
+        model_image = Image()
+    model_image.file_key = file_key
+    model_image.rid = reply.id
+    model_image.created_time = getCurrentDate()
+    db.session.add(model_image)
     db.session.commit()
 
     return jsonify(resp)

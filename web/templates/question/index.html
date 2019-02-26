@@ -88,7 +88,18 @@
                                         {% for item in list %}
                                             <tr>
                                                 <td>{{item.nickname}}</td>
-                                                <td>{{item.cat_id}}</td>
+                                                <td>
+                                                    {{item.cat_id}}
+                                                    <select name="set_cat_id" id="good" class="form-control inline set_cat_id">
+                                                        <option value="-1">設置分類</option>
+                                                        {% if cat_list %}
+                                                        {% for item in cat_list %}
+                                                        <option value="{{ item.id }}">{{ item.name }}</option>
+                                                        {% endfor %}
+                                                        {% endif %}
+                                                    </select>
+
+                                                </td>
                                                 <td>{{item.created_time}}</td>
                                                 <td>{{item.updated_time}}</td>
                                                 <td>{{item.title}}</td>
@@ -165,10 +176,15 @@
 
 {%block css %}
 <link rel="stylesheet" href="{{ buildStaticUrl('/libs/css/question/style.css') }}">
+<!--<link rel="stylesheet" href="{{ buildStaticUrl('/libs/plugins/select2/select2.min.css') }}">-->
+
 {% endblock %}
 
 {% block js %}
-    <script src="{{ buildStaticUrl('/libs/js/account/index.js') }}"></script>
+<script src="{{ buildStaticUrl('/libs/js/account/index.js') }}"></script>
+<!--<script src="{{ buildStaticUrl('/libs/plugins/select2/select2.pinyin.js') }}"></script>-->
+<!--<script src="{{ buildStaticUrl('/libs/plugins/select2/zh-CN.js') }}"></script>-->
+<!--<script src="{{ buildStaticUrl('/libs/plugins/select2/pinyin.core.js') }}"></script>-->
 {% endblock %}
 
 

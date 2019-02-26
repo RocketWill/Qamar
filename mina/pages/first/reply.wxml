@@ -1,19 +1,25 @@
+<import src="../../wxParse/wxParse.wxml" />
+
 <view class='container'>
   <view class="question-form">
 
 
 
-    <view class="peisong-way" wx:for="{{reply}}" wx:key="{{item.id}}">
+    <view class="peisong-way" wx:for="{{list}}" wx:key="id">
       <view class="row-box">
-        <input id="email" name="remark" type="text" class="question-title" bindblur="emailInputEvent" maxlength="40" bindinput="handleTitleInput" placeholder="請輸入您的問題" value="{{item.title}}" />
-        
-        <view class="title-input-counter">回復人：{{item.nickname}}</view>
+        <input id="email" name="remark" type="text" class="question-title" bindblur="emailInputEvent" maxlength="40" bindinput="handleTitleInput" placeholder="請輸入您的問題" value="{{item[0].title}}" />
+
+        <view class="title-input-counter">回復人：{{item[0].nickname}}</view>
       </view>
       <view class="row-box">
 
         <view class="right-text">
-          <textarea id="email" name="remark" type="text" class="question-content" bindinput="handleContentInput" maxlength="500">{{item.content}}</textarea>
-          <view class="weui-textarea-counter">更新時間：{{item.updated_time}}</view>
+          <textarea id="email" name="remark" type="text" class="question-content" bindinput="handleContentInput" maxlength="500"> <template is="wxParse" data="{{wxParseData:item}}"/></textarea>
+
+
+       
+
+          <view class="weui-textarea-counter">更新時間：{{item[0].updated_time}}</view>
         </view>
       </view>
     </view>
@@ -21,9 +27,9 @@
     <view class="question-images-area">
 
       <!-- 添加图片按钮  -->
-      
+
       <!-- 图片缩略图  -->
-     
+
 
     </view>
 

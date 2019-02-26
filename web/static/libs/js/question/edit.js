@@ -7,13 +7,13 @@ var upload = {
         if (!file_key) {
             return;
         }
-        var html = '<img style="width: 150px; margin-bottom: 100px;" src="' + common_ops.buildFileUrl(file_key) + '"/>'
+        var html = '<img style="width: 150px; margin-bottom: 20px;" src="' + common_ops.buildFileUrl(file_key) + '"/>'
             + '<span class="fa fa-times-circle del del_file" data="' + file_key + '"></span>';
 
-        if ($(".upload_file_wrap .file-each").size() > 0) {
-            $(".upload_file_wrap .file-each").html(html);
+        if ($(".show-upload-file-wrap .file-each").size() > 0) {
+            $(".show-upload-file-wrap .file-each").html(html);
         } else {
-            $(".upload_file_wrap").append('<span "width: 150px; margin-bottom: 100px;"  class="file-each">' + html + '</span>');
+            $(".show-upload-file-wrap").append('<span "width: 150px; margin-bottom: 100px;"  class="file-each">' + html + '</span>');
         }
         edit_ops.delete_file();
     }
@@ -70,6 +70,7 @@ var edit_ops = {
             var data = {
                 'content':content,
                 'tags' : tags,
+                'file':$(".del_file").attr("data"),
                 'aid':$("#aid").val(),
                 'qid':$("#qid").val(),
                 'rid':$("#rid").val(),

@@ -73,12 +73,13 @@
 
                                 <div class="form-group">
                                     <label for="content">回覆內容</label>
-                                    <textarea class="form-control" id="content" rows="3"></textarea>
+                                    <!--<textarea class="form-control" id="content" rows="3"></textarea>-->
+                                    <div id="content"></div>
                                 </div>
 
-                                <div class="form-group">
-                                    <div id="content-test"></div>
-                                </div>
+                                <!--<div class="form-group">-->
+                                    <!--<div id="content"></div>-->
+                                <!--</div>-->
 
                                 <div class="form-group">
                                     <select name="cat_id" class="form-control inline">
@@ -108,6 +109,9 @@
                                             <label class="custom-file-label" for="upload-file">上傳附件</label>
                                         </div>
                                     </form>
+
+                                </div>
+                                <div class="show-upload-file-wrap">
 
                                 </div>
                                 <input type="hidden" id="qid" value="{{qid}}">
