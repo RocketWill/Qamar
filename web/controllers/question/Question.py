@@ -17,8 +17,43 @@ from application import app, db
 
 route_question = Blueprint('question_page', __name__)
 
-@route_question.route('/index')
+@route_question.route('/index', methods=["GET","POST"])
 def index():
+
+    if request.method == "POST":
+        resp = {'code': 200, 'msg':"設置問題分類成功", 'data':{}}
+        req = request.values
+        set_cat = req['set_cat'] if 'set_cat' in req else ''
+        if not set_cat:
+            resp['code'] = -1
+            resp['msg'] = "查詢不到此問題或分類"
+            return jsonify(resp)
+
+        qid = set_cat.split("#")[1]
+        cat_id = set_cat.split("#")[0]
+
+        question = Question.query.filter_by(id=qid).first()
+
+        if not question:
+            resp['code'] = -1
+            resp['msg'] = "查詢不到此問題"
+            return jsonify(resp)
+
+        app.logger.error(question.cat_id)
+
+        if question.cat_id == cat_id:
+            resp['code'] = -1
+            resp['msg'] = "無更動"
+            return jsonify(resp)
+
+        question.cat_id = cat_id
+        db.session.add(question)
+        db.session.commit()
+        return jsonify(resp)
+
+
+
+
     req = request.values
     page = int(req['p']) if ('p' in req and req['p']) else 1
     resp_data = {}
@@ -32,8 +67,8 @@ def index():
         rule = or_(Question.nickname.ilike("%{0}%".format(req['mix_kw'])), Question.title.ilike("%{0}%".format(req['mix_kw'])))
         query = query.filter(rule)
 
-    if 'status' in req and int(req['status']) > -1:
-        query = query.filter(Member.status == int(req['status']))
+    if 'cat_id' in req and int(req['cat_id']) > -1:
+        query = query.filter(Question.cat_id == int(req['cat_id']))
 
     page_params = {
         'total': query.count(),
@@ -47,12 +82,13 @@ def index():
     offset = (page - 1) * app.config['PAGE_SIZE']
     list = query.order_by(Question.id.desc()).offset(offset).limit(app.config['PAGE_SIZE']).all()
 
+    #return question cat
+
 
     resp_data['list'] = list
     resp_data['pages'] = pages
     resp_data['search_con'] = req
     resp_data['cat_list'] = cat_list
-
 
     return ops_render('question/index.html',resp_data)
 
