@@ -75,7 +75,7 @@
                                         <thead>
                                             <tr>
                                                 <th>發問人</th>
-                                                <th>問題分類</th>
+                                                <th>問題分類 <a class="fas fa-plus-circle" href="/question/cat-set" style="padding-left: 5px;"></a></th>
                                                 <th>提問日期</th>
                                                 <th>最後更新時間</th>
                                                 <th>問題標題</th>
@@ -89,14 +89,18 @@
                                             <tr>
                                                 <td>{{item.nickname}}</td>
                                                 <td>
-                                                    {{item.cat_id}}
+                                                    <!--{% for cat in cat_list %}-->
+                                                        <!--{% if item.cat_id == cat.id %}-->
+                                                            <!--{{ cat.name }}-->
+                                                        <!--{% endif %}-->
+                                                    <!--{% endfor %}-->
                                                     <input type="hidden" value="{{item.id}}">
 
                                                     <select name="set_cat_id-{{item.id}}" class="form-control inline set_cat_id">
                                                         <option value="-1">設置分類</option>
                                                         {% if cat_list %}
                                                         {% for i in cat_list %}
-                                                        <option value="{{ i.id }}#{{item.id}}">{{ i.name }}</option>
+                                                        <option value="{{ i.id }}#{{item.id}}" {% if item.cat_id==i.id %}selected{% endif %}>{{ i.name }}</option>
                                                         {% endfor %}
                                                         {% endif %}
                                                     </select>
@@ -127,7 +131,7 @@
                                         <tfoot>
                                             <tr>
                                                 <th>發問人</th>
-                                                <th>問題分類</th>
+                                                <th>問題分類 <a class="fas fa-plus-circle" href="/question/cat-set" style="padding-left: 5px;"></a></th>
                                                 <th>提問日期</th>
                                                 <th>最後更新時間</th>
                                                 <th>問題標題</th>

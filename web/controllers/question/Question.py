@@ -59,7 +59,7 @@ def index():
     resp_data = {}
     resp_data['current'] = 'question'
 
-    cat_list = QuestionCat.query.all()
+    cat_list = QuestionCat.query.filter(QuestionCat.status != 0)
 
     query = Question.query
 
@@ -130,10 +130,8 @@ def reply():
     title = req['title'] if 'title' in req else ''
     content = req['content'] if 'content' in req else ''
     tags = req['tags'] if 'tags' in req else ''
-    cat_id = int(req['cat_id']) if 'cat_id' in req else 0
     file_key = req['file'] if 'file' in req else ''
 
-    app.logger.error(cat_id)
     if not content or len(content)<10:
         resp['code'] = -1
         resp['msg'] = "請輸入至少10字的回覆"
@@ -164,7 +162,6 @@ def reply():
     reply_info = Reply()
     reply_info.title = title
     reply_info.content = content
-    reply_info.cat_id = cat_id
     reply_info.tags = tags
     reply_info.nickname = admin.nickname
     reply_info.aid = aid
@@ -173,16 +170,16 @@ def reply():
     # reply_info.cat_id = question.cat_id
     reply_info.updated_time = reply_info.created_time = getCurrentDate()
 
-    if question.cat_id > 0:
-        question_cat = QuestionCat.query.filter_by(id = cat_id).first()
-        resp['msg'] = "已將問題分類更改成{}".format(question_cat.name)
+    # if question.cat_id > 0:
+    #     question_cat = QuestionCat.query.filter_by(id = cat_id).first()
+    #     resp['msg'] = "已將問題分類更改成{}".format(question_cat.name)
 
     db.session.add(reply_info)
     db.session.commit()
 
     question.comment_count = str(int(question.comment_count)+1)
     question.admin_id = aid
-    question.cat_id = reply_info.cat_id
+    #question.cat_id = reply_info.cat_id
     db.session.add(question)
     db.session.commit()
 

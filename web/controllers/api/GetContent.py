@@ -25,14 +25,29 @@ def getContent():
     resp = {'code':200, 'msg':'操作成功', 'data':{}}
     req = request.values
     action = req['action'] if 'action' in req else ''
-
+    active_cat_id = req['active_cat_id'] if 'active_cat_id' in req else -1
 
     query = Question.query
     # list = query.all()
     app.logger.info(query)
 
+    #官方回覆過濾
+    if int(active_cat_id) == 0:
+        query = query.filter(Question.admin_id != 0)
+    # 本週熱門過濾
+    if int(active_cat_id) == 1:
+        #query = query.filter(Question.admin_id != 0)
+        pass
+    # 尚未回覆過濾
+    if int(active_cat_id) == 2:
+        query = query.filter(Question.comment_count == 0)
+    # 歷史火熱過濾
+    if int(active_cat_id) == 3:
+        query = query.filter(Question.comment_count >= 15)
+
+
     # app.logger.info(query)
-    list_info = Question.query.order_by(Question.created_time.desc()).all()
+    list_info = query.order_by(Question.created_time.desc()).all()
 
     question_schema = QuestionSchema(many=True)
     ouput = question_schema.dump(list_info)

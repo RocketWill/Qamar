@@ -82,12 +82,19 @@ def set():
         resp_data = {}
         req = request.args
         uid = int(req.get("id", 0))
-        user_info = None
-        if uid:
-            user_info = User.query.filter_by(uid = uid).first()
 
-        if user_info.nickname == app.config['SUPER_ADMIN']:
+        # if not uid:
+        #     return redirect(UrlManager.buildUrl('/account/index'))
+
+        user_info = User.query.filter_by(uid = uid).first()
+        # if not user_info:
+        #     return redirect(UrlManager.buildUrl('/account/index'))
+
+
+        if user_info != None and user_info.nickname == app.config['SUPER_ADMIN']:
             return redirect(UrlManager.buildUrl('/account/index'))
+
+
 
         resp_data['user_info'] = user_info
         resp_data['current'] = 'user'

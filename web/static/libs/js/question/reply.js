@@ -58,8 +58,6 @@ var reply_ops = {
             // var content_target = $('#content');
             // var content = content_target.val();
 
-            var cat_id_target = $('select[name=cat_id]');
-            var cat_id = cat_id_target.val();
 
             //alert(cat_id);
 
@@ -68,10 +66,10 @@ var reply_ops = {
             var tags_target = $("input[name=tags]");
             var tags = $.trim(tags_target.val())
 
-            if (parseInt(cat_id) < 1){
-                common_ops.tip("請選擇問題分類",cat_id_target);
-                return false;
-            }
+            // if (parseInt(cat_id) < 1){
+            //     common_ops.tip("請選擇問題分類",cat_id_target);
+            //     return false;
+            // }
 
             if (!content || content.length < 10) {
                 common_ops.alert("請輸入至少10字的回覆");
@@ -87,7 +85,6 @@ var reply_ops = {
                 'title': title,
                 'content': content,
                 'tags':tags,
-                'cat_id':cat_id,
                 'file':$(".del_file").attr("data"),
                 'aid': $("#aid").val(),
                 'qid': $("#qid").val(),

@@ -98,16 +98,21 @@ Page({
     this.setData({
       activeCategoryId: id,
     });
+
+    //過濾問題
+    //發送過濾請求
+    this.getQuestionList(this.data.activeCategoryId);
   },
 
 
-  getQuestionList: function(){
+  getQuestionList: function (activeCategoryId=-1){
     var that = this;
     
     wx.request({
       url: app.buildUrl("/get-content"),
       method: "POST",
       data: {
+        'active_cat_id': activeCategoryId,
         'action': "get_content"
       },
       header: app.getRequestHeader(),
