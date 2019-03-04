@@ -59,35 +59,6 @@ Page({
     $digest(this)
   },
 
-  clearContent: function() {
-    this.setData({
-      title: '',
-      titleCount: 0,
-    });
-  },
-
-  chooseImage(e) {
-    var that = this;
-    wx.chooseImage({
-      count: 3,
-      sizeType: ['original', 'compressed'],
-      sourceType: ['album', 'camera'],
-
-      success: function(res) {
-        console.log(res);
-        const images = that.data.images.concat(res.tempFilePaths);
-        that.data.images = images.length <= 3 ? images : images.slice(0, 3);
-        $digest(that);
-      }
-    })
-  },
-
-  removeImage(e) {
-    const idx = e.target.dataset.idx
-    this.data.images.splice(idx, 1)
-    $digest(this)
-  },
-
   goToIndex: function() {
     wx.switchTab({
       url: "/pages/first/index"
@@ -161,168 +132,20 @@ Page({
       }
     })
   },
-
-  submitForm(e) {
-    var that = this;
-    const title = this.data.title
-    const content = this.data.content
-    var anony = this.data.anony
-    const randomStr = this.data.randomStr
-
-    if (title && content) {
-      var that = this;
-      const arr = []
-      console.log(this.data.images);
-
-      //将选择的图片组成一个Promise数组，准备进行并行上传
-      for (let path of this.data.images) {
-        arr.push(wxUploadFile({
-          url: app.buildUrl("/get-question"),
-          filePath: path,
-          name: 'post-question',
-          formData: {
-            'title': title,
-            'content': content,
-            'random_str': randomStr,
-            'token': app.getCache('token'),
-            'action': 'create'
-          }
-        }))
-      }
-
-      console.log(arr);
-
-      wx.showLoading({
-        title: '正在创建...',
-        mask: true
-      })
-
-      if (arr.length < 1) {
-        wx.request({
-          url: app.buildUrl("/get-question"),
-          method: "POST",
-          data: {
-            'title': title,
-            'content': content,
-            'anony': anony,
-            'random_str': randomStr,
-            'token': app.getCache('token'),
-          },
-          header: app.getRequestHeader(),
-          success: function(res) {
-
-            //console.log(res);
-            if (res.data.code == 200) {
-              wx.hideLoading();
-              app.alert({
-                'content': '提交成功',
-                'cb_confirm': function() {
-                  that.goToIndex();
-                }
-              });
-            }
-
-            if (res.data.code == 300) {
-              wx.hideLoading();
-              wx.showModal({
-                title: 'OOPS！請先驗證郵箱',
-                content: res.data.msg,
-                success(res) {
-                  if (res.confirm) {
-                    that.goToEmailVerify();
-                  } else if (res.cancel) {
-                    that.cancelEdit()
-                  }
-                }
-              })
-            }
-
-            if (res.data.code == -1) {
-              wx.hideLoading();
-              app.alert({
-                'content': res.data.msg
-              });
-              return;
-            }
-
-          }
-        });
-        return;
-      }
-
-      // 开始并行上传图片
-      Promise.all(arr).then(res => {
-        var result = JSON.parse(res[0]['data']);
-        console.log(result);
-        // 上传成功，获取这些图片在服务器上的地址，组成一个数组
-        if (result.code == 200) {
-          //wx.hideLoading();
-
-          app.alert({
-            'content': '提交成功',
-            'cb_confirm': function() {
-              that.goToIndex();
-            }
-          });
-        }
-        if (result.code == 300) {
-          //wx.hideLoading();
-          wx.showModal({
-            title: 'OOPS！請先驗證郵箱',
-            content: result.msg,
-            success(res) {
-              if (res.confirm) {
-                that.goToEmailVerify();
-              } else if (res.cancel) {
-                that.cancelEdit()
-              }
-            }
-          })
-        }
-        console.log(res);
-      }).catch(err => {
-        console.log(">>>> upload images error:", err)
-        app.alert({
-          'content': "Oh no！似乎有什麼出錯了，請稍後再試",
-          'cb_confirm': function() {
-            that.goToIndex();
-          }
-        });
-      }).then(urls => {
-        // 调用保存问题的后端接口
-        // return that.createQuestion({
-        //   title: title,
-        //   content: content,
-        //   images: urls
-        // })
-        wx.hideLoading()
-      })
-      // .then(res => {
-      //   // 保存问题成功，返回上一页（通常是一个问题列表页）
-      //   const pages = getCurrentPages();
-      //   const currPage = pages[pages.length - 1];
-      //   const prevPage = pages[pages.length - 2];
-
-      //   // 将新创建的问题，添加到前一页（问题列表页）第一行
-      //   prevPage.data.questions.unshift(res)
-      //   $digest(prevPage)
-
-      //   wx.navigateBack()
-      // }).catch(err => {
-      //   console.log(">>>> create question error:", err)
-      // }).then(() => {
-      //   wx.hideLoading()
-      // })
-    }
-  },
-
-  uploadimg: function() { //这里触发图片上传的方法
-    var pics = this.data.images;
-    app.uploadimg({
-      url: app.buildUrl("/get-question"),
-      path: pics //这里是选取的图片的地址数组
-    });
-  },
+  
+  
+previewImg:function(e){
+  console.log(e.currentTarget.dataset.src);
+  var img = e.currentTarget.dataset.src;
+  // var imgArr = this.data.imgArr;
+  wx.previewImage({
+    current: app.buildImageUrl(img),     //当前图片地址
+    urls: [app.buildImageUrl(img)],               //所有要预览的图片的地址集合 数组形式
+    success: function(res) {},
+    fail: function(res) {},
+    complete: function(res) {},
+  })
+},
 
   getReply: function() {
     var that = this;
@@ -339,14 +162,16 @@ Page({
 
         }
         that.setData({
-          reply: res.data.data[0]
+          reply: res.data.data_file[0]
+          
         });
+        console.log(res.data.data_file[0].length);
 
         //解析html
-        let listRes = res.data.data[0]; //要解析的数据
+        let listRes = res.data.data_file[0]; //要解析的数据
         for (let i = 0; i < listRes.length; i++) {
-          console.log(listRes[i].content);
-          WxParse.wxParse('topic' + i, 'html', listRes[i].content, that);
+          console.log(listRes[i]['reply'].content);
+          WxParse.wxParse('topic' + i, 'html', listRes[i]['reply'].content, that);
           if (i === listRes.length - 1) {
             WxParse.wxParseTemArray("listArr", 'topic', listRes.length, that)
           }
@@ -354,20 +179,21 @@ Page({
 
         let list = that.data.listArr;
         for (let i = 0; i < listRes.length; i++) {
-          list[i]['title'] = listRes[i]['title'];
+          list[i]['title'] = listRes[i]['reply']['title'];
         }
         list.map((item, index, arr) => {
-          arr[index][0].id = listRes[index]['id'];
-          arr[index][0].title = listRes[index]['title'];
-          arr[index][0].aid = listRes[index]['aid'];
-          arr[index][0].cat_id = listRes[index]['cat_id'];
-          arr[index][0].created_time = listRes[index]['created_time'];
+          arr[index][0].id = listRes[index]['reply']['id'];
+          arr[index][0].title = listRes[index]['reply']['title'];
+          arr[index][0].aid = listRes[index]['reply']['aid'];
+          arr[index][0].cat_id = listRes[index]['reply']['cat_id'];
+          arr[index][0].created_time = listRes[index]['reply']['created_time'];
 
-          arr[index][0].nickname = listRes[index]['nickname'];
-          arr[index][0].qid = listRes[index]['qid'];
-          arr[index][0].tags = listRes[index]['tags'];
-          arr[index][0].uid = listRes[index]['uid'];
-          arr[index][0].updated_time = listRes[index]['updated_time'];
+          arr[index][0].nickname = listRes[index]['reply']['nickname'];
+          arr[index][0].qid = listRes[index]['reply']['qid'];
+          arr[index][0].tags = listRes[index]['reply']['tags'];
+          arr[index][0].uid = listRes[index]['reply']['uid'];
+          arr[index][0].updated_time = listRes[index]['reply']['updated_time'];
+          arr[index][0].file_key = listRes[index]['image']['file_key'];
         });
 
         console.log(list);

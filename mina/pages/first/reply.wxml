@@ -1,45 +1,27 @@
 <import src="../../wxParse/wxParse.wxml" />
 
 <view class='container'>
-  <view class="question-form">
 
-
-
-    <view class="peisong-way" wx:for="{{list}}" wx:key="id">
+    <view class="reply-wrap" wx:for="{{list}}" wx:key="id">
       <view class="row-box">
-        <input id="email" name="remark" type="text" class="question-title" bindblur="emailInputEvent" maxlength="40" bindinput="handleTitleInput" placeholder="請輸入您的問題" value="{{item[0].title}}" />
+        <view class='title'>{{item[0].title}}</view>
 
-        <view class="title-input-counter">回復人：{{item[0].nickname}}</view>
+        <view class="reply-person">回復人：{{item[0].nickname}}</view>
       </view>
-      <view class="row-box">
-
-        <view class="right-text">
-          <textarea id="email" name="remark" type="text" class="question-content" bindinput="handleContentInput" maxlength="500"> <template is="wxParse" data="{{wxParseData:item}}"/></textarea>
-
-
-       
-
-          <view class="weui-textarea-counter">更新時間：{{item[0].updated_time}}</view>
-        </view>
+      <view class="row-box2">
+          <view><template is="wxParse" data="{{wxParseData:item}}" /></view>
+          
+          <view class="reply-file-label" wx:if="{{item[0].file_key}}">附件</view>
+          <image class="reply-file" wx:if="{{item[0].file_key}}" src='http://127.0.0.1:8999/static/upload/{{item[0].file_key}}' mode="aspectFill" data-src='{{item[0].file_key}}' bindtap='previewImg'></image>
+          <view class="updated-time">更新時間：{{item[0].updated_time}}</view>
       </view>
-    </view>
-
-    <view class="question-images-area">
-
-      <!-- 添加图片按钮  -->
-
-      <!-- 图片缩略图  -->
-
-
     </view>
 
     <!-- 提交表单按钮  -->
 
     <view class="jiesuan-box">
       <button class="to-index" bindtap="cancelEdit">取消</button>
-      <button class="to-email-validation" bindtap="sureAsk">確認發問</button>
+      <button class="to-email-validation" bindtap="sureAsk">發表意見</button>
     </view>
 
-
-  </view>
 </view>

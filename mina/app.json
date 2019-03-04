@@ -16,6 +16,7 @@
     "pages/first/reply",
     "pages/question/index",
     "pages/question-ask/question-ask"
+    
   ],
   "window": {
     "backgroundTextStyle": "light",

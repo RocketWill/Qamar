@@ -53,11 +53,11 @@ def getReply():
 
     reply_info = Reply.query.filter_by(qid=qid).order_by(Reply.updated_time.desc()).all()
 
-    #reply_info_add_file = db.session.query(Reply, Image).filter(Reply.qid==qid).join(Image, Image.rid == Reply.id).all()
-    reply_info_add_file = db.session.query(Reply, Image)\
-        .filter(or_(Image.rid==Reply.id, Image.rid==0))\
-        .filter(Reply.qid == qid)\
-        .all()
+    reply_info_add_file = db.session.query(Reply, Image).filter(Reply.qid==qid).join(Image, Image.rid == Reply.id).all()
+    # reply_info_add_file = db.session.query(Reply, Image)\
+    #     .filter(or_(Image.rid==Reply.id, Image.rid==0))\
+    #     .filter(Reply.qid == qid)\
+    #     .all()
 
 
     app.logger.error(reply_info_add_file)
@@ -79,10 +79,24 @@ def getReply():
 
     reply = MSchema.dump([{'reply': x[0], 'image': x[1]} for x in reply_info_add_file])
 
+    # #reply = MSchema.dump([[x[0],x[1]] for x in reply_info_add_file])
+    #
+    # reply = []
+    # img = []
+    # for x in reply_info_add_file:
+    #     # reply.append(MSchema.dump(x[0]))
+    #     # reply.append(MSchema.dump(x[1]))
+    #     reply.append(x[0])
+    #     reply.append(x[1])
+    #
+    # app.logger.error(reply)
+
+    #eply = MSchema.dump([x for x in reply])
+
+
     output_file = []
 
-    for item in reply_info_add_file:
-        output_file.append(MSchema.dump(item))
+
 
 
     resp['data_file'] = reply
