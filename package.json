@@ -1,0 +1,31 @@
+{
+  "name": "qamar",
+  "version": "1.0.0",
+  "description": "SSPKU Qamar 卡碼 校園問題反饋平台",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RocketWill/Qamar.git"
+  },
+  "author": "Cheng Yong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RocketWill/Qamar/issues"
+  },
+  "homepage": "https://github.com/RocketWill/Qamar#readme",
+  "devDependencies": {
+    "gulp": "^4.0.0",
+    "gulp-sass": "^4.0.2",
+    "node-sass": "^4.11.0"
+  },
+  "dependencies": {
+    "browser-sync": "^2.26.3",
+    "gulp-uglifycss": "^1.1.0"
+  }
+}

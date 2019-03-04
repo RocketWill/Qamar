@@ -1,0 +1,2 @@
+# 忽略所有使用者上傳之圖片
+./web/static/upload/*

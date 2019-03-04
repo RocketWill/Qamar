@@ -183,13 +183,12 @@ def reply():
     db.session.add(question)
     db.session.commit()
 
-    if file_key:
-        model_image = Image()
-        model_image.file_key =file_key
-        model_image.rid = reply_info.id
-        model_image.created_time = getCurrentDate()
-        db.session.add(model_image)
-        db.session.commit()
+    model_image = Image()
+    model_image.file_key = file_key
+    model_image.rid = reply_info.id
+    model_image.created_time = getCurrentDate()
+    db.session.add(model_image)
+    db.session.commit()
 
     return jsonify(resp)
 
@@ -311,9 +310,14 @@ def edit():
     db.session.add(reply)
     db.session.commit()
 
+    #每次編輯時都先刪除回復者先前上傳的檔案
+    #即使檔案內容沒有更動，也回再重新上傳一次
     model_image = Image.query.filter_by(rid = reply.id).first()
-    if not model_image:
-        model_image = Image()
+    if model_image:
+        db.session.delete(model_image)
+        db.session.commit()
+
+    model_image = Image()
     model_image.file_key = file_key
     model_image.rid = reply.id
     model_image.created_time = getCurrentDate()
