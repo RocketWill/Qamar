@@ -5,6 +5,7 @@ from flask import request, jsonify
 from application import app, db
 from flask_marshmallow import Marshmallow
 from datetime import datetime
+from sqlalchemy import or_
 
 import requests, json
 from common.models.member.Member import Member
@@ -26,6 +27,7 @@ def getContent():
     req = request.values
     action = req['action'] if 'action' in req else ''
     active_cat_id = req['active_cat_id'] if 'active_cat_id' in req else -1
+    search_kw = req['search_kw'] if 'search_kw' in req else ""
 
     query = Question.query
     # list = query.all()
@@ -44,6 +46,11 @@ def getContent():
     # 歷史火熱過濾
     if int(active_cat_id) == 3:
         query = query.filter(Question.comment_count >= 15)
+
+    if search_kw:
+        rule = or_(Question.content.ilike("%{0}%".format(search_kw)), Question.title.ilike("%{0}%".format(search_kw)))
+        query = query.filter(rule)
+
 
 
     # app.logger.info(query)

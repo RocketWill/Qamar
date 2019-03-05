@@ -57,7 +57,7 @@ Page({
       },
       
     ],
-    activeCategoryId: 3,
+    activeCategoryId: 4,
   },
   //事件处理函数
   bindViewTap: function() {
@@ -101,11 +101,20 @@ Page({
 
     //過濾問題
     //發送過濾請求
-    this.getQuestionList(this.data.activeCategoryId);
+    this.getQuestionList(this.data.activeCategoryId, this.data.search_kw);
+  },
+
+  getSearchInput: function(e){
+    //console.log(e.detail.value);
+    this.setData({search_kw:e.detail.value});
+  },
+
+  toSearch: function(e){
+    this.getQuestionList(this.data.activeCategoryId, this.data.search_kw)
   },
 
 
-  getQuestionList: function (activeCategoryId=-1){
+  getQuestionList: function (activeCategoryId=-1, search_kw=""){
     var that = this;
     
     wx.request({
@@ -113,7 +122,8 @@ Page({
       method: "POST",
       data: {
         'active_cat_id': activeCategoryId,
-        'action': "get_content"
+        'action': "get_content",
+        'search_kw':search_kw
       },
       header: app.getRequestHeader(),
       success: function (res) {

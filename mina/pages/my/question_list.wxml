@@ -1,0 +1,32 @@
+<view class="container">
+    <view class="status-box">
+        <view bindtap="statusTap" class="status-label {{index == currentType ? 'active' : ''}}" wx:for-items="{{statusType}}" wx:key="{{index}}" data-index="{{index}}">
+            {{item}}
+            <view class="{{tabClass[index]}}"></view>
+        </view>
+    </view>
+    <view class="no-question" hidden="{{question_list ? true : false}}">
+        <image src="/images/no-order.png" class="no-order-img"></image>
+        <view class="text">暫無問題</view>
+    </view>
+    <view class="question-list" hidden="{{question_list ? false : true}}">
+        <view class="a-order" wx:for="{{question_list}}" wx:key="{{index}}" wx:for-item="item" bindtap="orderDetail">
+            <view class="order-date">
+                <view class="date-box">發問時間：{{item.updated_time}}</view>
+            </view>
+            <view class="question-info"  data-id="{{item.id}}">
+                <view class="question-des">
+                   <view>標題:{{item.title}} </view>
+                   <view wx:if="{{item.content && item.content != ''}}">內容： {{item.content}}</view>
+                </view>
+            </view>
+            
+            <view class="action-box">
+                <view class="total-price">操作</view>
+                <view class="btn info-btn" bindtap='questionDetail' data-qid='{{item.id}}' data-count='{{item.comment_count}}'>查看詳情</view>
+                <view class="btn edit-btn" bindtap='questionEdit' data-qid='{{item.id}}'>編輯問題</view>
+            </view>  
+        </view>
+
+    </view>
+</view>

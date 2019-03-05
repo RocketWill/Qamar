@@ -5,7 +5,7 @@
 
     <view class="peisong-way card">
       <view class="row-box">
-        <input id="email" name="remark" type="text" class="question-title" bindblur="emailInputEvent" maxlength="40" bindinput="handleTitleInput" placeholder="請輸入您的問題" value="{{title}}" />
+        <input id="email" name="remark" type="text" class="question-title" bindblur="emailInputEvent" maxlength="40" bindinput="handleTitleInput" placeholder="請輸入您的問題" value="{{question.title}}" />
         <view class='clear-btn' bindtap='clearContent'>
           <image src="/images/more/close-circle.png"></image>
         </view>
@@ -14,7 +14,7 @@
       <view class="row-box">
 
         <view class="right-text">
-          <textarea id="email" name="remark" type="text" class="question-content" bindinput="handleContentInput" maxlength="500" placeholder="請輸入問題詳細說明"></textarea>
+          <textarea id="email" name="remark" type="text" class="question-content" bindinput="handleContentInput" maxlength="500" placeholder="{{!question? '請輸入問題詳細說明' : ''}}" value='{{question.content}}'/>
           <view class="weui-textarea-counter">{{contentCount}}/500</view>
         </view>
       </view>
@@ -42,18 +42,29 @@
         </block>
       </view>
 
+      <!-- 先前上傳之圖片  -->
+      <view class="pre-img-label {{!pre_images? 'no-show' : ''}}">先前上傳的圖片</view>
+      <view class="question-images {{!pre_images? 'no-show' : ''}}">
+        <block wx:for="{{pre_images}}" wx:key="*this">
+          <view class="q-image-wrap">
+            <image class="q-image" src="{{item}}" mode="aspectFill" data-preidx="{{index}}" bindtap="handlePreImagePreview"></image>
+          </view>
+        </block>
+      </view>
+
     </view>
 
  <view class="niming">
     <text>匿名發問</text>
-    <switch class='switch-view' checked="{{anonym}}" bindchange="anonymChange" type='switch'/>
+    <switch class='switch-view' checked="{{anony}}" bindchange="anonymChange" type='switch'/>
   </view>
 
     <!-- 提交表单按钮  -->
 
     <view class="jiesuan-box">
       <button class="to-index" bindtap="cancelEdit">取消</button>
-      <button class="to-email-validation" bindtap="sureAsk">確認發問</button>
+      <button class="to-email-validation {{pre_images? 'no-show' : ''}}" bindtap="sureAsk">確認發問</button>
+      <button class="to-email-validation {{!pre_images? 'no-show' : ''}}" bindtap="sureAsk">確認修改</button>
     </view>
     
 

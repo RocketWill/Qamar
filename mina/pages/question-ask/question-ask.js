@@ -20,11 +20,49 @@ Page({
     content: '',
     images: [],
     anony: false,
-    randomStr: app.randomString(false,12)
+    randomStr: app.randomString(false,12),
   },
 
   onLoad(options) {
+    var that = this;
     $init(this)
+    if (options.qid){
+      that.setData({qid:options.qid});
+      wx.request({
+        url: app.buildUrl("/get-question"),
+        method: "POST",
+        data: {
+          "qid": options.qid,
+          'action': "edit"
+        },
+        header: app.getRequestHeader(),
+        success: function (res) {
+          console.log(res);
+          for(var i=0;i<res.data.file.length;i++){
+            res.data.file[i] = app.buildImageUrl(res.data.file[i]);
+          }
+          if (res.data.code == 200) {
+            that.setData({
+              question : res.data.question,
+              titleCount: res.data.question['title'].length,
+              contentCount: res.data.question['content'].length,
+              anony: res.data.question['anony'] == '匿名' ? true : false,
+              pre_images : res.data.file,
+              title: res.data.question['title'],
+              content:res.data.question['content']
+            });
+            return;
+          }
+          if (res.data.code == -1) {
+            app.alert({
+              'content': res.data.msg
+            });
+            return;
+          }
+        }
+      });
+    }
+    
   },
 
   onShow(){
@@ -114,6 +152,16 @@ Page({
     })
   },
 
+  handlePreImagePreview(e) {
+    const idx = e.target.dataset.preidx
+    const images = this.data.pre_images
+
+    wx.previewImage({
+      current: images[idx],
+      urls: images,
+    })
+  },
+
   cancelEdit: function() {
     var that = this;
     const title = this.data.title
@@ -144,16 +192,15 @@ Page({
 
   sureAsk: function() {
     var that = this;
-    const title = this.data.title
-    const content = this.data.content
-    if (title == undefined || title == null || title.length < 10) {
+  
+    if (this.data.titleCount < 10) {
       app.alert({
         'content': "問題標題字數不能少於10字"
       });
       return;
     }
 
-    if (content == undefined || content == null || content.length < 10) {
+    if (this.data.contentCount < 20) {
       app.alert({
         'content': "問題內容字數不能少於20字"
       });
@@ -161,7 +208,7 @@ Page({
     }
     wx.showModal({
       title: '提示',
-      content: '確定發問？',
+      content: !this.data.pre_images? '確定發問？':'確定修改',
       success(res) {
         if (res.confirm) {
           that.submitForm();
@@ -173,6 +220,7 @@ Page({
   },
 
   submitForm(e) {
+    console.log("works");
     var that = this;
     const title = this.data.title
     const content = this.data.content
@@ -195,7 +243,9 @@ Page({
             'content': content,
             'random_str': randomStr,
             'token': app.getCache('token'),
-            'action': 'create'
+            'action': 'create',
+            'qid': that.data.qid?that.data.qid:'',
+            'action': that.data.qid? "post-edit" : ''
           }
         }))
       }
@@ -217,6 +267,8 @@ Page({
             'anony':anony,
             'random_str': randomStr,
             'token': app.getCache('token'),
+            'qid': that.data.qid?that.data.qid:'',
+            'action': that.data.qid? "post-edit" : ''
           },
           header: app.getRequestHeader(),
           success: function(res) {

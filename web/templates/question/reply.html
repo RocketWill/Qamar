@@ -50,8 +50,8 @@
                                 {% if file %}
                                 <p class="card-text" style="font-size: 12px;">提問者上傳之附件（點擊查看完整檔案）</p>
                                 {% for item in file %}
-                                <a href="/{{item.path}}" target="_blank"><img class="img-fluid rounded square-pic"
-                                                                              width="33%" src="/{{item.path}}"
+                                <a href="{{buildImageUrl(item.path)}}" target="_blank"><img class="img-fluid rounded square-pic"
+                                                                              width="33%" src="{{buildImageUrl(item.path)}}"
                                                                               alt="User uploaded images">
                                 </a>
 

@@ -16,6 +16,20 @@ page {
   background-color: #f2f2f2;
 }
 
+.no-show{
+  display: none;
+}
+
+.pre-img-label{
+  font-size:24rpx;
+padding:10rpx;
+border-top:1px solid rgba(0, 0, 0, 0.1);
+padding-top:20rpx;
+padding-left:10rpx;
+margin-bottom:-25rpx;
+color:rgba(0, 0, 0, 0.4);
+}
+
 .question-form {
   margin: 20rpx;
 }
