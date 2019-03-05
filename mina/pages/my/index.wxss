@@ -12,6 +12,10 @@
   width: 750rpx;
 }
 
+.no-show{
+  display: none;
+}
+
 .userinfo-avatar {
 	width: 160rpx;
 	height: 160rpx;
@@ -24,14 +28,44 @@
   color: #FFF;
 }
 
+.email-valid{
+  color:#fff;
+  background-color:#13ae67;
+  padding:5rpx 10rpx;
+  font-size:24rpx;
+  border-radius:5rpx;
+  margin-top:10rpx;
+}
+
+.email-valid-error{
+  background-color:#c30d23;
+}
+
 
 .version {
   width:100%;
-  height: 40rpx;
+  height: 30rpx;
 	line-height: 40rpx;
-	font-size: 24rpx;
+	font-size: 21rpx;
 	text-align: center;  
   padding: 40rpx;
+  bottom:15px;
+  display:block;
+  position:absolute;
+  background-color:#ededed;
+}
+
+.about{
+  width:100%;
+  height: 15rpx;
+	line-height: 40rpx;
+	font-size: 20rpx;
+	text-align: center;  
+  padding: 40rpx;
+  bottom:0px;
+  display:block;
+  position:absolute;
+  background-color:#ededed;
 }
 
 .my-item{

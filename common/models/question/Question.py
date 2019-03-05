@@ -21,6 +21,7 @@ class Question(db.Model):
     month_count = db.Column(db.Integer, nullable=False, server_default=db.FetchedValue())
     view_count = db.Column(db.Integer, nullable=False, server_default=db.FetchedValue())
     comment_count = db.Column(db.Integer, nullable=False, server_default=db.FetchedValue())
+    discuss_count = db.Column(db.Integer, nullable=False, server_default=db.FetchedValue())
     updated_time = db.Column(db.DateTime, nullable=False, server_default=db.FetchedValue())
     created_time = db.Column(db.DateTime, nullable=False, server_default=db.FetchedValue())
 

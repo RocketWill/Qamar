@@ -21,19 +21,10 @@ Page({
     },
     goToIndex: function () {
         wx.switchTab({
-            url: '/pages/food/index',
+            url: '/pages/first/index',
         });
     },
-    addressSet: function () {
-        wx.navigateTo({
-            url: "/pages/my/addressSet"
-        });
-    },
-    selectAddress: function () {
-        wx.navigateTo({
-            url: "/pages/my/addressList"
-        });
-    },
+    
     emailInputEvent: function (e) {
         this.setData({
             email: e.detail.value

@@ -9,6 +9,7 @@ from web.controllers.api.GetQuestion import *
 from web.controllers.api.GetMyQuestion import *
 from web.controllers.api.GetReply import *
 from web.controllers.api.GetMemberInfo import *
+from web.controllers.api.Comment import *
 @route_api.route("/")
 def index():
     return "Mina Api V1.0"

@@ -2,26 +2,46 @@
 
 <view class='container'>
 
-    <view class="reply-wrap" wx:for="{{list}}" wx:key="id">
-      <view class="row-box">
-        <view class='title'>{{item[0].title}}</view>
+  <view class="reply-wrap" wx:for="{{list}}" wx:key="id">
+    <view class="row-box">
+      <view class='title'>{{item[0].title}}</view>
 
-        <view class="reply-person">回復人：{{item[0].nickname}}</view>
-      </view>
-      <view class="row-box2">
-          <view><template is="wxParse" data="{{wxParseData:item}}" /></view>
-          
-          <view class="reply-file-label" wx:if="{{item[0].file_key}}">附件</view>
-          <image class="reply-file" wx:if="{{item[0].file_key}}" src='http://127.0.0.1:8999/static/upload/{{item[0].file_key}}' mode="aspectFill" data-src='{{item[0].file_key}}' bindtap='previewImg'></image>
-          <view class="updated-time">更新時間：{{item[0].updated_time}}</view>
-      </view>
+      <view class="reply-person">回復人：{{item[0].nickname}}</view>
     </view>
+    <view class="row-box2">
+      <view>
+        <template is="wxParse" data="{{wxParseData:item}}" />
+      </view>
 
-    <!-- 提交表单按钮  -->
-
-    <view class="jiesuan-box">
-      <button class="to-index" bindtap="cancelEdit">取消</button>
-      <button class="to-email-validation" bindtap="sureAsk">發表意見</button>
+      <view class="reply-file-label" wx:if="{{item[0].file_key}}">附件</view>
+      <image class="reply-file" wx:if="{{item[0].file_key}}" src='http://127.0.0.1:8999/static/upload/{{item[0].file_key}}' mode="aspectFill" data-src='{{item[0].file_key}}' bindtap='previewImg'></image>
+      <view class="updated-time">更新時間：{{item[0].updated_time}}</view>
     </view>
+  </view>
+
+  <view class='comment-wrap-title'>同學意見</view>
+
+  <view style='margin-bottom:200rpx;'>
+ 
+  <view class='comment-wrap' wx:for="{{comments}}">
+    <view class="row-box">
+      <text>{{item.nickname}}: {{item.content}}</text>
+      <view class="updated-time">回覆時間：{{item.created_time}}</view>
+    </view>
+  </view>
+  </view>
+ 
+
+  <!-- 提交表单按钮  -->
+
+  <view class="comment-view">
+    <view class="comment-content">
+      <input placeholder="请输入意見内容" bindinput="getCommentInput" class="comment-input" maxlength="30" value='{{comment_input}}'>
+      </input>
+      <button class='comment-btn' bindtap="surePostComment">
+        <text style='margin-top:-13rpx;display:block;'>發表意見</text>
+      </button>
+    </view>
+  </view>
 
 </view>

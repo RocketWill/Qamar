@@ -13,6 +13,7 @@ from common.models.question.Question import Question
 from common.models.question.Files import File
 from common.models.reply.Reply import Reply
 from common.models.Image import Image
+from common.models.comment.Comment import Comment
 from common.libs.Helper import ops_render, iPagination, getCurrentDate
 from common.libs.user.UserService import UserService
 from common.libs.member.MemberService import MemberService
@@ -29,13 +30,17 @@ class ImageSchema(ma.ModelSchema):
 class ReplySchema(ma.ModelSchema):
     #image = ma.Nested(ImageSchema, many=True)
     class Meta:
-        model =Reply
+        model = Reply
 
 class MSchema(ma.ModelSchema):
     reply = ma.Nested(ReplySchema)
     image = ma.Nested(ImageSchema)
 
 MSchema = MSchema(many=True)
+
+class CommentSchema(ma.ModelSchema):
+    class Meta:
+        model = Comment
 
 
 @route_api.route("/get-reply", methods=["GET", "POST"])
@@ -60,8 +65,10 @@ def getReply():
     #     .all()
 
 
-    app.logger.error(reply_info_add_file)
-
+    comment_info = Comment.query.filter(Comment.qid==qid).order_by(Comment.created_time).all()
+    comment_schema = CommentSchema(many=True)
+    comment_info = comment_schema.dump(comment_info)
+    resp['comments'] = comment_info
 
 
     if not reply_info:

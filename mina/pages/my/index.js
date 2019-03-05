@@ -1,7 +1,8 @@
 //获取应用实例
 var app = getApp();
 Page({
-    data: {},
+    data: {
+    },
     onLoad() {
 
     },
@@ -23,7 +24,7 @@ Page({
                 console.log(res);
                 if (res.data.code == 200) {
                     that.setData({
-                        user_info : res.data.member
+                        user_info : res.data.member,
                     });
                     //return;
                 }
@@ -38,5 +39,10 @@ Page({
 
             }
         });
-    }
+    },
+    emailValid: function () {
+        wx.navigateTo({
+          url: "/pages/email/index"
+        });
+      },
 });

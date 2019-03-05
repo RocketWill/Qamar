@@ -15,49 +15,30 @@ const wxUploadFile = promisify(wx.uploadFile)
 Page({
 
   data: {
-    titleCount: 0,
-    contentCount: 0,
-    title: '',
-    content: '',
     images: [],
-    anony: false,
-    qid: "",
-    randomStr: app.randomString(false, 12),
+    qid: '',
     reply: [{
       'title': "default",
       'content': 'default'
     }],
-    listArr:""
+    listArr:"",
+    comment_input:'',
+    comments:[]
   },
 
   onLoad(options) {
+    console.log(options.qid);
     $init(this);
     this.setData({
       qid: options.qid,
+      comment_input : ''
     });
     this.getReply();
   },
 
   onShow() {
-    this.setData({
-      randomStr: app.randomString(false, 12)
-    });
   },
 
-
-  handleTitleInput(e) {
-    const value = e.detail.value
-    this.data.title = value
-    this.data.titleCount = value.length
-    $digest(this)
-  },
-
-  handleContentInput(e) {
-    const value = e.detail.value
-    this.data.content = value
-    this.data.contentCount = value.length
-    $digest(this)
-  },
 
   goToIndex: function() {
     wx.switchTab({
@@ -73,6 +54,78 @@ Page({
       current: images[idx],
       urls: images,
     })
+  },
+
+  getCommentInput: function (e) {
+    console.log(e.detail.value);
+    this.setData({ comment_input: e.detail.value });
+  },
+
+  surePostComment: function(){
+    var that = this;
+    if (that.data.comment_input.length < 5){
+      app.alert({
+        'content':"請輸入不少於5個字的內容"
+      });
+      return;
+    }
+    wx.showModal({
+      title: '提示',
+      content: '確認發表意見？如果管理員認為此意見內容不適當，將有權下架此則意見，恕不另行通知',
+      success(res) {
+        if (res.confirm) {
+          that.toComment();
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  },
+
+  toComment: function(){
+    var that = this;
+    wx.request({
+      url: app.buildUrl("/post-comment"),
+      method: "POST",
+      data: {
+        'token': app.getCache("token"),
+        'qid':that.data.qid,
+        'comment':that.data.comment_input
+      },
+      header: app.getRequestHeader(),
+      success: function (res) {
+        if (res.data.code == 200) {
+          console.log(res);
+          app.alert({
+            'content':res.data.msg
+          });
+          var options = { 'qid': that.data.qid};
+          that.setData({
+            comment_input:""
+          });
+          wx.startPullDownRefresh();
+          that.onLoad(options);
+        } 
+        else if (res.data.code == 300){
+          wx.showModal({
+            title: 'OOPS！請先驗證郵箱',
+            content: res.data.msg,
+            success(res) {
+              if (res.confirm) {
+                that.goToEmailVerify();
+              } else if (res.cancel) {
+                that.cancelEdit()
+              }
+            }
+          })
+        }
+        else {
+          app.alert({
+            'content': res.data.msg
+          });
+        }
+      }
+    });
   },
 
   cancelEdit: function() {
@@ -97,42 +150,13 @@ Page({
 
   },
 
-  goToEmailVerify: function() {
+  goToEmailVerify: function () {
     wx.navigateTo({
       url: "/pages/email/index"
     });
   },
 
-  sureAsk: function() {
-    var that = this;
-    const title = this.data.title
-    const content = this.data.content
-    if (title == undefined || title == null || title.length < 10) {
-      app.alert({
-        'content': "問題標題字數不能少於10字"
-      });
-      return;
-    }
 
-    if (content == undefined || content == null || content.length < 10) {
-      app.alert({
-        'content': "問題內容字數不能少於20字"
-      });
-      return;
-    }
-    wx.showModal({
-      title: '提示',
-      content: '確定發問？',
-      success(res) {
-        if (res.confirm) {
-          that.submitForm();
-        } else if (res.cancel) {
-          console.log('用户点击取消')
-        }
-      }
-    })
-  },
-  
   
 previewImg:function(e){
   console.log(e.currentTarget.dataset.src);
@@ -162,8 +186,8 @@ previewImg:function(e){
 
         }
         that.setData({
-          reply: res.data.data_file[0]
-          
+          reply: res.data.data_file[0],
+          comments: res.data.comments[0]
         });
         console.log(res.data.data_file[0].length);
 

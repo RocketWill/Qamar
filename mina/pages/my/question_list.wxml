@@ -10,7 +10,7 @@
         <view class="text">暫無問題</view>
     </view>
     <view class="question-list" hidden="{{question_list ? false : true}}">
-        <view class="a-order" wx:for="{{question_list}}" wx:key="{{index}}" wx:for-item="item" bindtap="orderDetail">
+        <view class="a-order" wx:for="{{question_list}}" wx:key="{{index}}" wx:for-item="item">
             <view class="order-date">
                 <view class="date-box">發問時間：{{item.updated_time}}</view>
             </view>
