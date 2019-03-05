@@ -111,7 +111,7 @@
                                                 <td>{{item.updated_time}}</td>
                                                 <td>{{item.title}}</td>
                                                 <td>{{item.comment_count}}</td>
-                                                <td>{{item.discuss_count}} <a class="fas fa-info-circle" href="#" style="padding-left:5px; float:right;"> 詳情</a></td>
+                                                <td>{{item.discuss_count}} <a class="fas fa-info-circle" href="{{ buildUrl('/comment/index') }}?qid={{item.id}}" style="padding-left:5px; float:right;"> 詳情</a></td>
                                                 <td class="action">
                                                     <a class="m-l" href="{{ buildUrl('/question/reply') }}?id={{ item.id }}">
                                                         <i class="fas fa-arrow-left"></i> 回復

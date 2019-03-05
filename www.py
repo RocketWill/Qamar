@@ -7,6 +7,7 @@ from web.interceptors.AuthInterceptor import *
 from web.interceptors.ErrorInterceptor import *
 
 
+
 '''
 藍圖功能
 '''
@@ -22,6 +23,7 @@ from web.controllers.mail import route_mail
 from web.controllers.question.Question import route_question
 from web.controllers.upload.Upload import route_upload
 from web.controllers.show_image.image import route_image
+from web.controllers.comment.comment import route_comment
 
 
 
@@ -35,3 +37,4 @@ app.register_blueprint(route_api, url_prefix='/api')
 app.register_blueprint(route_mail, url_prefix='/mail')
 app.register_blueprint(route_image, url_prefix='/image')
 app.register_blueprint(route_upload, url_prefix='/upload')
+app.register_blueprint(route_comment, url_prefix='/comment')

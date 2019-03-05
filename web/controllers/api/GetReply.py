@@ -65,7 +65,7 @@ def getReply():
     #     .all()
 
 
-    comment_info = Comment.query.filter(Comment.qid==qid).order_by(Comment.created_time).all()
+    comment_info = Comment.query.filter(Comment.qid==qid, Comment.status==1).order_by(Comment.created_time).all()
     comment_schema = CommentSchema(many=True)
     comment_info = comment_schema.dump(comment_info)
     resp['comments'] = comment_info
