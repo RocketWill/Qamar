@@ -159,6 +159,60 @@ page {
   border-radius: 0px;
 }
 
+.cat-menu image{
+width:35rpx;
+height:35rpx;
+padding-right:25rpx;
+padding-top:18rpx;
+opacity:0.6;
+
+}
+
+.cat-menu text{
+  padding-right:15rpx;
+font-size:27rpx;
+margin-top:-10rpx;
+position:relative;
+top:-6rpx;
+opacity:0.6;
+
+}
+
+.cat-menu text text{
+  
+}
+
+.cat-wrap{
+  
+}
+
+.select-box{
+padding:20rpx;
+animation: myfirst 0.5s;
+/* transition: height 5s; */
+max-height: 500;
+}
+
+@keyframes myfirst {
+    from {
+        height: 0rpx;
+    }
+ 
+    to {
+        height: 300rpx;
+    }
+}
+
+
+.select-one{
+font-size:25rpx;
+text-align:center;
+color:rgba(0,0,0,0.7);
+padding:10rpx;
+border-bottom:1px solid rgba(0,0,0,0.1);
+
+}
+
 .type-container {
   width: 100%;
   height: 88rpx;

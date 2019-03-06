@@ -29,7 +29,28 @@
   </swiper>
   <!--滚动视图结束-->
 
-  <view id="date">{{date}}</view>
+
+
+
+  <view class='cat-wrap' style='justify-content:space-between; display:flex;'>
+    <view id="date">{{date}}</view>
+    <view class='cat-menu' bindtap='bindShowCat'>
+      <text wx:if="{{cat_id==-1}}">問題分類</text>
+      
+      <text wx:if="{{cat_id!=-1}}" wx:for="{{cat}}" wx:if="{{item.id == cat_id}}">{{item.name}}</text>
+      
+      
+
+      <image src='../../images/hamburger.png'></image>
+
+    </view>
+  </view>
+
+  <!-- 下拉需要显示的列表 -->
+  <view class="select-box" wx:if="{{cat && select}}" >
+    <view wx:for="{{cat}}" class="select-one" bindtap="mySelect" data-cid="{{item.id}}">{{item.name}}</view>
+    <view wx:if="{{cat}}" class="select-one" bindtap="mySelect" data-cid="-1">所有分類</view>
+  </view>
 
   <view class="type-container">
     <scroll-view class="type-navbar" scroll-x="true">

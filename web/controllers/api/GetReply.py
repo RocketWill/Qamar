@@ -14,6 +14,7 @@ from common.models.question.Files import File
 from common.models.reply.Reply import Reply
 from common.models.Image import Image
 from common.models.comment.Comment import Comment
+from common.models.question.QuestionCat import QuestionCat
 from common.libs.Helper import ops_render, iPagination, getCurrentDate
 from common.libs.user.UserService import UserService
 from common.libs.member.MemberService import MemberService
@@ -26,6 +27,8 @@ ma = Marshmallow(app)
 class ImageSchema(ma.ModelSchema):
     class Meta:
         model = Image
+
+
 
 class ReplySchema(ma.ModelSchema):
     #image = ma.Nested(ImageSchema, many=True)
@@ -80,6 +83,9 @@ def getReply():
     comment_schema = CommentSchema(many=True)
     comment_info = comment_schema.dump(comment_info)
     resp['comments'] = comment_info
+
+
+
 
 
     # if not reply_info:

@@ -8,6 +8,10 @@ Page({
       'title': "獲取問題列表時出錯",
       'content': "請確認網絡情況後重試"
     }],
+    select: false,
+    search_kw:"",
+    cat:[],
+    cat_id:0,
     date: "10月26日 周三",
     qid:"",
     items: [{
@@ -97,6 +101,25 @@ Page({
     
     //console.log(this.data.qid);
   },
+
+
+  bindShowCat() {
+    this.setData({
+      select: !this.data.select
+    })
+  },
+  mySelect(e) {
+    var that = this;
+    var cat_id = e.currentTarget.dataset.cid;
+    //console.log(e.currentTarget.dataset.cid);
+    this.setData({
+      select: false,
+      cat_id: cat_id
+    })
+    this.getQuestionList(that.data.activeCategoryId, that.data.search_kw, cat_id);
+  },
+
+
   goToComment(){
     var that = this;
     wx.navigateTo({
@@ -121,7 +144,7 @@ Page({
 
     //過濾問題
     //發送過濾請求
-    this.getQuestionList(this.data.activeCategoryId, this.data.search_kw);
+    this.getQuestionList(this.data.activeCategoryId, this.data.search_kw, this.data.cat_id);
   },
 
   getSearchInput: function(e){
@@ -130,11 +153,11 @@ Page({
   },
 
   toSearch: function(e){
-    this.getQuestionList(this.data.activeCategoryId, this.data.search_kw)
+    this.getQuestionList(this.data.activeCategoryId, this.data.search_kw, this.data.cat_id)
   },
 
 
-  getQuestionList: function (activeCategoryId=-1, search_kw=""){
+  getQuestionList: function (activeCategoryId=-1, search_kw="", cat_id=-1){
     var that = this;
     
     wx.request({
@@ -143,7 +166,8 @@ Page({
       data: {
         'active_cat_id': activeCategoryId,
         'action': "get_content",
-        'search_kw':search_kw
+        'search_kw':search_kw,
+        'cat_id':cat_id
       },
       header: app.getRequestHeader(),
       success: function (res) {
@@ -152,7 +176,9 @@ Page({
           that.setData({
             qu: res.data.data[0],
             date: res.data.date,
-            qid: ""+res.data.data[0]['id']
+            qid: ""+res.data.data[0]['id'],
+            cat: res.data.cat[0],
+            cat_id:res.data.cat_id
           });
         } else {
           that.setData({
