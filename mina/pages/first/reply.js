@@ -23,7 +23,8 @@ Page({
     }],
     listArr:"",
     comment_input:'',
-    comments:[]
+    comments:[],
+    question:{}
   },
 
   onLoad(options) {
@@ -187,7 +188,8 @@ previewImg:function(e){
         }
         that.setData({
           reply: res.data.data_file[0],
-          comments: res.data.comments[0]
+          comments: res.data.comments[0],
+          question: res.data.question,
         });
         console.log(res.data.data_file[0].length);
 

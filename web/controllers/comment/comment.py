@@ -63,12 +63,18 @@ def ops():
     resp = {'code': 200, 'msg': "操作成功", "data": {}}
     req = request.values
 
-    cid = req['cid'] if 'cid' in req else ""
+    cid = int(req['cid']) if 'cid' in req else 0
     act = req['act'] if 'act' in req else ""
+    qid = int(req['qid']) if 'qid' in req else 0
 
-    if not cid:
+    if cid < 1:
         resp['code'] = -1
         resp['msg'] = "請選擇要操作的意見"
+        return jsonify(resp)
+
+    if qid < 1:
+        resp['code'] = -1
+        resp['msg'] = "查詢不到該意見對應的問題"
         return jsonify(resp)
 
     if act not in ["remove", "recover"]:
@@ -83,12 +89,15 @@ def ops():
         resp['msg'] = '查無此意見，請重試'
         return jsonify(resp)
 
+    question = Question.query.filter_by(id=qid).first()
     if act == "remove":
         comment_info.status = 0
+        question.discuss_count = question.discuss_count - 1
     elif act == "recover":
         comment_info.status = 1
+        question.discuss_count = question.discuss_count + 1
 
-    db.session.add(comment_info)
+    db.session.add(comment_info, question)
     db.session.commit()
 
     return jsonify(resp)

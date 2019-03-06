@@ -1,8 +1,23 @@
 <import src="../../wxParse/wxParse.wxml" />
 
+
+
 <view class='container'>
 
-  <view class="reply-wrap" wx:for="{{list}}" wx:key="id">
+  <view class='question-wrap'>
+    <view class="row-box">
+      <view class='question-asker'>{{question.nickname}}</view>
+      <view class='question-title'>{{question.title}}</view>
+      <view class='question-content'>{{question.content}}</view>
+      <view class='question-time'>提問時間：{{question.created_time}}</view>
+      <view class='question-time'>更新時間：{{question.updated_time}}</view>
+    </view>
+
+  </view>
+
+  <view class='.total-reply'>{{question.reply_count}} 則回覆｜{{question.comment_count}} 則意見</view>
+
+  <view class="reply-wrap animation-ease-in" wx:for="{{list}}" wx:key="id">
     <view class="row-box">
       <view class='title'>{{item[0].title}}</view>
 
@@ -22,15 +37,15 @@
   <view class='comment-wrap-title'>同學意見</view>
 
   <view style='margin-bottom:200rpx;'>
- 
-  <view class='comment-wrap' wx:for="{{comments}}">
-    <view class="row-box">
-      <text>{{item.nickname}}: {{item.content}}</text>
-      <view class="updated-time">回覆時間：{{item.created_time}}</view>
+
+    <view class='comment-wrap' wx:for="{{comments}}">
+      <view class="row-box">
+        <text>{{item.nickname}}：{{item.content}}</text>
+        <view class="updated-time">回覆時間：{{item.created_time}}</view>
+      </view>
     </view>
   </view>
-  </view>
- 
+
 
   <!-- 提交表单按钮  -->
 

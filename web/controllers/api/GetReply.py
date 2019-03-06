@@ -54,6 +54,17 @@ def getReply():
         resp['msg'] = "無法取得問題信息"
         return jsonify(resp)
 
+    question = Question.query.filter_by(id=qid).first()
+    resp['question'] = {
+        'title': question.title,
+        'content': question.content,
+        'nickname': question.nickname,
+        'created_time':question.created_time,
+        'updated_time':question.updated_time,
+        'reply_count':question.comment_count,
+        'comment_count':question.discuss_count
+    }
+
     resp['qid'] = qid
 
     reply_info = Reply.query.filter_by(qid=qid).order_by(Reply.updated_time.desc()).all()
@@ -71,10 +82,10 @@ def getReply():
     resp['comments'] = comment_info
 
 
-    if not reply_info:
-        resp['code'] = -1
-        resp['msg'] = "無法取得回覆信息"
-        return jsonify(resp)
+    # if not reply_info:
+    #     resp['code'] = -1
+    #     resp['msg'] = "無法取得回覆信息"
+    #     return jsonify(resp)
 
 
     reply_schema = ReplySchema(many=True)

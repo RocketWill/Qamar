@@ -66,22 +66,42 @@ Page({
     })
   },
   toReply:function(e){
+    var that = this;
     var qid = ""+e.currentTarget.dataset.qid;
-    var count = e.currentTarget.dataset.count;
-    console.log(count);
-    if (count == 0){
+    that.setData({
+      qid: qid
+    });
+    var rcount = e.currentTarget.dataset.rcount;
+    var ccount = e.currentTarget.dataset.ccount;
+    //console.log(count);
+    if (rcount == 0 && ccount == 0){
       app.tip({
-        'content':"此問題尚未有回覆"
+        'title':'此問題尚未有回覆',
+        'content':"搶先給予意見",
+        'cb_confirm':function(){
+          //console.log("sure");
+          that.goToComment();
+        },
+        'cb_cancel':function(){
+          console.log("cancel");
+        }
       });
     }
     else{
       //console.log(qid);
+      
       wx.navigateTo({
         url: "/pages/first/reply?qid=" + qid
       });
     }
     
     //console.log(this.data.qid);
+  },
+  goToComment(){
+    var that = this;
+    wx.navigateTo({
+      url: "/pages/first/reply?qid=" + that.data.qid
+    });
   },
   onPullDownRefresh() {
     this.getQuestionList();

@@ -242,7 +242,7 @@ justify-content:space-between;
 width:100%;
 
 }
-.status-no, .status-has, .status-official{
+.status-no, .status-has, .status-official, .discuss-has{
 font-size:20rpx;
 background:#ff6600;
 width:100rpx;
@@ -264,6 +264,10 @@ background: #cc0000;
 width:30rpx;
 margin-left: 0;
 
+}
+
+.discuss-has{
+  background-color: #13ae67;
 }
 
 .add-margin-left{

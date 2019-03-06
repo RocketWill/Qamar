@@ -44,7 +44,7 @@
   <scroll-view scroll-y="true">
     <!--内容开始-->
     <block class="block" wx:for="{{qu}}">
-      <view class="list" bindtap='toReply' data-count="{{item.comment_count}}" data-qid="{{item.id}}">
+      <view class="list" bindtap='toReply' data-rcount="{{item.comment_count}}" data-qid="{{item.id}}" data-ccount='{{item.discuss_count}}'>
         <view class="left-content">
           <view class='status-official' wx:if="{{item.admin_id != '0'}}">
             <text>官</text>
@@ -55,6 +55,11 @@
           <view class='status-has {{item.admin_id != "0" ? "add-margin-left" : ""}}' wx:else>
             <text>{{item.comment_count}} 個回覆</text>
           </view>
+
+          <view class='discuss-has add-margin-left' wx:if="{{item.discuss_count != '0'}}">
+            <text>{{item.discuss_count}} 則意見</text>
+          </view>
+
           <view class='clearfix'></view>
           <view id="title">{{item.title}}</view>
           <view id="content">{{item.content}}</view>

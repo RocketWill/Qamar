@@ -27,7 +27,8 @@ var comment_index_ops = {
                     type: "POST",
                     data: {
                         "act": act,
-                        "cid": cid
+                        "cid": cid,
+                        "qid": $('input[name=qid]').val()
                     },
                     success:function (res) {
                         var callback = null;
