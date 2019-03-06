@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from application import app, db
 from flask_mail import Mail, Message
 from common.libs.Helper import ops_render, iPagination, getCurrentDate
