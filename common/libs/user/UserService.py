@@ -7,7 +7,7 @@ class UserService():
     @staticmethod
     def genePwd(pwd, salt):
         m = hashlib.md5()
-        str = "%s-%s" % (pybase64.encodebytes(pwd.encode('utf-8')), salt)
+        str = "%s-%s" % (base64.encodestring(pwd.encode('utf-8')), salt)
         m.update(str.encode('utf-8'))
 
         # 返回16進制編碼
