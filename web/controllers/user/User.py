@@ -49,10 +49,10 @@ def login():
 
     app.logger.error("========="+"VERIFY:   "+UserService.genePwd(login_pwd, user_info.login_salt)+"============")
 
-    # if user_info.login_pwd != UserService.genePwd(login_pwd, user_info.login_salt):
-    #     resp['code'] = -1
-    #     resp['msg'] = '請輸入正確登入用戶名或密碼'
-    #     return jsonify(resp)
+    if user_info.login_pwd != UserService.genePwd(login_pwd, user_info.login_salt):
+        resp['code'] = -1
+        resp['msg'] = '請輸入正確登入用戶名或密碼'
+        return jsonify(resp)
 
     response = make_response(jsonify(resp))
     response.set_cookie(app.config['AUTH_COOKIE_NAME'], "%s#%s" % (UserService.geneAuthCode(user_info), user_info.uid),
