@@ -20,6 +20,11 @@ def login():
     login_name = req['login_name'] if 'login_name' in req else ''
     login_pwd = req['login_pwd'] if 'login_pwd' in req else ''
 
+
+    app.logger.error("========="+"login_name:  "+login_name+"=============")
+    app.logger.error("=========" + "login_pwd:  " + login_pwd + "=============")
+
+
     if login_name is None or len(login_name) < 1:
         resp['code'] = -1
         resp['msg'] = '請輸入正確登入用戶名稱'
@@ -40,6 +45,9 @@ def login():
         resp['code'] = -1
         resp['msg'] = '此帳號已被禁用，請聯繫管理員'
         return jsonify(resp)
+
+
+    app.logger.error("========="+"VERIFY:   "+UserService.genePwd(login_pwd, user_info.login_salt)+"============")
 
     if user_info.login_pwd != UserService.genePwd(login_pwd, user_info.login_salt):
         resp['code'] = -1
