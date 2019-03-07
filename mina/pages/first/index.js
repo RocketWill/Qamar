@@ -20,19 +20,19 @@ Page({
       message: 'bar'
     }],
     imgUrls: [{
-        url: 'http://img.hb.aicdn.com/42f1c1bfc23929cc35fedc5d7f364b749973ed33ad2be-FXvuhX',
-        txt1: "当我们17岁",
-        txt2: "爱恨都来得莫名其妙"
+      url: 'https://www.rfa.org/mandarin/yataibaodao/renquanfazhi/xql-11192018100412.html/1.490855281108414E12.jpg/@@images/7c6d02ff-dba0-4dc5-b7a5-07ab59981030.jpeg',
+        txt1: "學校公告標題",
+      txt2: "學校公告標題內容"
       },
       {
-        url: 'http://img.hb.aicdn.com/4649bf98371c7e900c93e772f5a26f6223933744a3602-o1p1o2',
-        txt1: "耶稣基督：走出埃及 ",
-        txt2: "上帝之子耶稣"
+        url: 'http://5b0988e595225.cdn.sohucs.com/images/20170929/275d190f28db4495a57527647a41b101.jpeg',
+        txt1: "學校公告標題",
+        txt2: "學校公告標題內容"
       },
       {
-        url: 'http://img.hb.aicdn.com/2397ca2a6c0ee445f20949aaa3bd4cc9b7188e496ae95-crz27s',
-        txt1: "无伴奏 無伴奏",
-        txt2: "我只是喜欢那个貌似全世界少年人都疯狂的年代"
+        url: 'http://www.mbachina.com/uploads/image/2017/20170418/20170418175153_22547.jpg',
+        txt1: "學校公告標題",
+        txt2: "學校公告標題內容"
       }
     ],
     indicatorDots: true,
@@ -203,4 +203,11 @@ Page({
   onShow: function () {
     this.getQuestionList();
   },
+
+
+
+
+
+  
+  
 })

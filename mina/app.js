@@ -5,6 +5,8 @@ App({
     userInfo: null,
     version: "1.0",
     appName: "SSPKU 校園問題反饋平台",
+    // domain: "http://128.199.216.71:8999/api",
+    // staticUrl: "http://128.199.216.71:8999/static/upload/",
     domain: "http://127.0.0.1:8999/api",
     staticUrl: "http://127.0.0.1:8999/static/upload/",
   },

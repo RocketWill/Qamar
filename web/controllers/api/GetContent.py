@@ -14,6 +14,13 @@ from common.models.member.OauthMemberBind import OauthMemberBind
 from common.libs.Helper import ops_render, iPagination, getCurrentDate
 from common.libs.member.MemberService import MemberService
 from common.models.question.QuestionCat import QuestionCat
+
+
+
+from sqlalchemy import extract
+
+
+
 nt=datetime.now()
 
 ma = Marshmallow(app)
@@ -82,6 +89,16 @@ def getContent():
     resp['data'] = ouput
     resp['date'] = date
     #app.logger.info(resp)
+
+
+
+    #TEST FILTER BY MONTH
+    q_time = Question.query.filter(extract('year', Question.created_time) == 2019).filter(extract('month', Question.updated_time) == 3).filter(extract('day', Question.updated_time) == 7).all()
+    q_time = question_schema.dump(q_time)
+    resp['q_time'] = q_time
+
+
+
     return jsonify(resp)
 
 

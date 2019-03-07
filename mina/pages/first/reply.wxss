@@ -285,6 +285,8 @@ textarea {
 }
 
 .animation-ease-in {
-    animation: slideUp ease 1s forwards;
+    animation: slideUp ease-in 1s forwards;
+    
 } */
+
 

@@ -17,7 +17,7 @@
 
   <view class='.total-reply'>{{question.reply_count}} 則回覆｜{{question.comment_count}} 則意見</view>
 
-  <view class="reply-wrap animation-ease-in" wx:for="{{list}}" wx:key="id">
+  <view class="reply-wrap" animation="{{animationData}}" wx:for="{{list}}" wx:key="id">
     <view class="row-box">
       <view class='title'>{{item[0].title}}</view>
 
@@ -38,7 +38,7 @@
 
   <view style='margin-bottom:200rpx;'>
 
-    <view class='comment-wrap' wx:for="{{comments}}">
+    <view class='comment-wrap' animation="{{animationData}}" wx:for="{{comments}}">
       <view class="row-box">
         <text>{{item.nickname}}：{{item.content}}</text>
         <view class="updated-time">回覆時間：{{item.created_time}}</view>

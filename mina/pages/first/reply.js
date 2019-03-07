@@ -24,7 +24,8 @@ Page({
     listArr:"",
     comment_input:'',
     comments:[],
-    question:{}
+    question:{},
+    animationData: {}
   },
 
   onLoad(options) {
@@ -38,6 +39,7 @@ Page({
   },
 
   onShow() {
+    this.animation();
   },
 
 
@@ -235,6 +237,30 @@ previewImg:function(e){
       }
 
     });
+  },
+
+  animation:function(){
+    const animation = wx.createAnimation({
+      duration: 400,
+      timingFunction: 'ease-in-out',
+    })
+
+    this.animation = animation
+
+    animation.opacity(0);
+    animation.translateY(100).step();
+
+    this.setData({
+      animationData: animation.export()
+    })
+
+    setTimeout(function () {
+      animation.translateY(0);
+      animation.opacity(1).step();
+      this.setData({
+        animationData: animation.export()
+      })
+    }.bind(this), 300)
   }
 
 
