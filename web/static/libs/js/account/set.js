@@ -62,7 +62,8 @@ var account_set_ops = {
                 'mobile':mobile,
                 'login_name':login_name,
                 'login_pwd':login_pwd,
-                'id':$("#uid").val()
+                'id':$("#uid").val(),
+                'user_group_id': $("#user_group_id").val(),
             }
 
             $.ajax({

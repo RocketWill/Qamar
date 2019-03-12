@@ -8,7 +8,7 @@
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
-                            <h2 class="pageheader-title">問題列表與回覆</h2>
+                            <h2 class="pageheader-title">{% if user_group_info %} {{ user_group_info.name }} {% endif %}用戶問題</h2>
                             <p class="pageheader-text">Proin placerat ante duiullam scelerisque a velit ac porta, fusce sit amet vestibulum mi. Morbi lobortis pulvinar quam.</p>
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
@@ -28,24 +28,13 @@
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <form class="form-inline wrap_search">
                                 <div class="row" style="padding: 0px 15px;">
-                                    <div class="form-group">
-                                        <select name="cat_id" class="form-control inline">
-                                            <option value="-1">请选择分類</option>
-                                            {% if cat_list %}
-                                            {% for item in cat_list %}
-                                            <option value="{{ item.id }}">{{ item.name }}</option>
-                                            {% endfor %}
-                                            {% endif %}
-
-                                        </select>
-                                    </div>
 
                                     <div class="form-group">
                                         <div class="input-group">
                                             <input type="text" name="mix_kw" placeholder="發問人｜標題"
-                                                   class="form-control" value="{{search_con.mix_kw}}" style="
-                                        margin-left: 10px;">
+                                                   class="form-control" value="{{search_con.mix_kw}}">
                                             <input type="hidden" name="p" value="{{search_con.p}}">
+                                            <input type="hidden" name="user_group_id" value="{{user_group_info.id}}">
                                             <span class="input-group-btn">
                                             <button type="button" class="btn btn-primary search">
                                                 <i class="fa fa-search"></i> 搜索
@@ -75,8 +64,6 @@
                                         <thead>
                                             <tr>
                                                 <th>發問人</th>
-                                                <th>問題分類 <a class="fas fa-plus-circle" href="/question/cat-set" style="padding-left: 5px;"></a></th>
-                                                <th>分配用戶組</th>
                                                 <th>提問日期</th>
                                                 <th>最後更新時間</th>
                                                 <th>問題標題</th>
@@ -90,39 +77,6 @@
                                         {% for item in list %}
                                             <tr>
                                                 <td>{{item.nickname}}</td>
-                                                <td>
-                                                    <!--{% for cat in cat_list %}-->
-                                                        <!--{% if item.cat_id == cat.id %}-->
-                                                            <!--{{ cat.name }}-->
-                                                        <!--{% endif %}-->
-                                                    <!--{% endfor %}-->
-                                                    <input type="hidden" value="{{item.id}}">
-
-                                                    <select name="set_cat_id-{{item.id}}" class="form-control inline set_cat_id">
-                                                        <option value="-1">設置分類</option>
-                                                        {% if cat_list %}
-                                                        {% for i in cat_list %}
-                                                        <option value="{{ i.id }}#{{item.id}}" {% if item.cat_id==i.id %}selected{% endif %}>{{ i.name }}</option>
-                                                        {% endfor %}
-                                                        {% endif %}
-                                                    </select>
-
-                                                </td>
-
-                                                <td>
-                                                    <select name="set_user_group-{{item.id}}" class="form-control inline set_cat_id">
-                                                        <option value="-1">分配用戶組</option>
-                                                        {% if user_group_list %}
-                                                        {% for group in user_group_list %}
-
-                                                        <option value="{{ group.id }}#{{item.id}}" {% if item.group_id==group.id %}selected{% endif %}>{{ group.name }}</option>
-
-
-                                                        {% endfor %}
-                                                        {% endif %}
-
-                                                    </select>
-                                                </td>
 
                                                 <td>{{item.created_time}}</td>
                                                 <td>{{item.updated_time}}</td>
@@ -150,8 +104,6 @@
                                         <tfoot>
                                             <tr>
                                                 <th>發問人</th>
-                                                <th>問題分類 <a class="fas fa-plus-circle" href="/question/cat-set" style="padding-left: 5px;"></a></th>
-                                                <th>分配用戶組</th>
                                                 <th>提問日期</th>
                                                 <th>最後更新時間</th>
                                                 <th>問題標題</th>
@@ -208,7 +160,7 @@ Copyright © 2019 北京大學｜卡數洞Kashudong. 版權所有
 {% endblock %}
 
 {% block js %}
-<script src="{{ buildStaticUrl('/libs/js/question/index.js') }}"></script>
+<script src="{{ buildStaticUrl('/libs/js/account/group-question.js') }}"></script>
 <script src="{{ buildStaticUrl('/libs/plugins/select2/select2.pinyin.js') }}"></script>
 <script src="{{ buildStaticUrl('/libs/plugins/select2/zh-CN.js') }}"></script>
 <script src="{{ buildStaticUrl('/libs/plugins/select2/pinyin.core.js') }}"></script>

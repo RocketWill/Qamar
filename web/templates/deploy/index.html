@@ -1,0 +1,193 @@
+{% extends 'common/layout_main.html' %}
+{% block content %}
+<div class="dashboard-wrapper">
+    <div class="container-fluid  dashboard-content">
+        <!-- ============================================================== -->
+        <!-- pageheader -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="page-header">
+                    <h2 class="pageheader-title">問題審核與發佈</h2>
+                    <p class="pageheader-text">Proin placerat ante duiullam scelerisque a velit ac porta, fusce sit amet
+                        vestibulum mi. Morbi lobortis pulvinar quam.</p>
+                    <div class="page-breadcrumb">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">UI Elements</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Tabs</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- end pageheader -->
+        <!-- ============================================================== -->
+
+        <div class="row">
+            <!-- ============================================================== -->
+            <!-- basic tabs  -->
+            <!-- ============================================================== -->
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-5">
+                <div class="section-block">
+                    <h5 class="section-title">問題審核與發佈</h5>
+                    <!--<p>Takes the basic nav from above and adds the .nav-tabs class to generate a tabbed interface..</p>-->
+                </div>
+                <div class="tab-regular">
+
+
+                    <ul class="nav nav-tabs " id="myTab" role="tablist">
+                        {% if user_group_list %}
+                        {% for group in user_group_list %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if group.id ==1 %}active{% endif %}" id="home-tab" data-toggle="tab"
+                               href="#{{group.id}}" role="tab" aria-controls="home" aria-selected="true">{{ group.name
+                                }}</a>
+                        </li>
+
+                        {% endfor %}
+                        {% endif %}
+
+                    </ul>
+
+
+                    <div class="tab-content" id="myTabContent">
+                        {% if user_group_list %}
+                        {% for group in user_group_list %}
+
+
+                        <div class="tab-pane fade show {% if group.id ==1 %}active{% endif %}" id="{{group.id}}"
+                             role="tabpanel" aria-labelledby="home-tab">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered first">
+                                    <thead>
+                                    <tr>
+                                        <th>發問人</th>
+                                        <th>問題分類 <a class="fas fa-plus-circle" href="/question/cat-set"
+                                                    style="padding-left: 5px;"></a></th>
+                                        <th>分配用戶組</th>
+                                        <th>提問日期</th>
+                                        <th>最後更新時間</th>
+                                        <th>問題標題</th>
+                                        <th>回覆總數</th>
+                                        <th>意見總數</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if question_list %}
+                                    {% for item in question_list %}
+                                        {% if item.group_id == group.id %}
+                                    <tr>
+                                        <td>{{item.nickname}}</td>
+                                        <td>
+                                            {% if cat_list %}
+                                                {% for i in cat_list %}
+                                                    {% if i.id == item.cat_id %} {{i.name}} {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        </td>
+
+                                        <td>{{group.name}}</td>
+
+                                        <td>{{item.created_time}}</td>
+                                        <td>{{item.updated_time}}</td>
+                                        <td>{{item.title}}</td>
+                                        <td>{{item.comment_count}}</td>
+                                        <td>{{item.discuss_count}} {% if item.discuss_count !=0 %}<a
+                                                class="fas fa-info-circle"
+                                                href="{{ buildUrl('/comment/index') }}?qid={{item.id}}"
+                                                style="padding-left:5px; float:right;"> 詳情</a>{% endif %}
+                                        </td>
+                                        <td class="action">
+                                            <a class="m-l" href="{{ buildUrl('/question/reply') }}?id={{ item.id }}">
+                                                <i class="fas fa-arrow-left"></i> 回復
+                                            </a>
+
+                                            <a class="m-l"
+                                               href="{{ buildUrl('/deploy/review') }}?qid={{ item.id }}">
+                                                <i class="fas fa-check"></i> 審核
+                                            </a>
+                                        </td>
+                                    </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="7">暫無數據</td>
+                                    </tr>
+                                    {% endif %}
+
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th>發問人</th>
+                                        <th>問題分類 <a class="fas fa-plus-circle" href="/question/cat-set"
+                                                    style="padding-left: 5px;"></a></th>
+                                        <th>分配用戶組</th>
+                                        <th>提問日期</th>
+                                        <th>最後更新時間</th>
+                                        <th>問題標題</th>
+                                        <th>回覆總數</th>
+                                        <th>意見總數</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+
+
+
+                        {% endfor %}
+                        {% endif %}
+
+                    </div>
+
+
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end basic tabs  -->
+            <!-- ============================================================== -->
+
+        </div>
+
+    </div>
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->
+    <div class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                    Copyright © 2018 Concept. All rights reserved. Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>.
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                    <div class="text-md-right footer-links d-none d-sm-block">
+                        <a href="javascript: void(0);">About</a>
+                        <a href="javascript: void(0);">Support</a>
+                        <a href="javascript: void(0);">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- end footer -->
+    <!-- ============================================================== -->
+</div>
+{% endblock %}
+
+{%block css %}
+<link rel="stylesheet" href="{{ buildStaticUrl('/libs/css/account/style.css') }}">
+{% endblock %}
+
+{% block js %}
+<script src="{{ buildStaticUrl('/libs/js/account/index.js') }}"></script>
+{% endblock %}
+
+

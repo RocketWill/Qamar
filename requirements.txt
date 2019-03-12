@@ -5,3 +5,7 @@ flask-script
 flask-sqlacodegen
 requests
 flask-mail
+pybase64
+requests
+flask_marshmallow
+marshmallow-sqlalchemy

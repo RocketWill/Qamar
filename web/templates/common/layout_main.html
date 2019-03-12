@@ -159,12 +159,33 @@
                             <li class="nav-item " style="display: none;">
                                 <a class="nav-link {% if current == 'dashboard' %}active{% endif %}" href="/"  aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fas fa-crosshairs"></i>Dashboard <span class="badge badge-success">6</span></a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link {% if current == 'user' %}active{% endif %}" href="/account/index" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="fas fa-user"></i>帳號管理</a>
+
+                             <li class="nav-item">
+                                <a class="nav-link {% if current == 'account' %}active{% endif %}" data-toggle="collapse" href="/account/index" aria-expanded="false" data-target="#admin-group" aria-controls="submenu-4"><i class="fas fa-user"></i>管理員中心</a>
+                                <div id="admin-group" class="collapse submenu" style="">
+                                    <ul class="nav flex-column">
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/account/group-set">帳戶管理</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/account/index">管理員列表</a>
+                                        </li>
+
+                                    </ul>
+                                </div>
                             </li>
+
+                            <!--<li class="nav-item">-->
+                                <!--<a class="nav-link {% if current == 'user' %}active{% endif %}" href="/account/index" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="fas fa-user"></i>帳號管理</a>-->
+                            <!--</li>-->
+
                             <li class="nav-item">
                                 <a class="nav-link {% if current == 'member' %}active{% endif %}" href="/member/index" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="far fa-smile"></i>會員列表</a>
                             </li>
+
+
+
 
                             <li class="nav-item">
                                 <a class="nav-link {% if current == 'question' %}active{% endif %}" data-toggle="collapse" href="/question/index" aria-expanded="false" data-target="#submenu-4" aria-controls="submenu-4"><i class="fas fa-question"></i>問題列表</a>
@@ -181,6 +202,12 @@
                                     </ul>
                                 </div>
                             </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link {% if current == 'deploy' %}active{% endif %}" href="/deploy/index" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="f fas fa-clipboard-check"></i>審核及發佈</a>
+                            </li>
+
+
 
                         </ul>
                     </div>

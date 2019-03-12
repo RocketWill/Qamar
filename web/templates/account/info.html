@@ -34,6 +34,7 @@
                                     <img src="http://via.placeholder.com/150x150" class="rounded-circle mr-3" alt="Responsive image">
                                 </div>
                                 <div class="card-body">
+                                        <h4>用戶組：{% if user_group_info %} {{user_group_info.name}} {% endif %}</h4>
                                         <p class="m-t">姓名：{{ info.nickname }}</p>
                                         <p>手机：{{ info.mobile }}</p>
                                         <p>邮箱：{{ info.email }}</p>

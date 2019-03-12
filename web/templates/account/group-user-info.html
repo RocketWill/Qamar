@@ -8,7 +8,7 @@
                 <div class="row">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header">
-                            <h2 class="pageheader-title">管理員列表 </h2>
+                            <h2 class="pageheader-title">{% if user_group_info %} {{ user_group_info.name }} {% endif %}管理員列表</h2>
                             <p class="pageheader-text">Proin placerat ante duiullam scelerisque a velit ac porta, fusce sit amet vestibulum mi. Morbi lobortis pulvinar quam.</p>
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
@@ -62,14 +62,14 @@
 
                     <div class="row">
                             <div class="card-body">
-                                <a href="/account/set" class="btn btn-primary"><span class="fas fa-plus"></span> 新增管理員</a>
+                                <a href="/account/set?user_group_id={{user_group_info.id}}" class="btn btn-primary"><span class="fas fa-plus"></span> 新增管理員</a>
                             </div>
                         <!-- ============================================================== -->
                         <!-- striped table -->
                         <!-- ============================================================== -->
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="card">
-                                <h5 class="card-header">管理員列表</h5>
+                                <h5 class="card-header">{% if user_group_info %} {{ user_group_info.name }} {% endif %}管理員列表</h5>
                                 <div class="card-body">
                                     <table class="table table-striped">
                                         <thead>
@@ -97,7 +97,7 @@
                                                     </a>
 
                                                     {% if item.status == 1 %}
-                                                    <a class="m-l {% if item.nickname == super_admin %}display-none{% endif %}" href="{{ buildUrl('/account/set') }}?id={{ item.uid }}&user_group_id={{ item.group_id }}">
+                                                    <a class="m-l {% if item.nickname == super_admin %}display-none{% endif %}" href="{{ buildUrl('/account/set') }}?id={{ item.uid }}">
                                                         <i class="fa fa-edit"></i>
                                                     </a>
 
