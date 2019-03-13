@@ -19,22 +19,34 @@ route_deploy = Blueprint('deploy_page', __name__)
 
 @route_deploy.route('/index')
 def index():
+
+    # 驗證超級用戶
+    if g.current_user and g.current_user.group_id > 0:
+        return redirect(UrlManager.buildUrl('/account/group-set'))
+
     resp = {}
 
     user_group_list = UserGroup.query.filter_by(status=1).order_by(UserGroup.weight.desc()).all()
-    question_list = Question.query.filter(Question.comment_count > 0).order_by(Question.updated_time.desc())
+    question_list = Question.query.filter(Question.reply_count > 0).order_by(Question.updated_time.desc())
     cat_list = QuestionCat.query.filter_by(status=1).order_by(QuestionCat.weight.desc()).all()
 
+    max_weight_group = user_group_list[0]
 
     resp['current'] = 'deploy'
     resp['user_group_list'] = user_group_list
     resp['question_list'] = question_list
     resp['cat_list'] = cat_list
+    resp['max'] = max_weight_group
     return ops_render("deploy/index.html",resp)
 
 @route_deploy.route('/review', methods=["GET", "POST"])
 def review():
     if request.method == "GET":
+
+        # 驗證超級用戶
+        if g.current_user and g.current_user.group_id > 0:
+            return redirect(UrlManager.buildUrl('/account/group-set'))
+
         resp = {}
         req = request.values
         question_id = int(req['qid']) if ('qid' in req) else 0
@@ -82,19 +94,29 @@ def review():
 
     if action == 0:
         reply.status = 0
+
     elif action == 1:
         reply.status = 1
         question.status = 1
-        db.session.add(question)
-        db.session.commit()
+
     elif action == 2:
         reply.status = 2
         question.status = 2
-        db.session.add(question)
-        db.session.commit()
+
 
     reply.updated_time = getCurrentDate()
+
+    valid_reply_count = Reply.query.filter(Reply.qid==question.id, Reply.status>0).count()
+
+    app.logger.error("=================="+str(valid_reply_count)+"======================")
+
+
+    question.comment_count = valid_reply_count
+
+
     db.session.add(reply)
+    db.session.commit()
+    db.session.add(question)
     db.session.commit()
     return jsonify(resp)
 

@@ -184,7 +184,7 @@ previewImg:function(e){
       },
       header: app.getRequestHeader(),
       success: function(res) {
-        //console.log(res);
+        console.log(res);
         if (res.data.code != 200) {
 
         }

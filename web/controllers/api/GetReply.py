@@ -70,9 +70,9 @@ def getReply():
 
     resp['qid'] = qid
 
-    reply_info = Reply.query.filter_by(qid=qid).order_by(Reply.updated_time.desc()).all()
+    reply_info = Reply.query.filter_by(qid=qid, status=2).order_by(Reply.updated_time.desc()).all()
 
-    reply_info_add_file = db.session.query(Reply, Image).filter(Reply.qid==qid).join(Image, Image.rid == Reply.id).all()
+    reply_info_add_file = db.session.query(Reply, Image).filter(Reply.qid==qid, Reply.status==2).join(Image, Image.rid == Reply.id).all()
     # reply_info_add_file = db.session.query(Reply, Image)\
     #     .filter(or_(Image.rid==Reply.id, Image.rid==0))\
     #     .filter(Reply.qid == qid)\

@@ -17,6 +17,11 @@ route_account = Blueprint('account_page', __name__)
 
 @route_account.route('/index')
 def index():
+    #驗證超級用戶
+    if g.current_user and g.current_user.group_id > 0:
+        return redirect(UrlManager.buildUrl('/account/group-set'))
+
+
     resp_data = {}
     query = User.query
     req = request.values
@@ -48,7 +53,7 @@ def index():
     resp_data['search_con'] = req
     resp_data['status_mapping'] = app.config['STATUS_MAPPING']
     resp_data['super_admin'] = app.config['SUPER_ADMIN']
-    resp_data['current'] = 'user'
+    resp_data['current'] = 'account'
     return ops_render('account/index.html', resp_data)
 
 
@@ -101,13 +106,23 @@ def set():
         if user_info != None and user_info.nickname == app.config['SUPER_ADMIN']:
             return redirect(UrlManager.buildUrl('/account/index'))
 
-        #驗證用戶組
-        if user_group_id < 0:
+        #驗證用戶組s
+        current_user = g.current_user
+        if (user_group_id < 0 or current_user.group_id > 0) and uid == 0:
             return redirect(UrlManager.buildUrl('/account/group-set'))
 
         user_group_info = UserGroup.query.filter_by(id = user_group_id)
+
+        if (uid > 0 and current_user.uid == uid) or current_user.group_id == 0:
+            user_group_info = UserGroup.query.filter_by(id = user_info.group_id)
+        else:
+            #禁制修改他人資料，除超級使用者
+            return redirect(UrlManager.buildUrl('/account/group-set'))
+
         if not user_group_info:
             return redirect(UrlManager.buildUrl('/account/group-set'))
+
+
 
 
 
@@ -324,6 +339,11 @@ def groupSet():
 @route_account.route('/group-edit',methods=['GET', 'POST'])
 def groupEdit():
     if request.method == "GET":
+
+        # 驗證超級用戶
+        if g.current_user and g.current_user.group_id > 0:
+            return redirect(UrlManager.buildUrl('/account/group-set'))
+
         resp_data = {}
         user_info = g.current_user
         resp_data['current'] = 'account'

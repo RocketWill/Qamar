@@ -67,7 +67,7 @@
                                                 <th>提問日期</th>
                                                 <th>最後更新時間</th>
                                                 <th>問題標題</th>
-                                                <th>回覆總數</th>
+                                                <th>提交回覆數</th>
                                                 <th>意見總數</th>
                                                 <th>操作</th>
                                             </tr>
@@ -81,7 +81,7 @@
                                                 <td>{{item.created_time}}</td>
                                                 <td>{{item.updated_time}}</td>
                                                 <td>{{item.title}}</td>
-                                                <td>{{item.comment_count}}</td>
+                                                <td>{{item.reply_count}}</td>
                                                 <td>{{item.discuss_count}} {% if item.discuss_count !=0 %}<a class="fas fa-info-circle" href="{{ buildUrl('/comment/index') }}?qid={{item.id}}" style="padding-left:5px; float:right;"> 詳情</a>{% endif %}</td>
                                                 <td class="action">
                                                     <a class="m-l" href="{{ buildUrl('/question/reply') }}?id={{ item.id }}">
@@ -107,7 +107,7 @@
                                                 <th>提問日期</th>
                                                 <th>最後更新時間</th>
                                                 <th>問題標題</th>
-                                                <th>回覆總數</th>
+                                                <th>提交回覆數</th>
                                                 <th>意見總數</th>
                                                 <th>操作</th>
                                             </tr>

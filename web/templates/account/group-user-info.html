@@ -29,7 +29,7 @@
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <form class="form-inline wrap_search">
-                                <div class="row" style="padding: 0px 15px;">
+                                <div class="row card-body">
                                     <div class="form-group">
                                         <select name="status" class="form-control inline">
                                             <option value="-1">请选择状态</option>
@@ -61,7 +61,8 @@
                     </div>
 
                     <div class="row">
-                            <div class="card-body">
+                            <!--一般用戶無法增加管理員-->
+                            <div class="card-body {% if current_user and current_user.group_id != 0 %} display-none {% endif %}">
                                 <a href="/account/set?user_group_id={{user_group_info.id}}" class="btn btn-primary"><span class="fas fa-plus"></span> 新增管理員</a>
                             </div>
                         <!-- ============================================================== -->
@@ -97,18 +98,22 @@
                                                     </a>
 
                                                     {% if item.status == 1 %}
-                                                    <a class="m-l {% if item.nickname == super_admin %}display-none{% endif %}" href="{{ buildUrl('/account/set') }}?id={{ item.uid }}">
+
+
+                                                        {% if current_user and current_user.uid == item.uid or current_user.group_id == 0 %}
+                                                    <a class="m-l" href="{{ buildUrl('/account/set') }}?id={{ item.uid }}">
                                                         <i class="fa fa-edit"></i>
                                                     </a>
+                                                        {% endif %}
 
 
-                                                    <a class="m-l remove {% if item.nickname == super_admin %}display-none{% endif %}" href="javascript:void(0);" uid="{{ item.uid }}">
+                                                    <a class="m-l remove {% if current_user and current_user.group_id != 0 %} display-none {% endif %}" href="javascript:void(0);" uid="{{ item.uid }}">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
 
                                                     {% else %}
 
-                                                    <a class="m-l recover {% if item.nickname == super_admin %}display-none{% endif %}" href="javascript:void(0);" uid="{{ item.uid }}">
+                                                    <a class="m-l recover {% if current_user and current_user.group_id != 0 %} display-none {% endif %}" href="javascript:void(0);" uid="{{ item.uid }}">
                                                         <i class="fa fa-undo"></i>
                                                     </a>
                                                     {% endif %}

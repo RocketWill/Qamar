@@ -76,7 +76,7 @@ var account_set_ops = {
                     var callback = null;
                     if (res.code == 200) {
                         callback = function () {
-                            window.location.href = common_ops.buildUrl("/account/index");
+                            window.location.replace(document.referrer);
                         }
                     }
                     common_ops.alert(res.msg, callback);

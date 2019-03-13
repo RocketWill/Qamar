@@ -25,6 +25,7 @@ class Question(db.Model):
     updated_time = db.Column(db.DateTime, nullable=False, server_default=db.FetchedValue())
     created_time = db.Column(db.DateTime, nullable=False, server_default=db.FetchedValue())
     group_id = db.Column(db.Integer, nullable=False, server_default=db.FetchedValue())
+    reply_count = db.Column(db.Integer, nullable=False, server_default=db.FetchedValue())
 
 
 

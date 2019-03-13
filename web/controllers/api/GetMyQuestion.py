@@ -52,7 +52,7 @@ def getMyQuestion():
 
 
     if current_type == 1:
-        query = query.filter(Question.admin_id != 0)
+        query = query.filter(Question.admin_id != 0, Question.status > 0)
     if current_type == 2:
         query = query.filter(Question.comment_count == 0)
     if current_type == 3:

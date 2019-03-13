@@ -43,7 +43,7 @@ def getContent():
     cat_id = int(req['cat_id']) if 'cat_id' in req else 0
 
 
-    query = Question.query
+    query = Question.query.filter(Question.status > 0)
     # list = query.all()
     app.logger.info(query)
 

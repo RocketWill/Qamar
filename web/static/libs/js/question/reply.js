@@ -101,7 +101,11 @@ var reply_ops = {
                     var callback = null;
                     if (res.code == 200) {
                         callback = function () {
-                            window.location.href = common_ops.buildUrl("/question/reply");
+                            // window.location.href = common_ops.buildUrl("/question/reply");
+                            window.location.replace(document.referrer);
+
+
+
                         }
                     }
                     common_ops.alert(res.msg, callback);

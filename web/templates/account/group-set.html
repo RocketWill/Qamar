@@ -31,7 +31,9 @@
                 <!-- end pageheader  -->
                 <!-- ============================================================== -->
 
-                <div class="row">
+                <!--只限超級使用者使用-->
+                <div class="{% if current_user and current_user.group_id != 0 %} display-none {% endif %}">
+                    <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <form class="form-inline wrap_search">
                                 <div class="row" style="padding: 0px 15px;">
@@ -39,7 +41,8 @@
                                         <select name="status" class="form-control inline">
                                             <option value="-1">请选择状态</option>
                                             {% for tmp_key in status_mapping %}
-                                            <option value="{{ tmp_key }}" {% if tmp_key== search_con['status'] %} selected {% endif %}>{{ status_mapping[tmp_key] }}</option>
+                                            <option value="{{ tmp_key }}" {% if tmp_key== search_con[
+                                            'status'] %} selected {% endif %}>{{ status_mapping[tmp_key] }}</option>
                                             {% endfor %}
 
                                         </select>
@@ -53,11 +56,14 @@
 
                     </div>
 
-                <div class="row" style="margin-bottom: 30px; margin-top: 30px;">
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
-                        <a href="/account/group-edit" class="btn btn-primary">新增用戶組</a>
+                    <div class="row" style="margin-bottom: 30px; margin-top: 30px;">
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                            <a href="/account/group-edit" class="btn btn-primary">新增用戶組</a>
+                        </div>
                     </div>
+
                 </div>
+
 
                 <div class="row">
                     <!--<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">-->
@@ -69,17 +75,19 @@
 
                     {% if group_list %}
                     {% for item in group_list %}
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <!--設置當前用戶只能使用所屬用戶組之功能-->
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 {% if current_user.group_id != 0 %} {% if (current_user and item.id != current_user.group_id) %} display-none {% endif %}{% endif %}">
                         <div class="card">
                             <div class="card-header d-flex">
                                 <h4 class="card-header-title">{{ item.name }} </h4>
                                 <!--<select class="custom-select ml-auto w-auto">-->
-                                    <!--<option selected>Select</option>-->
-                                    <!--<option value="1">One</option>-->
-                                    <!--<option value="2">Two</option>-->
-                                    <!--<option value="3">Three</option>-->
+                                <!--<option selected>Select</option>-->
+                                <!--<option value="1">One</option>-->
+                                <!--<option value="2">Two</option>-->
+                                <!--<option value="3">Three</option>-->
                                 <!--</select>-->
-                                <a href="/account/set?user_group_id={{item.id}}" class="w-auto ml-auto" style="margin-top: 8px;"><span class="fas fa-plus"></span></a>
+                                <a href="/account/set?user_group_id={{item.id}}" class="w-auto ml-auto {% if current_user and current_user.group_id != 0 %} display-none {% endif %}"
+                                   style="margin-top: 8px;"><span class="fas fa-plus "></span></a>
                             </div>
 
                             <div class="card-body">
@@ -91,20 +99,26 @@
                                 <!--<a href="#" class="card-link">添加</a>-->
                                 <!--</div>-->
                                 <div class="card-footer-item card-footer-item-bordered">
-                                    <a href="/account/group-question?user_group_id={{item.id}}" class="card-link">所有問題</a>
+                                    <a href="/account/group-question?user_group_id={{item.id}}"
+                                       class="card-link">所有問題</a>
                                 </div>
 
                                 <div class="card-footer-item card-footer-item-bordered">
-                                    <a href="/account/group-user-info?user_group_id={{item.id}}" class="card-link">編輯</a>
+                                    <a href="/account/group-user-info?user_group_id={{item.id}}"
+                                       class="card-link">編輯</a>
                                 </div>
 
                                 {% if item.status == 1 %}
-                                <div class="card-footer-item card-footer-item-bordered">
-                                    <a href="javascript:void(0);" class="card-link remove" user_group_id="{{ item.id }}">刪除</a>
+
+                                <!--一般管理員不能刪除自己的用戶組-->
+                                <div class="card-footer-item card-footer-item-bordered  {% if current_user and current_user.group_id != 0 %} display-none {% endif %}">
+                                    <a href="javascript:void(0);" class="card-link remove"
+                                       user_group_id="{{ item.id }}">刪除</a>
                                 </div>
                                 {% else %}
-                                <div class="card-footer-item card-footer-item-bordered">
-                                    <a href="javascript:void(0);" class="card-link recover" user_group_id="{{ item.id }}">復原</a>
+                                <div class="card-footer-item card-footer-item-bordered {% if current_user and current_user.group_id != 0 %} display-none {% endif %}">
+                                    <a href="javascript:void(0);" class="card-link recover"
+                                       user_group_id="{{ item.id }}">復原</a>
                                 </div>
                                 {% endif %}
 
@@ -128,7 +142,8 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                    Copyright © 2018 Concept. All rights reserved. Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>.
+                    Copyright © 2018 Concept. All rights reserved. Dashboard by <a
+                        href="https://colorlib.com/wp/">Colorlib</a>.
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                     <div class="text-md-right footer-links d-none d-sm-block">

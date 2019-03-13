@@ -74,6 +74,10 @@ def index():
 
 
 
+    # 驗證超級用戶
+    if g.current_user and g.current_user.group_id > 0:
+        return redirect(UrlManager.buildUrl('/account/group-set'))
+
     req = request.values
     page = int(req['p']) if ('p' in req and req['p']) else 1
     resp_data = {}
@@ -121,6 +125,7 @@ def index():
 def reply():
 
     if request.method == "GET":
+
         resp_data = {}
         resp_data['current'] = 'question'
         resp_data['search_con'] = ''
@@ -138,6 +143,10 @@ def reply():
         admin = g.current_user
         if not admin:
             return redirect(UrlManager.buildUrl('/question/index'))
+
+        #驗證用戶
+        if (info.group_id != admin.group_id) and admin.group_id != 0:
+            return redirect(UrlManager.buildUrl('/account/group-set'))
 
         cat_list = QuestionCat.query.all()
 
@@ -201,7 +210,8 @@ def reply():
     db.session.add(reply_info)
     db.session.commit()
 
-    question.comment_count = str(int(question.comment_count)+1)
+    #等到管理員審核通過後才計算回覆總數
+    question.reply_count = str(int(question.reply_count)+1)
     question.admin_id = aid
     #question.cat_id = reply_info.cat_id
     db.session.add(question)
@@ -275,6 +285,15 @@ def edit():
 
         if not reply:
             return redirect(UrlManager.buildUrl('/question/index'))
+
+        question = Question.query.filter_by(id = reply.qid).first()
+        if not question:
+            return redirect(UrlManager.buildUrl('/question/index'))
+
+        admin = g.current_user
+        # 驗證用戶
+        if (question.group_id != admin.group_id) and admin.group_id != 0:
+            return redirect(UrlManager.buildUrl('/account/group-set'))
 
         file_info = Image.query.filter_by(rid = reply.id).first()
 
@@ -353,6 +372,11 @@ def edit():
 
 @route_question.route("/cat")
 def cat():
+
+    # 驗證超級用戶
+    if g.current_user and g.current_user.group_id > 0:
+        return redirect(UrlManager.buildUrl('/account/group-set'))
+
     resp_data = {}
     req = request.values
     query = QuestionCat.query
@@ -373,6 +397,11 @@ def cat():
 @route_question.route("/cat-set", methods=['GET',"POST"])
 def cat_set():
     if request.method == "GET":
+
+        # 驗證超級用戶
+        if g.current_user and g.current_user.group_id > 0:
+            return redirect(UrlManager.buildUrl('/account/group-set'))
+
         resp_data = {}
         req = request.args
         cat_id = int(req.get("cat_id",0))
