@@ -41,7 +41,7 @@
 
                                     <div class="form-group">
                                         <label for="grp_name" class="col-form-label">所屬用戶組</label>
-                                        <input id="grp_name" type="text" class="form-control" readonly value="{{user_group_info.name}}">
+                                        <input id="grp_name" type="text" class="form-control" readonly value="{% if user_info.group_id == 0 %} 超級管理員 {% else %} {{user_group_info.name}}} {% endif %}">
                                     </div>
 
                                     <div class="form-group">

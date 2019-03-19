@@ -10,7 +10,7 @@ Page({
   },
   goToIndex: function() {
     wx.navigateTo({
-      url: '/pages/food/index',
+      url: '/pages/first/index',
     });
   },
   goToIndex2: function() {
